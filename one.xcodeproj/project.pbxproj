@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7A59E84519729F6600E637D4 /* ONERecommendation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A59E84419729F6600E637D4 /* ONERecommendation.m */; };
+		7A59E84A1972C53400E637D4 /* 404.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7A59E8491972C53400E637D4 /* 404.jpg */; };
+		7AF27FC019727B4B00BBC0AC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7AF27FBF19727B4B00BBC0AC /* Main.storyboard */; };
+		7AF27FC319727B5B00BBC0AC /* ONERootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AF27FC219727B5B00BBC0AC /* ONERootViewController.m */; };
+		7AF27FC71972873D00BBC0AC /* ONERecommendationBriefViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AF27FC51972873D00BBC0AC /* ONERecommendationBriefViewController.m */; };
+		7AF27FC81972873D00BBC0AC /* ONERecommendationBriefViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7AF27FC61972873D00BBC0AC /* ONERecommendationBriefViewController.xib */; };
+		7AF27FCC197287EA00BBC0AC /* ONERecommendationDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AF27FCA197287EA00BBC0AC /* ONERecommendationDetailViewController.m */; };
+		7AF27FCD197287EA00BBC0AC /* ONERecommendationDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7AF27FCB197287EA00BBC0AC /* ONERecommendationDetailViewController.xib */; };
 		7AFDDEB2197190C40031F293 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AFDDEB1197190C40031F293 /* Foundation.framework */; };
 		7AFDDEB4197190C40031F293 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AFDDEB3197190C40031F293 /* CoreGraphics.framework */; };
 		7AFDDEB6197190C40031F293 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AFDDEB5197190C40031F293 /* UIKit.framework */; };
@@ -32,6 +40,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7A59E84319729F6600E637D4 /* ONERecommendation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONERecommendation.h; sourceTree = "<group>"; };
+		7A59E84419729F6600E637D4 /* ONERecommendation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONERecommendation.m; sourceTree = "<group>"; };
+		7A59E8491972C53400E637D4 /* 404.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 404.jpg; sourceTree = "<group>"; };
+		7AF27FBF19727B4B00BBC0AC /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		7AF27FC119727B5B00BBC0AC /* ONERootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONERootViewController.h; sourceTree = "<group>"; };
+		7AF27FC219727B5B00BBC0AC /* ONERootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONERootViewController.m; sourceTree = "<group>"; };
+		7AF27FC41972873D00BBC0AC /* ONERecommendationBriefViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONERecommendationBriefViewController.h; sourceTree = "<group>"; };
+		7AF27FC51972873D00BBC0AC /* ONERecommendationBriefViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONERecommendationBriefViewController.m; sourceTree = "<group>"; };
+		7AF27FC61972873D00BBC0AC /* ONERecommendationBriefViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ONERecommendationBriefViewController.xib; sourceTree = "<group>"; };
+		7AF27FC9197287EA00BBC0AC /* ONERecommendationDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONERecommendationDetailViewController.h; sourceTree = "<group>"; };
+		7AF27FCA197287EA00BBC0AC /* ONERecommendationDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONERecommendationDetailViewController.m; sourceTree = "<group>"; };
+		7AF27FCB197287EA00BBC0AC /* ONERecommendationDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ONERecommendationDetailViewController.xib; sourceTree = "<group>"; };
 		7AFDDEAE197190C40031F293 /* one.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = one.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AFDDEB1197190C40031F293 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7AFDDEB3197190C40031F293 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -77,6 +97,7 @@
 		7AFDDEA5197190C40031F293 = {
 			isa = PBXGroup;
 			children = (
+				7A59E8491972C53400E637D4 /* 404.jpg */,
 				7AFDDEB7197190C40031F293 /* one */,
 				7AFDDED0197190C40031F293 /* oneTests */,
 				7AFDDEB0197190C40031F293 /* Frameworks */,
@@ -107,9 +128,20 @@
 		7AFDDEB7197190C40031F293 /* one */ = {
 			isa = PBXGroup;
 			children = (
+				7AFDDEC3197190C40031F293 /* Images.xcassets */,
+				7AF27FBF19727B4B00BBC0AC /* Main.storyboard */,
 				7AFDDEC0197190C40031F293 /* ONEAppDelegate.h */,
 				7AFDDEC1197190C40031F293 /* ONEAppDelegate.m */,
-				7AFDDEC3197190C40031F293 /* Images.xcassets */,
+				7AF27FC9197287EA00BBC0AC /* ONERecommendationDetailViewController.h */,
+				7AF27FCA197287EA00BBC0AC /* ONERecommendationDetailViewController.m */,
+				7AF27FCB197287EA00BBC0AC /* ONERecommendationDetailViewController.xib */,
+				7AF27FC41972873D00BBC0AC /* ONERecommendationBriefViewController.h */,
+				7AF27FC51972873D00BBC0AC /* ONERecommendationBriefViewController.m */,
+				7AF27FC61972873D00BBC0AC /* ONERecommendationBriefViewController.xib */,
+				7AF27FC119727B5B00BBC0AC /* ONERootViewController.h */,
+				7AF27FC219727B5B00BBC0AC /* ONERootViewController.m */,
+				7A59E84319729F6600E637D4 /* ONERecommendation.h */,
+				7A59E84419729F6600E637D4 /* ONERecommendation.m */,
 				7AFDDEB8197190C40031F293 /* Supporting Files */,
 			);
 			path = one;
@@ -220,7 +252,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A59E84A1972C53400E637D4 /* 404.jpg in Resources */,
+				7AF27FC019727B4B00BBC0AC /* Main.storyboard in Resources */,
+				7AF27FCD197287EA00BBC0AC /* ONERecommendationDetailViewController.xib in Resources */,
 				7AFDDEBC197190C40031F293 /* InfoPlist.strings in Resources */,
+				7AF27FC81972873D00BBC0AC /* ONERecommendationBriefViewController.xib in Resources */,
 				7AFDDEC4197190C40031F293 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -241,7 +277,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				7AFDDEBE197190C40031F293 /* main.m in Sources */,
+				7AF27FC319727B5B00BBC0AC /* ONERootViewController.m in Sources */,
+				7AF27FC71972873D00BBC0AC /* ONERecommendationBriefViewController.m in Sources */,
 				7AFDDEC2197190C40031F293 /* ONEAppDelegate.m in Sources */,
+				7AF27FCC197287EA00BBC0AC /* ONERecommendationDetailViewController.m in Sources */,
+				7A59E84519729F6600E637D4 /* ONERecommendation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -438,6 +478,7 @@
 				7AFDDEDC197190C40031F293 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7AFDDEDD197190C40031F293 /* Build configuration list for PBXNativeTarget "oneTests" */ = {
 			isa = XCConfigurationList;
@@ -446,6 +487,7 @@
 				7AFDDEDF197190C40031F293 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
