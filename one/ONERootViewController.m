@@ -17,6 +17,7 @@
 @property NSMutableArray *viewControllers;
 
 @property NSUInteger currentPage;
+@property NSUInteger pageWidth;
 
 @property NSCalendar *gregorian;
 @property NSCalendarUnit calendarUnits;
@@ -53,7 +54,7 @@
     NSString *title1 = @"title1";
     NSString *briefPicUrl1 = @"http://www.emenpiao.com/UpLoadFile/ImageStore/ArticleImages/28c9132b-8ad9-4a00-aaeb-fd57f77e269c.jpg";
     NSString *description1 = @"description1";
-    UIColor *themeColor1 = [UIColor colorWithRed:255 green:0 blue:0 alpha:0.4];
+    UIColor *themeColor1 = [UIColor colorWithRed:255 green:0 blue:0 alpha:0.2];
     ONERecommendation *recommendation1 = [ONERecommendation recommendationWithDateComponents:dateComponents1 title:title1 briefPicUrl:briefPicUrl1 description:description1 themeColor:themeColor1];
     [self.recommendations addObject:recommendation1];
     
@@ -62,7 +63,7 @@
     NSString *title2 = @"title2";
     NSString *briefPicUrl2 = @"http://www.hzylgh.org/uploadPic/2008_06/20113816253.jpg";
     NSString *description2 = @"description2";
-    UIColor *themeColor2 = [UIColor colorWithRed:0 green:255 blue:0 alpha:0.4];
+    UIColor *themeColor2 = [UIColor colorWithRed:0 green:255 blue:0 alpha:0.2];
     ONERecommendation *recommendation2 = [ONERecommendation recommendationWithDateComponents:dateComponents2 title:title2 briefPicUrl:briefPicUrl2 description:description2 themeColor:themeColor2];
     [self.recommendations addObject:recommendation2];
     
@@ -71,7 +72,7 @@
     NSString *title3 = @"title3";
     NSString *briefPicUrl3 = @"http://wj-expo.wjimg.cn/upload_files/article/67/11_20110224140240_bukt1.jpg";
     NSString *description3 = @"description3";
-    UIColor *themeColor3 = [UIColor colorWithRed:0 green:0 blue:255 alpha:0.4];
+    UIColor *themeColor3 = [UIColor colorWithRed:0 green:0 blue:255 alpha:0.2];
     ONERecommendation *recommendation3 = [ONERecommendation recommendationWithDateComponents:dateComponents3 title:title3 briefPicUrl:briefPicUrl3 description:description3 themeColor:themeColor3];
     [self.recommendations addObject:recommendation3];
 }
@@ -142,6 +143,8 @@
         [self.viewControllers addObject:[NSNull null]];
     }
     
+    self.currentPage = 0;
+    self.pageWidth = CGRectGetWidth(self.scrollView.frame);
     // pages are created on demand
     // load the visible page
     // load the page on either side to avoid flashes when the user start scrolling
@@ -172,9 +175,13 @@
     // add the controller's view to the scroll view
     if (viewController.view.superview == nil) {
         CGRect frame = self.scrollView.frame;
-        frame.origin.x = CGRectGetWidth(frame) * page;
-        frame.origin.y = 0;
-        frame.size.height -= 64;
+        
+        // leave out a margin
+        NSUInteger margin = 10;
+        frame.origin.x = CGRectGetWidth(frame) * page + margin;
+        frame.origin.y = 0 + margin;
+        frame.size.width -= 2 * margin;
+        frame.size.height -= (64 + 2 * margin);
         viewController.view.frame = frame;
         
         [self addChildViewController:viewController];
@@ -183,11 +190,21 @@
     }
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    // update theme color when more than 30% of the previous/next page is visible
+    NSUInteger startPosition = self.currentPage * self.pageWidth;
+    NSUInteger currentPosition = self.scrollView.contentOffset.x;
+    if (abs(startPosition - currentPosition) >= self.pageWidth / 2) {
+        NSUInteger page = self.currentPage + (startPosition < currentPosition ? 1 : -1);
+        [self updateThemeColorWithPage:page];
+    }
+}
+
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     // switch page when more than 50% of the previous/next page is visible
-    CGFloat pageWidth = CGRectGetWidth(self.scrollView.frame);
-    NSUInteger page = floor((self.scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+    NSUInteger page = floor((self.scrollView.contentOffset.x - self.pageWidth / 2) / self.pageWidth) + 1;
     self.currentPage = page;
     
     [self updateThemeColor];
@@ -198,10 +215,15 @@
     [self loadRecommendationAtPage:page + 1];
 }
 
+// change the current theme color
 - (void)updateThemeColor
 {
-    // change the current theme color
-    ONERecommendation *recommendation = self.recommendations[self.currentPage];
+    [self updateThemeColorWithPage:self.currentPage];
+}
+
+- (void)updateThemeColorWithPage:(NSUInteger)page
+{
+    ONERecommendation *recommendation = self.recommendations[page];
     self.view.backgroundColor = recommendation.themeColor;
 }
 
