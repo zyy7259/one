@@ -94,6 +94,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7A8196DC1973D24E0032B38F /* view */ = {
+			isa = PBXGroup;
+			children = (
+				7AF27FBF19727B4B00BBC0AC /* Main.storyboard */,
+			);
+			name = view;
+			sourceTree = "<group>";
+		};
+		7A8196DD1973D2580032B38F /* model */ = {
+			isa = PBXGroup;
+			children = (
+				7A59E84319729F6600E637D4 /* ONERecommendation.h */,
+				7A59E84419729F6600E637D4 /* ONERecommendation.m */,
+			);
+			name = model;
+			sourceTree = "<group>";
+		};
+		7A8196DE1973D2610032B38F /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				7AF27FC119727B5B00BBC0AC /* ONERootViewController.h */,
+				7AF27FC219727B5B00BBC0AC /* ONERootViewController.m */,
+				7AF27FC9197287EA00BBC0AC /* ONERecommendationDetailViewController.h */,
+				7AF27FCA197287EA00BBC0AC /* ONERecommendationDetailViewController.m */,
+				7AF27FCB197287EA00BBC0AC /* ONERecommendationDetailViewController.xib */,
+				7AF27FC41972873D00BBC0AC /* ONERecommendationBriefViewController.h */,
+				7AF27FC51972873D00BBC0AC /* ONERecommendationBriefViewController.m */,
+				7AF27FC61972873D00BBC0AC /* ONERecommendationBriefViewController.xib */,
+			);
+			name = controller;
+			sourceTree = "<group>";
+		};
 		7AFDDEA5197190C40031F293 = {
 			isa = PBXGroup;
 			children = (
@@ -128,20 +160,12 @@
 		7AFDDEB7197190C40031F293 /* one */ = {
 			isa = PBXGroup;
 			children = (
+				7A8196DE1973D2610032B38F /* controller */,
+				7A8196DD1973D2580032B38F /* model */,
+				7A8196DC1973D24E0032B38F /* view */,
 				7AFDDEC3197190C40031F293 /* Images.xcassets */,
-				7AF27FBF19727B4B00BBC0AC /* Main.storyboard */,
 				7AFDDEC0197190C40031F293 /* ONEAppDelegate.h */,
 				7AFDDEC1197190C40031F293 /* ONEAppDelegate.m */,
-				7AF27FC9197287EA00BBC0AC /* ONERecommendationDetailViewController.h */,
-				7AF27FCA197287EA00BBC0AC /* ONERecommendationDetailViewController.m */,
-				7AF27FCB197287EA00BBC0AC /* ONERecommendationDetailViewController.xib */,
-				7AF27FC41972873D00BBC0AC /* ONERecommendationBriefViewController.h */,
-				7AF27FC51972873D00BBC0AC /* ONERecommendationBriefViewController.m */,
-				7AF27FC61972873D00BBC0AC /* ONERecommendationBriefViewController.xib */,
-				7AF27FC119727B5B00BBC0AC /* ONERootViewController.h */,
-				7AF27FC219727B5B00BBC0AC /* ONERootViewController.m */,
-				7A59E84319729F6600E637D4 /* ONERecommendation.h */,
-				7A59E84419729F6600E637D4 /* ONERecommendation.m */,
 				7AFDDEB8197190C40031F293 /* Supporting Files */,
 			);
 			path = one;

@@ -10,19 +10,20 @@
 
 @implementation ONERecommendation
 
-- (id)initWithDateComponents:(NSDateComponents *)dateComponents title:(NSString *)title briefPicUrl:(NSString *)briefPicUrl description:(NSString *)description
+- (id)initWithDateComponents:(NSDateComponents *)dateComponents title:(NSString *)title briefPicUrl:(NSString *)briefPicUrl description:(NSString *)description themeColor:(UIColor *)themeColor
 {
     self = [super init];
     _dateComponents = dateComponents;
     _title = title;
     _briefPicUrl = briefPicUrl;
     _description = description;
+    _themeColor = themeColor;
     return self;
 }
 
-+ (id)recommendationWithDateComponents:(NSDateComponents *)dateComponents title:(NSString *)title briefPicUrl:(NSString *)briefPicUrl description:(NSString *)description
++ (id)recommendationWithDateComponents:(NSDateComponents *)dateComponents title:(NSString *)title briefPicUrl:(NSString *)briefPicUrl description:(NSString *)description themeColor:(UIColor *)themeColor
 {
-    return [[self alloc] initWithDateComponents:dateComponents title:title briefPicUrl:briefPicUrl description:description];
+    return [[self alloc] initWithDateComponents:dateComponents title:title briefPicUrl:briefPicUrl description:description themeColor:themeColor];
 }
 
 @end

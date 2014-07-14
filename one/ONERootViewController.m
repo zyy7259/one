@@ -16,6 +16,8 @@
 @property NSMutableArray *recommendations;
 @property NSMutableArray *viewControllers;
 
+@property NSUInteger currentPage;
+
 @property NSCalendar *gregorian;
 @property NSCalendarUnit calendarUnits;
 @property NSDateComponents *todayComponents;
@@ -51,7 +53,8 @@
     NSString *title1 = @"title1";
     NSString *briefPicUrl1 = @"http://www.emenpiao.com/UpLoadFile/ImageStore/ArticleImages/28c9132b-8ad9-4a00-aaeb-fd57f77e269c.jpg";
     NSString *description1 = @"description1";
-    ONERecommendation *recommendation1 = [ONERecommendation recommendationWithDateComponents:dateComponents1 title:title1 briefPicUrl:briefPicUrl1 description:description1];
+    UIColor *themeColor1 = [UIColor colorWithRed:255 green:0 blue:0 alpha:0.4];
+    ONERecommendation *recommendation1 = [ONERecommendation recommendationWithDateComponents:dateComponents1 title:title1 briefPicUrl:briefPicUrl1 description:description1 themeColor:themeColor1];
     [self.recommendations addObject:recommendation1];
     
     NSDate *date2 = [self.gregorian dateByAddingComponents:oneDay toDate:date1 options:0];
@@ -59,7 +62,8 @@
     NSString *title2 = @"title2";
     NSString *briefPicUrl2 = @"http://www.hzylgh.org/uploadPic/2008_06/20113816253.jpg";
     NSString *description2 = @"description2";
-    ONERecommendation *recommendation2 = [ONERecommendation recommendationWithDateComponents:dateComponents2 title:title2 briefPicUrl:briefPicUrl2 description:description2];
+    UIColor *themeColor2 = [UIColor colorWithRed:0 green:255 blue:0 alpha:0.4];
+    ONERecommendation *recommendation2 = [ONERecommendation recommendationWithDateComponents:dateComponents2 title:title2 briefPicUrl:briefPicUrl2 description:description2 themeColor:themeColor2];
     [self.recommendations addObject:recommendation2];
     
     NSDate *date3 = [self.gregorian dateByAddingComponents:oneDay toDate:date2 options:0];
@@ -67,7 +71,8 @@
     NSString *title3 = @"title3";
     NSString *briefPicUrl3 = @"http://wj-expo.wjimg.cn/upload_files/article/67/11_20110224140240_bukt1.jpg";
     NSString *description3 = @"description3";
-    ONERecommendation *recommendation3 = [ONERecommendation recommendationWithDateComponents:dateComponents3 title:title3 briefPicUrl:briefPicUrl3 description:description3];
+    UIColor *themeColor3 = [UIColor colorWithRed:0 green:0 blue:255 alpha:0.4];
+    ONERecommendation *recommendation3 = [ONERecommendation recommendationWithDateComponents:dateComponents3 title:title3 briefPicUrl:briefPicUrl3 description:description3 themeColor:themeColor3];
     [self.recommendations addObject:recommendation3];
 }
 
@@ -142,6 +147,7 @@
     // load the page on either side to avoid flashes when the user start scrolling
     [self loadRecommendationAtPage:0];
     [self loadRecommendationAtPage:1];
+    [self updateThemeColor];
 }
 
 - (void)didReceiveMemoryWarning
@@ -182,11 +188,21 @@
     // switch page when more than 50% of the previous/next page is visible
     CGFloat pageWidth = CGRectGetWidth(self.scrollView.frame);
     NSUInteger page = floor((self.scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+    self.currentPage = page;
+    
+    [self updateThemeColor];
     
     // load the visible page and the page on either side of it (to avoid flashes when the user start scrolling)
     [self loadRecommendationAtPage:page - 1];
     [self loadRecommendationAtPage:page];
     [self loadRecommendationAtPage:page + 1];
+}
+
+- (void)updateThemeColor
+{
+    // change the current theme color
+    ONERecommendation *recommendation = self.recommendations[self.currentPage];
+    self.view.backgroundColor = recommendation.themeColor;
 }
 
 /*

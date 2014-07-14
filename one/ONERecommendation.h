@@ -14,8 +14,17 @@
 @property NSString *title;
 @property NSString *briefPicUrl;
 @property NSString *description;
+@property UIColor *themeColor;
 
-- (id)initWithDateComponents:(NSDateComponents *)dateComponents title:(NSString *)title briefPicUrl:(NSString *)briefPicUrl description:(NSString *)description;
-+ (id)recommendationWithDateComponents:(NSDateComponents *)dateComponents title:(NSString *)title briefPicUrl:(NSString *)briefPicUrl description:(NSString *)description;
+- (id)initWithDateComponents:(NSDateComponents *)dateComponents
+                       title:(NSString *)title
+                 briefPicUrl:(NSString *)briefPicUrl
+                 description:(NSString *)description
+                  themeColor:(UIColor *)themeColor;
++ (id)recommendationWithDateComponents:(NSDateComponents *)dateComponents
+                                 title:(NSString *)title
+                           briefPicUrl:(NSString *)briefPicUrl
+                           description:(NSString *)description
+                            themeColor:(UIColor *)themeColor;
 
 @end
