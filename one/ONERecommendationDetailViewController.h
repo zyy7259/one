@@ -7,7 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ONERecommendation.h"
+
+@protocol ONERecommendationDetailDelegate;
 
 @interface ONERecommendationDetailViewController : UIViewController
+
+- (id)initWithRecommendation:(ONERecommendation *)recommendation;
+
+@property id<ONERecommendationDetailDelegate> delegate;
+
+@end
+
+@protocol ONERecommendationDetailDelegate <NSObject>
+
+- (void)ONERecommendationDetailViewControllerDidFinishDisplay:(ONERecommendationDetailViewController *)recommendationDetailController;
 
 @end

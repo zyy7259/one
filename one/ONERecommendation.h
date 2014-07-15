@@ -10,11 +10,14 @@
 
 @interface ONERecommendation : NSObject
 
-@property NSDateComponents *dateComponents;
-@property NSString *title;
 @property NSString *briefPicUrl;
+@property NSUInteger *likes;
+@property NSString *title;
 @property NSString *description;
 @property UIColor *themeColor;
+@property NSDateComponents *dateComponents;
+@property NSString *city;
+@property NSString *type;
 
 - (id)initWithDateComponents:(NSDateComponents *)dateComponents
                        title:(NSString *)title

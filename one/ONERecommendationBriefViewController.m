@@ -11,10 +11,17 @@
 
 @interface ONERecommendationBriefViewController ()
 
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *imageView;
-@property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
 @property ONERecommendation *recommendation;
+@property (weak, nonatomic) IBOutlet UIImageView *thingImageView;
+@property (weak, nonatomic) IBOutlet UILabel *likesLabel;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
+@property (weak, nonatomic) IBOutlet UIView *infoView;
+@property (weak, nonatomic) IBOutlet UILabel *dayLabel;
+@property (weak, nonatomic) IBOutlet UILabel *monthLabel;
+@property (weak, nonatomic) IBOutlet UILabel *weekLabel;
+@property (weak, nonatomic) IBOutlet UILabel *cityLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *typeImageView;
 
 @end
 
@@ -50,14 +57,14 @@
 
 - (void)loadImage
 {
-    self.imageView.image = [UIImage imageNamed:@"404.jpg"];
+    self.thingImageView.image = [UIImage imageNamed:@"404.jpg"];
     NSURL *imageUrl = [NSURL URLWithString:self.recommendation.briefPicUrl];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSData *imageData = [NSData dataWithContentsOfURL:imageUrl];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             // update the image view
-            self.imageView.image = [UIImage imageWithData:imageData];
+            self.thingImageView.image = [UIImage imageWithData:imageData];
         });
     });
 }

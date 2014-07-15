@@ -9,8 +9,9 @@
 #import "ONERootViewController.h"
 #import "ONERecommendation.h"
 #import "ONERecommendationBriefViewController.h"
+#import "ONERecommendationDetailViewController.h"
 
-@interface ONERootViewController ()
+@interface ONERootViewController () <ONERecommendationDetailDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property NSMutableArray *recommendations;
@@ -177,11 +178,12 @@
         CGRect frame = self.scrollView.frame;
         
         // leave out a margin
-        NSUInteger margin = 10;
+        NSUInteger margin = 0;
+        NSUInteger barMargin = 0;  // 64 for views embedded in navagation
         frame.origin.x = CGRectGetWidth(frame) * page + margin;
         frame.origin.y = 0 + margin;
         frame.size.width -= 2 * margin;
-        frame.size.height -= (64 + 2 * margin);
+        frame.size.height -= (barMargin + 2 * margin);
         viewController.view.frame = frame;
         
         [self addChildViewController:viewController];
@@ -225,6 +227,19 @@
 {
     ONERecommendation *recommendation = self.recommendations[page];
     self.view.backgroundColor = recommendation.themeColor;
+}
+
+// gesture recognizers
+- (IBAction)viewDidTapped:(UITapGestureRecognizer *)sender {
+    ONERecommendationDetailViewController *detailController = [[ONERecommendationDetailViewController alloc] initWithRecommendation:self.recommendations[self.currentPage]];
+    detailController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    detailController.delegate = self;
+    [self presentViewController:detailController animated:YES completion:nil];
+}
+
+- (void)ONERecommendationDetailViewControllerDidFinishDisplay:(ONERecommendationDetailViewController *)recommendationDetailController
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 /*
