@@ -80,7 +80,10 @@
 
 - (void)pullTodayRecommendation
 {
-    
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration new]];
+    [session dataTaskWithURL:[NSURL URLWithString:@"http://localhost:3000/"] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSLog(@"%@", data);
+    }];
 }
 
 - (void)loadRecommendations
