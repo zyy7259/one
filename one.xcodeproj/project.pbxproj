@@ -97,6 +97,8 @@
 		7A8196DC1973D24E0032B38F /* view */ = {
 			isa = PBXGroup;
 			children = (
+				7AF27FCB197287EA00BBC0AC /* ONERecommendationDetailViewController.xib */,
+				7AF27FC61972873D00BBC0AC /* ONERecommendationBriefViewController.xib */,
 				7AF27FBF19727B4B00BBC0AC /* Main.storyboard */,
 			);
 			name = view;
@@ -118,10 +120,8 @@
 				7AF27FC219727B5B00BBC0AC /* ONERootViewController.m */,
 				7AF27FC9197287EA00BBC0AC /* ONERecommendationDetailViewController.h */,
 				7AF27FCA197287EA00BBC0AC /* ONERecommendationDetailViewController.m */,
-				7AF27FCB197287EA00BBC0AC /* ONERecommendationDetailViewController.xib */,
 				7AF27FC41972873D00BBC0AC /* ONERecommendationBriefViewController.h */,
 				7AF27FC51972873D00BBC0AC /* ONERecommendationBriefViewController.m */,
-				7AF27FC61972873D00BBC0AC /* ONERecommendationBriefViewController.xib */,
 			);
 			name = controller;
 			sourceTree = "<group>";
