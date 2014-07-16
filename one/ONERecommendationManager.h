@@ -9,9 +9,15 @@
 #import <Foundation/Foundation.h>
 #import "ONERecommendation.h"
 
+typedef void (^RecommendationCompletionHandlerType)(ONERecommendation *r);
+
 @interface ONERecommendationManager : NSObject
 
 - (ONERecommendation *)getRecommendationOfYear:(NSUInteger)year
                                          month:(NSUInteger)month
-                                           day:(NSUInteger)day;
+                                           day:(NSUInteger)day
+                             completionHandler:(RecommendationCompletionHandlerType)handler;
+
++ (ONERecommendationManager *)onlyManager;
+
 @end

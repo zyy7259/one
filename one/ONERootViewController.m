@@ -42,7 +42,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.recommendationManager = [ONERecommendationManager new];
+    self.recommendationManager = [ONERecommendationManager onlyManager];
     self.capacity = 3;
     self.recommendations = [NSMutableArray arrayWithCapacity:self.capacity];
     self.viewControllers = [NSMutableArray arrayWithCapacity:self.capacity];
@@ -101,8 +101,15 @@
         }
         
         // then load the corresponding Recommendation
-        NSDateComponents *dc = [self.dateHelper dateComponentsBeforeNDays:page];
-        ONERecommendation *recommendation = [self.recommendationManager getRecommendationOfYear:dc.year month:dc.month day:dc.day];
+        NSDateComponents *targetDateComponents = [self.dateHelper dateComponentsBeforeNDays:page];
+        ONERecommendation *recommendation = [self.recommendationManager getRecommendationOfYear:targetDateComponents.year month:targetDateComponents.month day:targetDateComponents.day completionHandler:^(ONERecommendation *r) {
+            r.year = targetDateComponents.year;
+            r.month = targetDateComponents.month;
+            r.day = targetDateComponents.day;
+            self.recommendations[page] = r;
+            ONERecommendationBriefViewController *viewController = self.viewControllers[page];
+            viewController.recommendation = r;
+        }];
         [self.recommendations addObject:recommendation];
         
         // the create the viewController

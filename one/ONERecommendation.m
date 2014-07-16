@@ -12,21 +12,24 @@
 
 - (id)initWithJSONData:(NSData *)jsonData
 {
+//    NSLog(@"DATA:\n%@\nEND DATA\n", [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]);
     NSError *error = [NSError new];
     NSDictionary *properties = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
-    if (error == nil) {
+    // must use intValue here, use (int) to convert will cause bad thing happen
+    if (properties != nil) {
         self = [self initWithCity:properties[@"city"]
                              type:properties[@"type"]
                             title:properties[@"title"]
                       description:properties[@"description"]
                          imageUrl:properties[@"imageUrl"]
-                            likes:(unsigned long)properties[@"likes"]
-                             year:(unsigned long)properties[@"year"]
-                            month:(unsigned long)properties[@"month"]
-                              day:(unsigned long)properties[@"day"]
+                            likes:[properties[@"likes"] intValue]
+                             year:[properties[@"year"] intValue]
+                            month:[properties[@"month"] intValue]
+                              day:[properties[@"day"] intValue]
                 ];
         return self;
     } else {
+        NSLog(@"error:\n%@", error);
         return nil;
     }
 }

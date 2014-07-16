@@ -51,12 +51,13 @@
     
     self.titleLabel.text = self.recommendation.title;
     self.descriptionLabel.text = self.recommendation.description;
-    [self loadImage];
+    self.likesLabel.text = [@(self.recommendation.likes) stringValue];
+    [self loadThingImage];
     
     [self.dismissButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)loadImage
+- (void)loadThingImage
 {
     self.thingImageView.image = [UIImage imageNamed:@"404.jpg"];
     NSURL *imageUrl = [NSURL URLWithString:self.recommendation.imageUrl];

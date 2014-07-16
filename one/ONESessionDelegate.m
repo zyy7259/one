@@ -46,7 +46,7 @@
     return self;
 }
 
-- (void)addCompletionHandler:(CompletionHandlerType)handler forSession:(NSString *)identifier
+- (void)addCompletionHandler:(TaskCompletionHandlerType)handler forSession:(NSString *)identifier
 {
     
 }
@@ -56,7 +56,7 @@
     
 }
 
-- (void)startTaskWithUrl:(NSString *)urlStr completionHandler:(CompletionHandlerType)handler
+- (void)startTaskWithUrl:(NSString *)urlStr completionHandler:(TaskCompletionHandlerType)handler
 {
     NSURL *url = [NSURL URLWithString:urlStr];
     NSURLSessionDataTask *dataTask = [self.defaultSession dataTaskWithURL:url];
@@ -76,8 +76,7 @@
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
 {
     if (error == nil) {
-        NSLog(@"TASK RESPONSE:\n%@\nEND RESPONSE\n", task.response);
-        CompletionHandlerType handler = self.completionHandlerDictionary[task];
+        TaskCompletionHandlerType handler = self.completionHandlerDictionary[task];
         handler(self.taskDataDictionary[task]);
     } else {
         NSLog(@"error %@", error);

@@ -11,6 +11,8 @@
 
 @interface ONERecommendationBriefViewController : UIViewController
 
+@property (nonatomic) ONERecommendation *recommendation;
+
 - (id)initWithRecommendation:(ONERecommendation *)recommendation;
 
 @end

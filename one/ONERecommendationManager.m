@@ -17,9 +17,33 @@
 
 @implementation ONERecommendationManager
 
-- (ONERecommendation *)getRecommendationOfYear:(NSUInteger)year month:(NSUInteger)month day:(NSUInteger)day
-{
+static ONERecommendationManager *sharedSingleton;
 
++ (void)initialize
+{
+    static BOOL initialized = NO;
+    if (!initialized) {
+        initialized = YES;
+        sharedSingleton = [ONERecommendationManager new];
+    }
+}
+
++ (ONERecommendationManager *)onlyManager
+{
+    return sharedSingleton;
+}
+
+- (id)init
+{
+    self = [super init];
+    
+    self.sessionDelegate = [ONESessionDelegate new];
+    
+    return self;
+}
+
+- (ONERecommendation *)getRecommendationOfYear:(NSUInteger)year month:(NSUInteger)month day:(NSUInteger)day completionHandler:(RecommendationCompletionHandlerType)handler
+{
     ONERecommendation *recommendation = nil;
     
     // first find the recommendation from local
@@ -29,7 +53,7 @@
     }
     
     // then find the recommendation from server
-    recommendation = [self getRecomendationFromServerOfYear:year month:month day:day];
+    recommendation = [self getRecomendationFromServerOfYear:year month:month day:day completionHandler:handler];
     if (recommendation != nil) {
         return recommendation;
     }
@@ -46,15 +70,14 @@
     return recommendation;
 }
 
-- (ONERecommendation *)getRecomendationFromServerOfYear:(NSUInteger)year month:(NSUInteger)month day:(NSUInteger)day
+- (ONERecommendation *)getRecomendationFromServerOfYear:(NSUInteger)year month:(NSUInteger)month day:(NSUInteger)day completionHandler:(RecommendationCompletionHandlerType)handler
 {
     ONERecommendation *recommendation = nil;
     
-    if (self.sessionDelegate == nil) {
-        self.sessionDelegate = [ONESessionDelegate new];
-    }
-    [self.sessionDelegate startTaskWithUrl:@"http://localhost:3000/" completionHandler:^(NSData *data) {
-        NSLog(@"DATA:\n%@\nEND DATA\n", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+    NSString *url = [NSString stringWithFormat:@"http://localhost:3000/recommendation?year=%lu&month=%lu&day=%lu", (unsigned long)year, (unsigned long)month, (unsigned long)day];
+    [self.sessionDelegate startTaskWithUrl:url completionHandler:^(NSData *data) {
+        ONERecommendation *recommendation = [[ONERecommendation alloc] initWithJSONData:data];
+        handler(recommendation);
     }];
     
     return recommendation;
