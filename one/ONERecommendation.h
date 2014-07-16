@@ -10,24 +10,26 @@
 
 @interface ONERecommendation : NSObject
 
-@property NSString *briefPicUrl;
-@property NSUInteger *likes;
-@property NSString *title;
-@property NSString *description;
-@property UIColor *themeColor;
-@property NSDateComponents *dateComponents;
 @property NSString *city;
 @property NSString *type;
+@property NSString *title;
+@property NSString *description;
+@property NSString *imageUrl;
+@property NSUInteger likes;
+@property NSUInteger year;
+@property NSUInteger month;
+@property NSUInteger day;
 
-- (id)initWithDateComponents:(NSDateComponents *)dateComponents
-                       title:(NSString *)title
-                 briefPicUrl:(NSString *)briefPicUrl
-                 description:(NSString *)description
-                  themeColor:(UIColor *)themeColor;
-+ (id)recommendationWithDateComponents:(NSDateComponents *)dateComponents
-                                 title:(NSString *)title
-                           briefPicUrl:(NSString *)briefPicUrl
-                           description:(NSString *)description
-                            themeColor:(UIColor *)themeColor;
+- (id)initWithJSONData:(NSData *)jsonData;
+
+- (id)initWithCity:(NSString *)city
+              type:(NSString *)type
+             title:(NSString *)title
+       description:(NSString *)description
+          imageUrl:(NSString *)imageUrl
+             likes:(NSUInteger)likes
+              year:(NSUInteger)year
+             month:(NSUInteger)month
+               day:(NSUInteger)day;
 
 @end

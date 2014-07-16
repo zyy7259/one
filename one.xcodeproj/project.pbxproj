@@ -10,6 +10,8 @@
 		7A59E84519729F6600E637D4 /* ONERecommendation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A59E84419729F6600E637D4 /* ONERecommendation.m */; };
 		7A59E84A1972C53400E637D4 /* 404.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7A59E8491972C53400E637D4 /* 404.jpg */; };
 		7A937B3F197622BD0087D4F2 /* ONESessionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A937B3E197622BD0087D4F2 /* ONESessionDelegate.m */; };
+		7A937B4219766E760087D4F2 /* ONERecommendationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A937B4119766E760087D4F2 /* ONERecommendationManager.m */; };
+		7A937B45197678E40087D4F2 /* ONEDateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A937B44197678E40087D4F2 /* ONEDateHelper.m */; };
 		7AF27FC019727B4B00BBC0AC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7AF27FBF19727B4B00BBC0AC /* Main.storyboard */; };
 		7AF27FC319727B5B00BBC0AC /* ONERootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AF27FC219727B5B00BBC0AC /* ONERootViewController.m */; };
 		7AF27FC71972873D00BBC0AC /* ONERecommendationBriefViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AF27FC51972873D00BBC0AC /* ONERecommendationBriefViewController.m */; };
@@ -46,6 +48,10 @@
 		7A59E8491972C53400E637D4 /* 404.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 404.jpg; sourceTree = "<group>"; };
 		7A937B3D197622BD0087D4F2 /* ONESessionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONESessionDelegate.h; sourceTree = "<group>"; };
 		7A937B3E197622BD0087D4F2 /* ONESessionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONESessionDelegate.m; sourceTree = "<group>"; };
+		7A937B4019766E760087D4F2 /* ONERecommendationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONERecommendationManager.h; sourceTree = "<group>"; };
+		7A937B4119766E760087D4F2 /* ONERecommendationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONERecommendationManager.m; sourceTree = "<group>"; };
+		7A937B43197678E40087D4F2 /* ONEDateHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONEDateHelper.h; sourceTree = "<group>"; };
+		7A937B44197678E40087D4F2 /* ONEDateHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONEDateHelper.m; sourceTree = "<group>"; };
 		7AF27FBF19727B4B00BBC0AC /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		7AF27FC119727B5B00BBC0AC /* ONERootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONERootViewController.h; sourceTree = "<group>"; };
 		7AF27FC219727B5B00BBC0AC /* ONERootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONERootViewController.m; sourceTree = "<group>"; };
@@ -112,6 +118,8 @@
 			children = (
 				7A59E84319729F6600E637D4 /* ONERecommendation.h */,
 				7A59E84419729F6600E637D4 /* ONERecommendation.m */,
+				7A937B4019766E760087D4F2 /* ONERecommendationManager.h */,
+				7A937B4119766E760087D4F2 /* ONERecommendationManager.m */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -129,13 +137,15 @@
 			name = controller;
 			sourceTree = "<group>";
 		};
-		7A937B3C197622930087D4F2 /* network */ = {
+		7A937B3C197622930087D4F2 /* data */ = {
 			isa = PBXGroup;
 			children = (
 				7A937B3D197622BD0087D4F2 /* ONESessionDelegate.h */,
 				7A937B3E197622BD0087D4F2 /* ONESessionDelegate.m */,
+				7A937B43197678E40087D4F2 /* ONEDateHelper.h */,
+				7A937B44197678E40087D4F2 /* ONEDateHelper.m */,
 			);
-			name = network;
+			name = data;
 			sourceTree = "<group>";
 		};
 		7AFDDEA5197190C40031F293 = {
@@ -172,7 +182,7 @@
 		7AFDDEB7197190C40031F293 /* one */ = {
 			isa = PBXGroup;
 			children = (
-				7A937B3C197622930087D4F2 /* network */,
+				7A937B3C197622930087D4F2 /* data */,
 				7A8196DE1973D2610032B38F /* controller */,
 				7A8196DD1973D2580032B38F /* model */,
 				7A8196DC1973D24E0032B38F /* view */,
@@ -320,6 +330,8 @@
 				7AFDDEC2197190C40031F293 /* ONEAppDelegate.m in Sources */,
 				7AF27FCC197287EA00BBC0AC /* ONERecommendationDetailViewController.m in Sources */,
 				7A59E84519729F6600E637D4 /* ONERecommendation.m in Sources */,
+				7A937B45197678E40087D4F2 /* ONEDateHelper.m in Sources */,
+				7A937B4219766E760087D4F2 /* ONERecommendationManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -58,7 +58,7 @@
 - (void)loadImage
 {
     self.thingImageView.image = [UIImage imageNamed:@"404.jpg"];
-    NSURL *imageUrl = [NSURL URLWithString:self.recommendation.briefPicUrl];
+    NSURL *imageUrl = [NSURL URLWithString:self.recommendation.imageUrl];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSData *imageData = [NSData dataWithContentsOfURL:imageUrl];
         

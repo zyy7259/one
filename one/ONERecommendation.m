@@ -10,20 +10,42 @@
 
 @implementation ONERecommendation
 
-- (id)initWithDateComponents:(NSDateComponents *)dateComponents title:(NSString *)title briefPicUrl:(NSString *)briefPicUrl description:(NSString *)description themeColor:(UIColor *)themeColor
+- (id)initWithJSONData:(NSData *)jsonData
 {
-    self = [super init];
-    _dateComponents = dateComponents;
-    _title = title;
-    _briefPicUrl = briefPicUrl;
-    _description = description;
-    _themeColor = themeColor;
-    return self;
+    NSError *error = [NSError new];
+    NSDictionary *properties = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
+    if (error == nil) {
+        self = [self initWithCity:properties[@"city"]
+                             type:properties[@"type"]
+                            title:properties[@"title"]
+                      description:properties[@"description"]
+                         imageUrl:properties[@"imageUrl"]
+                            likes:(unsigned long)properties[@"likes"]
+                             year:(unsigned long)properties[@"year"]
+                            month:(unsigned long)properties[@"month"]
+                              day:(unsigned long)properties[@"day"]
+                ];
+        return self;
+    } else {
+        return nil;
+    }
 }
 
-+ (id)recommendationWithDateComponents:(NSDateComponents *)dateComponents title:(NSString *)title briefPicUrl:(NSString *)briefPicUrl description:(NSString *)description themeColor:(UIColor *)themeColor
+- (id)initWithCity:(NSString *)city type:(NSString *)type title:(NSString *)title description:(NSString *)description imageUrl:(NSString *)imageUrl likes:(NSUInteger)likes year:(NSUInteger)year month:(NSUInteger)month day:(NSUInteger)day
 {
-    return [[self alloc] initWithDateComponents:dateComponents title:title briefPicUrl:briefPicUrl description:description themeColor:themeColor];
+    self = [super init];
+    
+    _city = city;
+    _type = type;
+    _title = title;
+    _description = description;
+    _imageUrl = imageUrl;
+    _likes = likes;
+    _year = year;
+    _month = month;
+    _day = day;
+    
+    return self;
 }
 
 @end
