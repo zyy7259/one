@@ -10,6 +10,7 @@
 #import "ONERecommendation.h"
 #import "ONERecommendationBriefViewController.h"
 #import "ONERecommendationDetailViewController.h"
+#import "ONESessionDelegate.h"
 
 @interface ONERootViewController () <ONERecommendationDetailDelegate>
 
@@ -24,9 +25,94 @@
 @property NSCalendarUnit calendarUnits;
 @property NSDateComponents *todayComponents;
 
+@property ONESessionDelegate *sessionDelegate;
+
 @end
 
 @implementation ONERootViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    
+//    [self makeNavifationBarTransparent];
+    
+    // load recommendations data
+    [self loadRecommendations];
+    
+    // set recommendScrollView
+    NSUInteger count = self.recommendations.count;
+    CGRect frame = self.scrollView.frame;
+    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(frame) * count, CGRectGetHeight(frame));
+    self.scrollView.delegate = self;
+    
+    // view controllers are created lazily
+    // in the meantime, load the array with placeholders which will be replaced on demand
+    self.viewControllers = [NSMutableArray array];
+    for (NSUInteger i = 0; i < count; i++) {
+        [self.viewControllers addObject:[NSNull null]];
+    }
+    
+    self.currentPage = 0;
+    self.pageWidth = CGRectGetWidth(self.scrollView.frame);
+    
+    // pages are created on demand
+    // load the visible page
+    // load the page on either side to avoid flashes when the user start scrolling
+    [self loadRecommendationAtPage:0];
+    [self loadRecommendationAtPage:1];
+    
+    [self updateThemeColor];
+}
+
+- (void)makeNavifationBarTransparent
+{
+    // Make Navigation Bar Transparent
+    UINavigationBar *bar = self.navigationController.navigationBar;
+    [bar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    bar.shadowImage = [UIImage new];
+    bar.translucent = YES;
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (void)loadRecommendations
+{
+    [self initDateComponents];
+    
+    self.recommendations = [NSMutableArray array];
+    
+    [self loadLocalRecommendations];
+    
+    if (self.recommendations.count == 0) {
+        [self pullTodayRecommendation];
+    } else {
+        // Date components of the last recommendation
+        ONERecommendation *lastRecommendation = self.recommendations.lastObject;
+        NSDateComponents *lastComponents = lastRecommendation.dateComponents;
+        
+        // if two set of date components doesn't equal with each other, pull today's recommendation
+        if (lastComponents.day != self.todayComponents.day
+            || lastComponents.month != self.todayComponents.month
+            || lastComponents.year != self.todayComponents.year) {
+            [self pullTodayRecommendation];
+        }
+    }
+}
 
 - (void)initDateComponents
 {
@@ -80,87 +166,12 @@
 
 - (void)pullTodayRecommendation
 {
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration new]];
-    [session dataTaskWithURL:[NSURL URLWithString:@"http://localhost:3000/"] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSLog(@"%@", data);
+    if (self.sessionDelegate == nil) {
+        self.sessionDelegate = [ONESessionDelegate new];
+    }
+    [self.sessionDelegate startTaskWithUrl:@"http://localhost:3000/" completionHandler:^(NSData *data) {
+        NSLog(@"DATA:\n%@\nEND DATA\n", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
     }];
-}
-
-- (void)loadRecommendations
-{
-    [self initDateComponents];
-    
-    self.recommendations = [NSMutableArray array];
-    
-    [self loadLocalRecommendations];
-    
-    if (self.recommendations.count == 0) {
-        [self pullTodayRecommendation];
-    } else {
-        // Date components of the last recommendation
-        ONERecommendation *lastRecommendation = self.recommendations.lastObject;
-        NSDateComponents *lastComponents = lastRecommendation.dateComponents;
-        
-        // if two set of date components doesn't equal with each other, pull today's recommendation
-        if (lastComponents.day != self.todayComponents.day
-            || lastComponents.month != self.todayComponents.month
-            || lastComponents.year != self.todayComponents.year) {
-            [self pullTodayRecommendation];
-        }
-    }
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
-    // Make Navigation Bar Transparent
-    UINavigationBar *bar = self.navigationController.navigationBar;
-    [bar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-    bar.shadowImage = [UIImage new];
-    bar.translucent = YES;
-    
-    // load recommendations data
-    [self loadRecommendations];
-    
-    NSUInteger count = self.recommendations.count;
-    
-    // set recommendScrollView
-    CGRect frame = self.scrollView.frame;
-    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(frame) * count, CGRectGetHeight(frame) - 64);
-    self.scrollView.delegate = self;
-    
-    // view controllers are created lazily
-    // in the meantime, load the array with placeholders which will be replaced on demand
-    self.viewControllers = [NSMutableArray array];
-    for (NSUInteger i = 0; i < count; i++) {
-        [self.viewControllers addObject:[NSNull null]];
-    }
-    
-    self.currentPage = 0;
-    self.pageWidth = CGRectGetWidth(self.scrollView.frame);
-    // pages are created on demand
-    // load the visible page
-    // load the page on either side to avoid flashes when the user start scrolling
-    [self loadRecommendationAtPage:0];
-    [self loadRecommendationAtPage:1];
-    [self updateThemeColor];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)loadRecommendationAtPage:(NSUInteger)page
@@ -198,9 +209,9 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     // update theme color when more than 30% of the previous/next page is visible
-    NSUInteger startPosition = self.currentPage * self.pageWidth;
-    NSUInteger currentPosition = self.scrollView.contentOffset.x;
-    if (abs(startPosition - currentPosition) >= self.pageWidth / 2) {
+    NSInteger startPosition = self.currentPage * self.pageWidth;
+    NSInteger currentPosition = self.scrollView.contentOffset.x;
+    if (abs((int)(startPosition - currentPosition)) >= self.pageWidth / 2) {
         NSUInteger page = self.currentPage + (startPosition < currentPosition ? 1 : -1);
         [self updateThemeColorWithPage:page];
     }
