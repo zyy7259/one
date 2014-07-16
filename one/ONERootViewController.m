@@ -42,7 +42,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.recommendationManager = [ONERecommendationManager onlyManager];
+    self.recommendationManager = [ONERecommendationManager sharedManager];
     self.capacity = 3;
     self.recommendations = [NSMutableArray arrayWithCapacity:self.capacity];
     self.viewControllers = [NSMutableArray arrayWithCapacity:self.capacity];
@@ -161,7 +161,7 @@
     [self loadPage:page + 1];
 }
 
-// gesture recognizers
+// tap gesture recognizer
 - (IBAction)viewDidTapped:(UITapGestureRecognizer *)sender {
     ONERecommendationDetailViewController *detailController = [[ONERecommendationDetailViewController alloc] initWithRecommendation:self.recommendations[self.currentPage]];
     detailController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
@@ -173,6 +173,12 @@
 {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+// pan gesture recognizer
+- (IBAction)viewDidPanned:(UIPanGestureRecognizer *)sender {
+    NSLog(@"panning...");
+}
+
 
 - (void)didReceiveMemoryWarning
 {

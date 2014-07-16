@@ -18,6 +18,6 @@ typedef void (^RecommendationCompletionHandlerType)(ONERecommendation *r);
                                            day:(NSUInteger)day
                              completionHandler:(RecommendationCompletionHandlerType)handler;
 
-+ (ONERecommendationManager *)onlyManager;
++ (ONERecommendationManager *)sharedManager;
 
 @end

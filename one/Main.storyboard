@@ -23,6 +23,7 @@
                                 <gestureRecognizers/>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="7u5-Pa-ZCV" appends="YES" id="Xyd-HF-NKs"/>
+                                    <outletCollection property="gestureRecognizers" destination="UVh-uS-kYw" appends="YES" id="ldw-tX-Z8F"/>
                                 </connections>
                             </scrollView>
                         </subviews>
@@ -40,8 +41,13 @@
                         <action selector="viewDidTapped:" destination="m6v-ju-fb2" id="D24-n8-N7T"/>
                     </connections>
                 </tapGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="UVh-uS-kYw">
+                    <connections>
+                        <action selector="viewDidPanned:" destination="m6v-ju-fb2" id="ZpY-aS-wgU"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="397" y="-27"/>
+            <point key="canvasLocation" x="114" y="67"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

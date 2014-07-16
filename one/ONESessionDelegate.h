@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^TaskCompletionHandlerType)(NSData *data);
+typedef void (^TaskCompletionHandlerType)(NSData *data, NSError *error);
 
 @interface ONESessionDelegate : NSObject <NSURLSessionDelegate, NSURLSessionTaskDelegate, NSURLSessionDataDelegate, NSURLSessionDownloadDelegate>
 

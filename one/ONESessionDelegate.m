@@ -75,12 +75,9 @@
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
 {
-    if (error == nil) {
-        TaskCompletionHandlerType handler = self.completionHandlerDictionary[task];
-        handler(self.taskDataDictionary[task]);
-    } else {
-        NSLog(@"error %@", error);
-    }
+    TaskCompletionHandlerType handler = self.completionHandlerDictionary[task];
+    // pass the error anyway, let the caller to handler the error
+    handler(self.taskDataDictionary[task], error);
 }
 
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite

@@ -28,7 +28,7 @@ static ONERecommendationManager *sharedSingleton;
     }
 }
 
-+ (ONERecommendationManager *)onlyManager
++ (ONERecommendationManager *)sharedManager
 {
     return sharedSingleton;
 }
@@ -53,6 +53,7 @@ static ONERecommendationManager *sharedSingleton;
     }
     
     // then find the recommendation from server
+    // TODO
     recommendation = [self getRecomendationFromServerOfYear:year month:month day:day completionHandler:handler];
     if (recommendation != nil) {
         return recommendation;
@@ -75,9 +76,13 @@ static ONERecommendationManager *sharedSingleton;
     ONERecommendation *recommendation = nil;
     
     NSString *url = [NSString stringWithFormat:@"http://localhost:3000/recommendation?year=%lu&month=%lu&day=%lu", (unsigned long)year, (unsigned long)month, (unsigned long)day];
-    [self.sessionDelegate startTaskWithUrl:url completionHandler:^(NSData *data) {
-        ONERecommendation *recommendation = [[ONERecommendation alloc] initWithJSONData:data];
-        handler(recommendation);
+    [self.sessionDelegate startTaskWithUrl:url completionHandler:^(NSData *data, NSError *error) {
+        if (error == nil) {
+            ONERecommendation *recommendation = [[ONERecommendation alloc] initWithJSONData:data];
+            handler(recommendation);
+        } else {
+            NSLog(@"ERROR - getRecomendationFromServerOfYear: %@", error);
+        }
     }];
     
     return recommendation;
