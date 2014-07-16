@@ -59,7 +59,7 @@
     }
     
     //    [self makeNavifationBarTransparent];
-    [self updateThemeColor];
+//    [self updateThemeColor];
 }
 
 - (void)updateScrollViewContentSize
@@ -94,9 +94,11 @@
     ONERecommendationBriefViewController *viewController = nil;
     
     if (page == self.viewControllers.count) {
-        // first update capacity and scroll view
-        self.capacity += 1;
-        [self updateScrollViewContentSize];
+        if (page == self.capacity) {
+            // update capacity and scroll view
+            self.capacity += 1;
+            [self updateScrollViewContentSize];
+        }
         
         // then load the corresponding Recommendation
         NSDateComponents *dc = [self.dateHelper dateComponentsBeforeNDays:page];

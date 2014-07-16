@@ -12,16 +12,16 @@
 @interface ONERecommendationBriefViewController ()
 
 @property ONERecommendation *recommendation;
-@property (weak, nonatomic) IBOutlet UIImageView *thingImageView;
-@property (weak, nonatomic) IBOutlet UILabel *likesLabel;
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
-@property (weak, nonatomic) IBOutlet UIView *infoView;
-@property (weak, nonatomic) IBOutlet UILabel *dayLabel;
-@property (weak, nonatomic) IBOutlet UILabel *monthLabel;
-@property (weak, nonatomic) IBOutlet UILabel *weekLabel;
 @property (weak, nonatomic) IBOutlet UILabel *cityLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *typeImageView;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *thingImageView;
+@property (weak, nonatomic) IBOutlet UILabel *likesLabel;
+@property (weak, nonatomic) IBOutlet UIView *infoView;
+@property (weak, nonatomic) IBOutlet UILabel *yearLabel;
+@property (weak, nonatomic) IBOutlet UILabel *monthLabel;
+@property (weak, nonatomic) IBOutlet UILabel *dayLabel;
 
 @end
 
@@ -50,9 +50,15 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+    self.cityLabel.text = self.recommendation.city;
+    // type image
     self.titleLabel.text = self.recommendation.title;
     self.descriptionLabel.text = self.recommendation.description;
     [self loadImage];
+    self.likesLabel.text = [@(self.recommendation.likes) stringValue];
+    self.yearLabel.text = [@(self.recommendation.year) stringValue];
+    self.monthLabel.text = [@(self.recommendation.month) stringValue];
+    self.dayLabel.text = [@(self.recommendation.day) stringValue];
 }
 
 - (void)loadImage

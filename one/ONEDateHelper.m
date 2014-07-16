@@ -21,7 +21,7 @@
 - (id)init
 {
     self = [super init];
-    
+    [self initDateComponents];
     return self;
 }
 
