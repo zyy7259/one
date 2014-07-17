@@ -157,25 +157,31 @@ static ONERecommendationManager *sharedSingleton;
     NSString *fileName = [NSString stringWithFormat:@"%lu%lu%lu", (unsigned long)recommendation.year, (unsigned long)recommendation.month, (unsigned long)recommendation.day];
     NSString *filePath = [self.cacheDir stringByAppendingPathComponent:fileName];
     NSDictionary *dic = [NSDictionary dictionaryWithObjects: @[recommendation.city,
+                                                               recommendation.address,
                                                                @(recommendation.type),
                                                                recommendation.title,
                                                                recommendation.intro,
+                                                               recommendation.briefDetail,
+                                                               recommendation.detail,
                                                                recommendation.imageUrl,
                                                                @(recommendation.likes),
                                                                @(recommendation.year),
                                                                @(recommendation.month),
                                                                @(recommendation.day)]
                                                     forKeys:@[@"city",
+                                                              @"address",
                                                               @"type",
                                                               @"title",
                                                               @"intro",
+                                                              @"briefDetail",
+                                                              @"detail",
                                                               @"imageUrl",
                                                               @"likes",
                                                               @"year",
                                                               @"month",
                                                               @"day"]];
     BOOL success = [dic writeToFile:filePath atomically:YES];
-    NSString *info = [NSString stringWithFormat:@"%@: write recommendation data to file %@", (success ? @"success" : @"fail"), fileName];
+    NSString *info = [NSString stringWithFormat:@"%@ write recommendation data to file %@", (success ? @"success" : @"fail"), fileName];
     [ONELogger logTitle:info content:nil];
 }
 
@@ -185,25 +191,28 @@ static ONERecommendationManager *sharedSingleton;
     NSString *filePath = [self.cacheDir stringByAppendingPathComponent:fileName];
     NSDictionary *dic = [NSDictionary dictionaryWithContentsOfFile:filePath];
     
-    NSString *info = [NSString stringWithFormat:@"%@read recommendation data from file %@", (dic != nil ? @"success" : @"fail"), filePath];
+    NSString *info = [NSString stringWithFormat:@"%@ read recommendation data from file %@", (dic != nil ? @"success" : @"fail"), filePath];
     [ONELogger logTitle:info content:nil];
     
     ONERecommendation *recommendation = nil;
     if (dic != nil) {
         recommendation = [[ONERecommendation alloc]
                           initWithCity:dic[@"city"]
+                          address:dic[@"address"]
                           type:[dic[@"type"] intValue]
                           title:dic[@"title"]
                           intro:dic[@"intro"]
+                          briefDetail:dic[@"briefDetail"]
+                          detail:dic[@"detail"]
                           imageUrl:dic[@"imageUrl"]
                           likes:[dic[@"likes"] intValue]
                           year:[dic[@"year"] intValue]
                           month:[dic[@"month"] intValue]
                           day:[dic[@"day"] intValue]];
-        [ONELogger logTitle:@"recommendation" content:[recommendation description]];
     }
     
     return recommendation;
+    // TODO 若返回nil，则强制从服务器取数据
 //    return nil;
 }
 

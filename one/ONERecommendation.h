@@ -11,6 +11,7 @@
 @interface ONERecommendation : NSObject
 
 @property NSString *city;
+@property NSString *address;
 @property NSUInteger type;
 @property NSString *title;
 @property NSString *intro;
@@ -25,9 +26,12 @@
 - (id)initWithJSONData:(NSData *)jsonData;
 
 - (id)initWithCity:(NSString *)city
+           address:(NSString *)address
               type:(NSUInteger)type
              title:(NSString *)title
-       intro:(NSString *)intro
+             intro:(NSString *)intro
+       briefDetail:(NSString *)briefDetail
+            detail:(NSString *)detail
           imageUrl:(NSString *)imageUrl
              likes:(NSUInteger)likes
               year:(NSUInteger)year

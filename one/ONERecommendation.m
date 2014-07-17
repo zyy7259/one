@@ -18,9 +18,12 @@
     // must use intValue here, use (int) to convert will cause bad thing happen
     if (error == nil) {
         self = [self initWithCity:properties[@"city"]
+                          address:properties[@"address"]
                              type:[properties[@"type"] intValue]
                             title:properties[@"title"]
-                      intro:properties[@"intro"]
+                            intro:properties[@"intro"]
+                      briefDetail:properties[@"briefDetail"]
+                           detail:properties[@"detail"]
                          imageUrl:properties[@"imageUrl"]
                             likes:[properties[@"likes"] intValue]
                              year:[properties[@"year"] intValue]
@@ -34,14 +37,17 @@
     }
 }
 
-- (id)initWithCity:(NSString *)city type:(NSUInteger)type title:(NSString *)title intro:(NSString *)intro imageUrl:(NSString *)imageUrl likes:(NSUInteger)likes year:(NSUInteger)year month:(NSUInteger)month day:(NSUInteger)day
+- (id)initWithCity:(NSString *)city address:(NSString *)address type:(NSUInteger)type title:(NSString *)title intro:(NSString *)intro briefDetail:(NSString *)briefDetail detail:(NSString *)detail imageUrl:(NSString *)imageUrl likes:(NSUInteger)likes year:(NSUInteger)year month:(NSUInteger)month day:(NSUInteger)day
 {
     self = [super init];
     
     _city = city;
+    _address = address;
     _type = type;
     _title = title;
     _intro = intro;
+    _briefDetail = briefDetail;
+    _detail = detail;
     _imageUrl = imageUrl;
     _likes = likes;
     _year = year;
