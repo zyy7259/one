@@ -15,7 +15,9 @@
 
 @interface ONERootViewController () <ONERecommendationDetailDelegate>
 
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIScrollView *mainScrollView;
+@property (weak, nonatomic) IBOutlet UIScrollView *recommendationsScrollView;
+@property (weak, nonatomic) IBOutlet UIView *pullUpMenuView;
 @property ONERecommendationManager *recommendationManager;
 @property NSUInteger capacity;
 @property NSMutableArray *recommendations;
@@ -47,10 +49,10 @@
     self.recommendations = [NSMutableArray arrayWithCapacity:self.capacity];
     self.viewControllers = [NSMutableArray arrayWithCapacity:self.capacity];
     self.currentPage = 0;
-    self.pageWidth = CGRectGetWidth(self.scrollView.frame);
+    self.pageWidth = CGRectGetWidth(self.view.frame);
     self.dateHelper = [ONEDateHelper new];
 
-    self.scrollView.delegate = self;
+    self.recommendationsScrollView.delegate = self;
     [self updateScrollViewContentSize];
     
     // load the visible pages
@@ -58,23 +60,16 @@
         [self loadPage:i];
     }
     
-    //    [self makeNavifationBarTransparent];
 //    [self updateThemeColor];
 }
 
 - (void)updateScrollViewContentSize
 {
-    CGRect frame = self.scrollView.frame;
-    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(frame) * self.capacity, CGRectGetHeight(frame));
-}
-
-- (void)makeNavifationBarTransparent
-{
-    // Make Navigation Bar Transparent
-    UINavigationBar *bar = self.navigationController.navigationBar;
-    [bar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-    bar.shadowImage = [UIImage new];
-    bar.translucent = YES;
+    CGRect frame = self.view.frame;
+    self.recommendationsScrollView.contentSize = CGSizeMake(CGRectGetWidth(frame) * self.capacity, CGRectGetHeight(frame));
+    self.mainScrollView.contentSize = CGSizeMake(CGRectGetWidth(frame), CGRectGetHeight(frame) + 44);
+    NSLog(@"%@", self.recommendationsScrollView.superview);
+    NSLog(@"%@", NSStringFromCGSize(self.mainScrollView.contentSize));
 }
 
 // change the current theme color
@@ -135,7 +130,7 @@
     
     // In the end, add the controller's view to the scroll view
     if (viewController.view.superview == nil) {
-        CGRect frame = self.scrollView.frame;
+        CGRect frame = self.recommendationsScrollView.frame;
         
         // leave out a margin
         NSUInteger margin = 0;
@@ -147,32 +142,63 @@
         viewController.view.frame = frame;
         
         [self addChildViewController:viewController];
-        [self.scrollView addSubview:viewController.view];
+        [self.recommendationsScrollView addSubview:viewController.view];
         [viewController didMoveToParentViewController:self];
     }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    if ([scrollView isEqual:self.recommendationsScrollView]) {
+        [self recommendationsScrollViewDidScroll];
+    } else if ([scrollView isEqual:self.mainScrollView]) {
+        //
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    if ([scrollView isEqual:self.recommendationsScrollView]) {
+        [self recommendationsScrollViewDidEndScrolling];
+    } else if ([scrollView isEqual:self.mainScrollView]) {
+        [self mainScrollViewDidEndScrolling];
+    }
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    if ([scrollView isEqual:self.mainScrollView] && decelerate == NO) {
+        [self mainScrollViewDidEndScrolling];
+    }
+}
+
+- (void)recommendationsScrollViewDidScroll
+{
     // update theme color when more than 30% of the previous/next page is visible
     NSInteger startPosition = self.currentPage * self.pageWidth;
-    NSInteger currentPosition = self.scrollView.contentOffset.x;
+    NSInteger currentPosition = self.recommendationsScrollView.contentOffset.x;
     if (abs((int)(startPosition - currentPosition)) >= self.pageWidth / 2) {
         NSUInteger page = self.currentPage + (startPosition < currentPosition ? 1 : -1);
         [self updateThemeColorWithPage:page];
     }
 }
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+- (void)recommendationsScrollViewDidEndScrolling
 {
     // switch page when more than 50% of the previous/next page is visible
-    NSUInteger page = floor((self.scrollView.contentOffset.x - self.pageWidth / 2) / self.pageWidth) + 1;
+    NSUInteger page = floor((self.recommendationsScrollView.contentOffset.x - self.pageWidth / 2) / self.pageWidth) + 1;
     self.currentPage = page;
     
     [self updateThemeColor];
     
     [self loadPage:page];
     [self loadPage:page + 1];
+}
+
+- (void)mainScrollViewDidEndScrolling
+{
+    NSUInteger offset = self.mainScrollView.contentOffset.y - CGRectGetHeight(self.view.frame);
+    NSLog(@"%lu", (unsigned long)offset);
 }
 
 // tap gesture recognizer
@@ -190,9 +216,22 @@
 
 // pan gesture recognizer
 - (IBAction)viewDidPanned:(UIPanGestureRecognizer *)sender {
-    NSLog(@"panning...");
+    CGPoint lastPanPosition = [sender translationInView:self.view];
+    CGPoint contentOffset = self.mainScrollView.contentOffset;
+    contentOffset.y -= lastPanPosition.y;
+    if (lastPanPosition.y < 0) {
+        CGFloat maxHeight = CGRectGetHeight(self.pullUpMenuView.frame);
+        if (contentOffset.y > maxHeight) {
+            contentOffset.y = maxHeight;
+        }
+    } else {
+        if (contentOffset.y < 0) {
+            contentOffset.y = 0;
+        }
+    }
+    NSLog(@"%@", NSStringFromCGPoint(contentOffset));
+    [self.mainScrollView setContentOffset:contentOffset animated:YES];
 }
-
 
 - (void)didReceiveMemoryWarning
 {

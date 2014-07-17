@@ -13,6 +13,7 @@
 @interface ONERecommendationManager ()
 
 @property ONESessionDelegate *sessionDelegate;
+@property NSString *urlBase;
 
 @end
 
@@ -39,6 +40,7 @@ static ONERecommendationManager *sharedSingleton;
     self = [super init];
     
     self.sessionDelegate = [ONESessionDelegate new];
+    self.urlBase = @"http://localhost:3000/";
     
     return self;
 }
@@ -73,8 +75,7 @@ static ONERecommendationManager *sharedSingleton;
 {
     ONERecommendation *recommendation = nil;
     
-    NSString *urlBase = @"http://localhost:3000/recommendation";
-    NSString *url = [NSString stringWithFormat:@"%@?year=%lu&month=%lu&day=%lu", urlBase, (unsigned long)year, (unsigned long)month, (unsigned long)day];
+    NSString *url = [NSString stringWithFormat:@"%@recommendation?year=%lu&month=%lu&day=%lu", self.urlBase, (unsigned long)year, (unsigned long)month, (unsigned long)day];
     
     [self.sessionDelegate startDataTaskWithUrl:url completionHandler:^(NSData *data, NSError *error) {
         if (error == nil) {
@@ -83,6 +84,8 @@ static ONERecommendationManager *sharedSingleton;
             recommendation.year = year;
             recommendation.month = month;
             recommendation.day = day;
+            // TODO in production, splice the imageUrl.
+//            recommendation.imageUrl = [self.urlBase stringByAppendingString:recommendation.imageUrl];
             // download the recommendation's image
             [self downloadImageWithUrl:recommendation.imageUrl year:year month:month day:day imageCompletionHandler:imageHandler];
             // pass the recommendation to the handler
@@ -118,9 +121,7 @@ static ONERecommendationManager *sharedSingleton;
         NSURL *targetFileUrl = [cacheDirUrl URLByAppendingPathComponent:[NSString stringWithFormat:@"%lu%lu%lu.jpg", (unsigned long)year, (unsigned long)month, (unsigned long)day]];
         [ONELogger logTitle:@"new location" content:targetFileUrl.path];
         
-        // DEBUG clear cache dir TODO
         [self clearFileAtUrl:targetFileUrl];
-        // DEBUG TODO
         
         if ([fileManager moveItemAtURL:location toURL:targetFileUrl error:&e]) {
             // store some reference to the new URL
@@ -189,7 +190,7 @@ static ONERecommendationManager *sharedSingleton;
 {
     ONERecommendation *recommendation = [[ONERecommendation alloc]
                                          initWithCity:@"杭州-fake"
-                                         type:@"type-fake"
+                                         type:0
                                          title:@"title-fake"
                                          description:@"description-fake"
                                          imageUrl:@"bg.jpg"

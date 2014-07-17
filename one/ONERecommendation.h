@@ -11,9 +11,11 @@
 @interface ONERecommendation : NSObject
 
 @property NSString *city;
-@property NSString *type;
+@property NSUInteger type;
 @property NSString *title;
 @property NSString *description;
+@property NSString *briefDetail;
+@property NSString *detail;
 @property NSString *imageUrl;
 @property NSUInteger likes;
 @property NSUInteger year;
@@ -23,7 +25,7 @@
 - (id)initWithJSONData:(NSData *)jsonData;
 
 - (id)initWithCity:(NSString *)city
-              type:(NSString *)type
+              type:(NSUInteger)type
              title:(NSString *)title
        description:(NSString *)description
           imageUrl:(NSString *)imageUrl
