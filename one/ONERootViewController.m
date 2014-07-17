@@ -25,6 +25,7 @@
 @property NSUInteger currentPage;
 @property NSUInteger pageWidth;
 @property ONEDateHelper *dateHelper;
+@property CGFloat startPositionOfMainScrollView;
 
 @end
 
@@ -51,6 +52,7 @@
     self.currentPage = 0;
     self.pageWidth = CGRectGetWidth(self.view.frame);
     self.dateHelper = [ONEDateHelper new];
+    self.startPositionOfMainScrollView = -1;
 
     self.recommendationsScrollView.delegate = self;
     self.mainScrollView.delegate = self;
@@ -153,7 +155,9 @@
     if ([scrollView isEqual:self.recommendationsScrollView]) {
         [self recommendationsScrollViewDidScroll];
     } else if ([scrollView isEqual:self.mainScrollView]) {
-        NSLog(@"main scroll");
+        if (self.startPositionOfMainScrollView < 0) {
+            self.startPositionOfMainScrollView = self.mainScrollView.contentOffset.y;
+        }
     }
 }
 
@@ -198,8 +202,37 @@
 
 - (void)mainScrollViewDidEndScrolling
 {
-    NSUInteger offset = self.mainScrollView.contentOffset.y - CGRectGetHeight(self.view.frame);
-    NSLog(@"%lu", (unsigned long)offset);
+    CGFloat endPositionOfMainScrollView = self.mainScrollView.contentOffset.y;
+    NSLog(@"%f %f", self.startPositionOfMainScrollView, endPositionOfMainScrollView);
+    CGFloat height = CGRectGetHeight(self.pullUpMenuView.frame);
+    CGFloat threshold = height / 2;
+    CGPoint contentOffset;
+    CGFloat startPosition;
+    if (endPositionOfMainScrollView > self.startPositionOfMainScrollView) {
+        // 向上拉
+        if (endPositionOfMainScrollView >= threshold) {
+            // 拉过一半，显示菜单
+            contentOffset = CGPointMake(0, height);
+            startPosition = height;
+        } else {
+            // 没有拉过一半，不显示菜单
+            contentOffset = CGPointMake(0, 0);
+            startPosition = 0;
+        }
+    } else {
+        // 向下拉
+        if (endPositionOfMainScrollView <= threshold) {
+            // 拉过一半，显示菜单
+            contentOffset = CGPointMake(0, 0);
+            startPosition = 0;
+        } else {
+            // 没有拉过一半，不显示菜单
+            contentOffset = CGPointMake(0, height);
+            startPosition = height;
+        }
+    }
+    [self.mainScrollView setContentOffset:contentOffset animated:YES];
+    self.startPositionOfMainScrollView = startPosition;
 }
 
 // tap gesture recognizer
@@ -213,25 +246,6 @@
 - (void)ONERecommendationDetailViewControllerDidFinishDisplay:(ONERecommendationDetailViewController *)recommendationDetailController
 {
     [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-// pan gesture recognizer
-- (IBAction)viewDidPanned:(UIPanGestureRecognizer *)sender {
-    CGPoint lastPanPosition = [sender translationInView:self.view];
-    CGPoint contentOffset = self.mainScrollView.contentOffset;
-    contentOffset.y -= lastPanPosition.y;
-    if (lastPanPosition.y < 0) {
-        CGFloat maxHeight = CGRectGetHeight(self.pullUpMenuView.frame);
-        if (contentOffset.y > maxHeight) {
-            contentOffset.y = maxHeight;
-        }
-    } else {
-        if (contentOffset.y < 0) {
-            contentOffset.y = 0;
-        }
-    }
-    NSLog(@"%@", NSStringFromCGPoint(contentOffset));
-    [self.mainScrollView setContentOffset:contentOffset animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

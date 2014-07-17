@@ -14,8 +14,6 @@
 		7A937B45197678E40087D4F2 /* ONEDateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A937B44197678E40087D4F2 /* ONEDateHelper.m */; };
 		7AC5726F19775BF900DDD900 /* bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7AC5726E19775BF900DDD900 /* bg.jpg */; };
 		7AC572721977895C00DDD900 /* ONELogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AC572711977895C00DDD900 /* ONELogger.m */; };
-		7AC572761977A01F00DDD900 /* ONEPullUpMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AC572741977A01F00DDD900 /* ONEPullUpMenuViewController.m */; };
-		7AC572771977A01F00DDD900 /* ONEPullUpMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7AC572751977A01F00DDD900 /* ONEPullUpMenuViewController.xib */; };
 		7AF27FC019727B4B00BBC0AC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7AF27FBF19727B4B00BBC0AC /* Main.storyboard */; };
 		7AF27FC319727B5B00BBC0AC /* ONERootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AF27FC219727B5B00BBC0AC /* ONERootViewController.m */; };
 		7AF27FC71972873D00BBC0AC /* ONERecommendationBriefViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AF27FC51972873D00BBC0AC /* ONERecommendationBriefViewController.m */; };
@@ -59,9 +57,6 @@
 		7AC5726E19775BF900DDD900 /* bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg.jpg; sourceTree = "<group>"; };
 		7AC572701977895C00DDD900 /* ONELogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONELogger.h; sourceTree = "<group>"; };
 		7AC572711977895C00DDD900 /* ONELogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONELogger.m; sourceTree = "<group>"; };
-		7AC572731977A01F00DDD900 /* ONEPullUpMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONEPullUpMenuViewController.h; sourceTree = "<group>"; };
-		7AC572741977A01F00DDD900 /* ONEPullUpMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONEPullUpMenuViewController.m; sourceTree = "<group>"; };
-		7AC572751977A01F00DDD900 /* ONEPullUpMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ONEPullUpMenuViewController.xib; sourceTree = "<group>"; };
 		7AF27FBF19727B4B00BBC0AC /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		7AF27FC119727B5B00BBC0AC /* ONERootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONERootViewController.h; sourceTree = "<group>"; };
 		7AF27FC219727B5B00BBC0AC /* ONERootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONERootViewController.m; sourceTree = "<group>"; };
@@ -135,9 +130,6 @@
 		7A8196DE1973D2610032B38F /* controller */ = {
 			isa = PBXGroup;
 			children = (
-				7AC572731977A01F00DDD900 /* ONEPullUpMenuViewController.h */,
-				7AC572741977A01F00DDD900 /* ONEPullUpMenuViewController.m */,
-				7AC572751977A01F00DDD900 /* ONEPullUpMenuViewController.xib */,
 				7AF27FC41972873D00BBC0AC /* ONERecommendationBriefViewController.h */,
 				7AF27FC51972873D00BBC0AC /* ONERecommendationBriefViewController.m */,
 				7AF27FC61972873D00BBC0AC /* ONERecommendationBriefViewController.xib */,
@@ -315,7 +307,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7AC572771977A01F00DDD900 /* ONEPullUpMenuViewController.xib in Resources */,
 				7A59E84A1972C53400E637D4 /* 404.jpg in Resources */,
 				7AF27FC019727B4B00BBC0AC /* Main.storyboard in Resources */,
 				7AF27FCD197287EA00BBC0AC /* ONERecommendationDetailViewController.xib in Resources */,
@@ -344,7 +335,6 @@
 				7AFDDEBE197190C40031F293 /* main.m in Sources */,
 				7A937B3F197622BD0087D4F2 /* ONESessionDelegate.m in Sources */,
 				7AF27FC319727B5B00BBC0AC /* ONERootViewController.m in Sources */,
-				7AC572761977A01F00DDD900 /* ONEPullUpMenuViewController.m in Sources */,
 				7AF27FC71972873D00BBC0AC /* ONERecommendationBriefViewController.m in Sources */,
 				7AFDDEC2197190C40031F293 /* ONEAppDelegate.m in Sources */,
 				7AF27FCC197287EA00BBC0AC /* ONERecommendationDetailViewController.m in Sources */,
