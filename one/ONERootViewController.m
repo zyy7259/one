@@ -53,6 +53,7 @@
     self.dateHelper = [ONEDateHelper new];
 
     self.recommendationsScrollView.delegate = self;
+    self.mainScrollView.delegate = self;
     [self updateScrollViewContentSize];
     
     // load the visible pages
@@ -152,7 +153,7 @@
     if ([scrollView isEqual:self.recommendationsScrollView]) {
         [self recommendationsScrollViewDidScroll];
     } else if ([scrollView isEqual:self.mainScrollView]) {
-        //
+        NSLog(@"main scroll");
     }
 }
 
