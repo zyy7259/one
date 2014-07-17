@@ -20,7 +20,7 @@
         self = [self initWithCity:properties[@"city"]
                              type:[properties[@"type"] intValue]
                             title:properties[@"title"]
-                      description:properties[@"description"]
+                      intro:properties[@"intro"]
                          imageUrl:properties[@"imageUrl"]
                             likes:[properties[@"likes"] intValue]
                              year:[properties[@"year"] intValue]
@@ -34,14 +34,14 @@
     }
 }
 
-- (id)initWithCity:(NSString *)city type:(NSUInteger)type title:(NSString *)title description:(NSString *)description imageUrl:(NSString *)imageUrl likes:(NSUInteger)likes year:(NSUInteger)year month:(NSUInteger)month day:(NSUInteger)day
+- (id)initWithCity:(NSString *)city type:(NSUInteger)type title:(NSString *)title intro:(NSString *)intro imageUrl:(NSString *)imageUrl likes:(NSUInteger)likes year:(NSUInteger)year month:(NSUInteger)month day:(NSUInteger)day
 {
     self = [super init];
     
     _city = city;
     _type = type;
     _title = title;
-    _description = description;
+    _intro = intro;
     _imageUrl = imageUrl;
     _likes = likes;
     _year = year;
@@ -49,6 +49,11 @@
     _day = day;
     
     return self;
+}
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"city: %@\t\ttype: %@\t\ttitle: %@\nintro: %@\nimageUrl: %@\nlikes: %@\t\t\tyear: %@\t\t\tmonth: %@\t\t\tday: %@\n", self.city, @(self.type), self.title, self.intro, self.imageUrl, @(self.likes), @(self.year), @(self.month), @(self.day)];
 }
 
 @end

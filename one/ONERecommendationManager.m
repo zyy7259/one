@@ -14,6 +14,7 @@
 
 @property ONESessionDelegate *sessionDelegate;
 @property NSString *urlBase;
+@property NSString *cacheDir;
 
 @end
 
@@ -42,6 +43,10 @@ static ONERecommendationManager *sharedSingleton;
     self.sessionDelegate = [ONESessionDelegate new];
     self.urlBase = @"http://localhost:3000/";
     
+    self.cacheDir = [[NSHomeDirectory()
+                           stringByAppendingPathComponent:@"Library"]
+                          stringByAppendingPathComponent:@"Caches"];
+    
     return self;
 }
 
@@ -59,15 +64,12 @@ static ONERecommendationManager *sharedSingleton;
     // when the server response, will call the handler to process the result
     recommendation = [self getRecomendationFromServerOfYear:year month:month day:day dataCompletionHandler:dataHandler imageCompletionHandler:imageHandler];
     
-    // if local search failed, fake it
-    recommendation = [self fakeRecommendationOfYear:year month:month day:day];
-    
     return recommendation;
 }
 
 - (ONERecommendation *)getRecommendationFromLocalOfYear:(NSUInteger)year month:(NSUInteger)month day:(NSUInteger)day
 {
-    ONERecommendation *recommendation = nil;
+    ONERecommendation *recommendation = [self readRecommendationFromFileOfYear:year month:month day:day];
     return recommendation;
 }
 
@@ -81,13 +83,21 @@ static ONERecommendationManager *sharedSingleton;
         if (error == nil) {
             // if success, use the data to init the recommendation and set the date
             ONERecommendation *recommendation = [[ONERecommendation alloc] initWithJSONData:data];
+            
+            // set the date of the recommendation, which will use to save the recommendation to local file
             recommendation.year = year;
             recommendation.month = month;
             recommendation.day = day;
+            
             // TODO in production, splice the imageUrl.
 //            recommendation.imageUrl = [self.urlBase stringByAppendingString:recommendation.imageUrl];
+
+            // save recommendation to local file
+            [self writeRecommendationToFile:recommendation];
+            
             // download the recommendation's image
             [self downloadImageWithUrl:recommendation.imageUrl year:year month:month day:day imageCompletionHandler:imageHandler];
+            
             // pass the recommendation to the handler
             dataHandler(recommendation);
         } else {
@@ -114,12 +124,9 @@ static ONERecommendationManager *sharedSingleton;
         // 将图片重新命名后放置在本地
         NSError *e = nil;
         NSFileManager *fileManager = [NSFileManager defaultManager];
-        NSString *cacheDir = [[NSHomeDirectory()
-                               stringByAppendingPathComponent:@"Library"]
-                              stringByAppendingPathComponent:@"Caches"];
-        NSURL *cacheDirUrl = [NSURL fileURLWithPath:cacheDir];
+        NSURL *cacheDirUrl = [NSURL fileURLWithPath:self.cacheDir];
         NSURL *targetFileUrl = [cacheDirUrl URLByAppendingPathComponent:[NSString stringWithFormat:@"%lu%lu%lu.jpg", (unsigned long)year, (unsigned long)month, (unsigned long)day]];
-        [ONELogger logTitle:@"new location" content:targetFileUrl.path];
+        [ONELogger logTitle:@"image new location" content:targetFileUrl.path];
         
         [self clearFileAtUrl:targetFileUrl];
         
@@ -128,7 +135,7 @@ static ONERecommendationManager *sharedSingleton;
             [ONELogger logTitle:@"cache image success" content:nil];
             imageHandler(targetFileUrl);
         } else {
-            [ONELogger logTitle:@"move file failed" content:e.localizedDescription];
+            [ONELogger logTitle:@"move image failed" content:e.localizedDescription];
             imageHandler(nil);
         }
     }];
@@ -139,66 +146,65 @@ static ONERecommendationManager *sharedSingleton;
     NSError *error = nil;
     BOOL success = [[NSFileManager defaultManager] removeItemAtURL:location error:&error];
     if (success) {
-        [ONELogger logTitle:@"clear file success" content:location.absoluteString];
+        [ONELogger logTitle:@"clear image cache success" content:location.absoluteString];
     } else {
-        [ONELogger logTitle:@"clear file failed" content:error.localizedDescription];
+        [ONELogger logTitle:@"clear file cache failed" content:error.localizedDescription];
     }
 }
 
-- (void)clearLocation:(NSURL *)location atDir:(NSURL *)dir
+- (void)writeRecommendationToFile:(ONERecommendation *)recommendation
 {
-    NSArray *pathComponnets = location.pathComponents;
-    NSLog(@"%@", pathComponnets);
-    NSString *lastPathComponent = location.lastPathComponent;
-    NSLog(@"%@", lastPathComponent);
-    NSString *pathExtension = location.pathExtension;
-    NSLog(@"%@", pathExtension);
+    NSString *fileName = [NSString stringWithFormat:@"%lu%lu%lu", (unsigned long)recommendation.year, (unsigned long)recommendation.month, (unsigned long)recommendation.day];
+    NSString *filePath = [self.cacheDir stringByAppendingPathComponent:fileName];
+    NSDictionary *dic = [NSDictionary dictionaryWithObjects: @[recommendation.city,
+                                                               @(recommendation.type),
+                                                               recommendation.title,
+                                                               recommendation.intro,
+                                                               recommendation.imageUrl,
+                                                               @(recommendation.likes),
+                                                               @(recommendation.year),
+                                                               @(recommendation.month),
+                                                               @(recommendation.day)]
+                                                    forKeys:@[@"city",
+                                                              @"type",
+                                                              @"title",
+                                                              @"intro",
+                                                              @"imageUrl",
+                                                              @"likes",
+                                                              @"year",
+                                                              @"month",
+                                                              @"day"]];
+    BOOL success = [dic writeToFile:filePath atomically:YES];
+    NSString *info = [NSString stringWithFormat:@"%@: write recommendation data to file %@", (success ? @"success" : @"fail"), fileName];
+    [ONELogger logTitle:info content:nil];
+}
+
+- (ONERecommendation *)readRecommendationFromFileOfYear:(NSUInteger)year month:(NSUInteger)month day:(NSUInteger)day
+{
+    NSString *fileName = [NSString stringWithFormat:@"%lu%lu%lu", (unsigned long)year, (unsigned long)month, (unsigned long)day];
+    NSString *filePath = [self.cacheDir stringByAppendingPathComponent:fileName];
+    NSDictionary *dic = [NSDictionary dictionaryWithContentsOfFile:filePath];
     
-    NSURL *filePath = [dir URLByAppendingPathComponent:location.lastPathComponent];
-    NSLog(@"\n\nremove file%@", filePath);
-    if ([filePath isFileURL]) {
-        NSError *error = nil;
-        BOOL success = [[NSFileManager defaultManager] removeItemAtURL:filePath error:&error];
-        if (!success || error) {
-            NSLog(@"\n\nremove failed.");
-        } else {
-            NSLog(@"\n\nremove success.");
-        }
+    NSString *info = [NSString stringWithFormat:@"%@read recommendation data from file %@", (dic != nil ? @"success" : @"fail"), filePath];
+    [ONELogger logTitle:info content:nil];
+    
+    ONERecommendation *recommendation = nil;
+    if (dic != nil) {
+        recommendation = [[ONERecommendation alloc]
+                          initWithCity:dic[@"city"]
+                          type:[dic[@"type"] intValue]
+                          title:dic[@"title"]
+                          intro:dic[@"intro"]
+                          imageUrl:dic[@"imageUrl"]
+                          likes:[dic[@"likes"] intValue]
+                          year:[dic[@"year"] intValue]
+                          month:[dic[@"month"] intValue]
+                          day:[dic[@"day"] intValue]];
+        [ONELogger logTitle:@"recommendation" content:[recommendation description]];
     }
-}
-
-- (void)clearDir:(NSString *)dir
-{
-    NSFileManager *fm = [NSFileManager defaultManager];
-    NSError *error = nil;
-    for (NSString *file in [fm contentsOfDirectoryAtPath:dir error:&error]) {
-        NSString *filePath = [dir stringByAppendingPathComponent:file];
-        if ([[NSURL URLWithString:filePath] isFileURL]) {
-            NSLog(@"\n\nbegin delete file:%@", filePath);
-            BOOL success = [fm removeItemAtPath:filePath error:&error];
-            if (!success || error) {
-                // failed.
-                NSLog(@"\n\ndelete file failed, error\n%@\n", error);
-            } else {
-                NSLog(@"\n\ndelete file success");
-            }
-        }
-    }
-}
-
-- (ONERecommendation *)fakeRecommendationOfYear:(NSUInteger)year month:(NSUInteger)month day:(NSUInteger)day
-{
-    ONERecommendation *recommendation = [[ONERecommendation alloc]
-                                         initWithCity:@"杭州-fake"
-                                         type:0
-                                         title:@"title-fake"
-                                         description:@"description-fake"
-                                         imageUrl:@"bg.jpg"
-                                         likes:0
-                                         year:year
-                                         month:month
-                                         day:day];
+    
     return recommendation;
+//    return nil;
 }
 
 @end

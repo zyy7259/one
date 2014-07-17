@@ -14,7 +14,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *cityLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *typeImageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
+@property (weak, nonatomic) IBOutlet UILabel *introLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *thingImageView;
 @property (weak, nonatomic) IBOutlet UILabel *likesLabel;
 @property (weak, nonatomic) IBOutlet UIView *infoView;
@@ -47,22 +47,34 @@
 - (void)setRecommendation:(ONERecommendation *)recommendation
 {
     _recommendation = recommendation;
-    
-    self.cityLabel.text = self.recommendation.city;
-    // type image
-    self.titleLabel.text = self.recommendation.title;
-    self.descriptionLabel.text = self.recommendation.description;
-    [self updateRecommendationImage];
-    self.likesLabel.text = [@(self.recommendation.likes) stringValue];
-    self.yearLabel.text = [@(self.recommendation.year) stringValue];
-    self.monthLabel.text = [@(self.recommendation.month) stringValue];
-    self.dayLabel.text = [@(self.recommendation.day) stringValue];
+    // 如果还没有加载，直接返回
+    if (!self.isViewLoaded) {
+        return;
+    }
+    if (recommendation == nil) {
+        return;
+    }
+    [self updateRecommendation];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [self updateRecommendation];
+}
+
+- (void)updateRecommendation
+{
+    self.cityLabel.text = self.recommendation.city;
+    // type image
+    self.titleLabel.text = self.recommendation.title;
+    self.introLabel.text = self.recommendation.intro;
+    [self updateRecommendationImage];
+    self.likesLabel.text = [@(self.recommendation.likes) stringValue];
+    self.yearLabel.text = [@(self.recommendation.year) stringValue];
+    self.monthLabel.text = [@(self.recommendation.month) stringValue];
+    self.dayLabel.text = [@(self.recommendation.day) stringValue];
 }
 
 - (void)updateRecommendationImage

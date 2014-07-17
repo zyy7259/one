@@ -6,9 +6,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ONERecommendationDetailViewController">
             <connections>
-                <outlet property="descriptionLabel" destination="EzN-aB-4F3" id="wZo-V1-Mzw"/>
                 <outlet property="detailLabel" destination="lCC-xv-7uz" id="zPX-Ah-kRs"/>
                 <outlet property="dismissButton" destination="K4Q-IL-e8b" id="FJW-8Z-n7A"/>
+                <outlet property="introLabel" destination="EzN-aB-4F3" id="acB-fI-Uoo"/>
                 <outlet property="likesLabel" destination="7PX-YF-o7d" id="nIe-Ma-QPg"/>
                 <outlet property="shareButton" destination="jNM-U7-7cR" id="8Dl-qQ-FpR"/>
                 <outlet property="storeButton" destination="Vq9-At-zLU" id="dre-Q3-3Jg"/>

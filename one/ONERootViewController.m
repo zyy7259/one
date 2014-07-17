@@ -71,8 +71,6 @@
     CGRect frame = self.view.frame;
     self.recommendationsScrollView.contentSize = CGSizeMake(CGRectGetWidth(frame) * self.capacity, CGRectGetHeight(frame));
     self.mainScrollView.contentSize = CGSizeMake(CGRectGetWidth(frame), CGRectGetHeight(frame) + 44);
-    NSLog(@"%@", self.recommendationsScrollView.superview);
-    NSLog(@"%@", NSStringFromCGSize(self.mainScrollView.contentSize));
 }
 
 // change the current theme color
@@ -115,16 +113,20 @@
         } imageCompletionHandler:^(NSURL *location) {
             // 图片下载完成之后，将地址更新到recommendation，然后更新对应的view controller
             if (location != nil) {
-                ONERecommendation *rL = self.recommendations[page];
-                rL.imageUrl = location.path;
-                ONERecommendationBriefViewController *bvcL = self.viewControllers[page];
-                [bvcL updateRecommendationImage];
+                ONERecommendation *r = self.recommendations[page];
+                r.imageUrl = location.path;
+                ONERecommendationBriefViewController *vc = self.viewControllers[page];
+                [vc updateRecommendationImage];
             }
         }];
         // at this time, the recommendation may be nil
-        [self.recommendations addObject:recommendation];
+        if (recommendation == nil) {
+            [self.recommendations addObject:[NSNull null]];
+        } else {
+            [self.recommendations addObject:recommendation];
+        }
         
-        // the create the viewController
+        // then create the viewController
         viewController = [[ONERecommendationBriefViewController alloc] initWithRecommendation:recommendation];
         [self.viewControllers addObject:viewController];
     } else {
@@ -203,7 +205,6 @@
 - (void)mainScrollViewDidEndScrolling
 {
     CGFloat endPositionOfMainScrollView = self.mainScrollView.contentOffset.y;
-    NSLog(@"%f %f", self.startPositionOfMainScrollView, endPositionOfMainScrollView);
     CGFloat height = CGRectGetHeight(self.pullUpMenuView.frame);
     CGFloat threshold = height / 2;
     CGPoint contentOffset;
@@ -211,9 +212,10 @@
     if (endPositionOfMainScrollView > self.startPositionOfMainScrollView) {
         // 向上拉
         if (endPositionOfMainScrollView >= threshold) {
-            // 拉过一半，显示菜单
+            // 拉过一半，显示菜单，同时禁止浏览其它推荐
             contentOffset = CGPointMake(0, height);
             startPosition = height;
+            self.recommendationsScrollView.scrollEnabled = NO;
         } else {
             // 没有拉过一半，不显示菜单
             contentOffset = CGPointMake(0, 0);
@@ -222,11 +224,12 @@
     } else {
         // 向下拉
         if (endPositionOfMainScrollView <= threshold) {
-            // 拉过一半，显示菜单
+            // 拉过一半，隐藏菜单，同时可以浏览其它推荐
             contentOffset = CGPointMake(0, 0);
             startPosition = 0;
+            self.recommendationsScrollView.scrollEnabled = YES;
         } else {
-            // 没有拉过一半，不显示菜单
+            // 没有拉过一半，不隐藏菜单
             contentOffset = CGPointMake(0, height);
             startPosition = height;
         }

@@ -16,7 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *thingImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *typeImageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
+@property (weak, nonatomic) IBOutlet UILabel *introLabel;
 @property (weak, nonatomic) IBOutlet UILabel *likesLabel;
 @property (weak, nonatomic) IBOutlet UILabel *detailLabel;
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
@@ -50,7 +50,7 @@
     // Do any additional setup after loading the view from its nib.
     
     self.titleLabel.text = self.recommendation.title;
-    self.descriptionLabel.text = self.recommendation.description;
+    self.introLabel.text = self.recommendation.intro;
     self.likesLabel.text = [@(self.recommendation.likes) stringValue];
 
     if ([[NSFileManager defaultManager] fileExistsAtPath:self.recommendation.imageUrl]) {

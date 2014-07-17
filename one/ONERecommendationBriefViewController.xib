@@ -8,8 +8,8 @@
             <connections>
                 <outlet property="cityLabel" destination="19l-mi-28D" id="jwH-cN-dqs"/>
                 <outlet property="dayLabel" destination="wya-i0-888" id="6uD-ez-1rm"/>
-                <outlet property="descriptionLabel" destination="seV-BA-oo1" id="9aF-82-7Mr"/>
                 <outlet property="infoView" destination="yIU-fh-eTq" id="T5K-yr-XO5"/>
+                <outlet property="introLabel" destination="seV-BA-oo1" id="uf1-OO-t79"/>
                 <outlet property="likesLabel" destination="E8r-BD-6GM" id="hPr-vE-sRQ"/>
                 <outlet property="monthLabel" destination="hpO-Re-uoQ" id="da3-xe-eme"/>
                 <outlet property="thingImageView" destination="rJq-uF-0cF" id="H4K-xr-7jk"/>

@@ -13,7 +13,7 @@
 @property NSString *city;
 @property NSUInteger type;
 @property NSString *title;
-@property NSString *description;
+@property NSString *intro;
 @property NSString *briefDetail;
 @property NSString *detail;
 @property NSString *imageUrl;
@@ -27,7 +27,7 @@
 - (id)initWithCity:(NSString *)city
               type:(NSUInteger)type
              title:(NSString *)title
-       description:(NSString *)description
+       intro:(NSString *)intro
           imageUrl:(NSString *)imageUrl
              likes:(NSUInteger)likes
               year:(NSUInteger)year
