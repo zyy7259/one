@@ -23,12 +23,14 @@
                                 <gestureRecognizers/>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="7u5-Pa-ZCV" appends="YES" id="Xyd-HF-NKs"/>
-                                    <outletCollection property="gestureRecognizers" destination="UVh-uS-kYw" appends="YES" id="ldw-tX-Z8F"/>
                                 </connections>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" red="0.60000002384185791" green="0.42559437488909557" blue="0.36123659715796663" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="LCP-yL-JAJ" appends="YES" id="68j-cf-jhX"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" title="Today" id="DmB-mR-YoC"/>
                     <connections>
@@ -41,9 +43,9 @@
                         <action selector="viewDidTapped:" destination="m6v-ju-fb2" id="D24-n8-N7T"/>
                     </connections>
                 </tapGestureRecognizer>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="UVh-uS-kYw">
+                <panGestureRecognizer minimumNumberOfTouches="1" id="LCP-yL-JAJ">
                     <connections>
-                        <action selector="viewDidPanned:" destination="m6v-ju-fb2" id="ZpY-aS-wgU"/>
+                        <action selector="viewDidPanned:" destination="m6v-ju-fb2" id="quk-ia-tfh"/>
                     </connections>
                 </panGestureRecognizer>
             </objects>

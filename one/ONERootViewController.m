@@ -42,7 +42,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.recommendationManager = [ONERecommendationManager sharedManager];
+    self.recommendationManager = [ONERecommendationManager defaultManager];
     self.capacity = 3;
     self.recommendations = [NSMutableArray arrayWithCapacity:self.capacity];
     self.viewControllers = [NSMutableArray arrayWithCapacity:self.capacity];
@@ -91,9 +91,15 @@
 
 - (void)loadPage:(NSUInteger)page
 {
+    // load the corresponding recommendation, which will be used to init the viewControll
+    // then add the controller's view to the scroll view
+    
     ONERecommendationBriefViewController *viewController = nil;
     
+    // if the target page not loaded, load it
     if (page == self.viewControllers.count) {
+        
+        // first check if need to update the scroll view's content size
         if (page == self.capacity) {
             // update capacity and scroll view
             self.capacity += 1;
@@ -102,14 +108,22 @@
         
         // then load the corresponding Recommendation
         NSDateComponents *targetDateComponents = [self.dateHelper dateComponentsBeforeNDays:page];
-        ONERecommendation *recommendation = [self.recommendationManager getRecommendationOfYear:targetDateComponents.year month:targetDateComponents.month day:targetDateComponents.day completionHandler:^(ONERecommendation *r) {
-            r.year = targetDateComponents.year;
-            r.month = targetDateComponents.month;
-            r.day = targetDateComponents.day;
+        ONERecommendation *recommendation = [self.recommendationManager getRecommendationOfYear:targetDateComponents.year month:targetDateComponents.month day:targetDateComponents.day dataCompletionHandler:^(ONERecommendation *r) {
+            // the recommendation (r) is returned from the server asynchronously
+            // use r to update the corresponding view controller
             self.recommendations[page] = r;
             ONERecommendationBriefViewController *viewController = self.viewControllers[page];
             viewController.recommendation = r;
+        } imageCompletionHandler:^(NSURL *location) {
+            // 图片下载完成之后，将地址更新到recommendation，然后更新对应的view controller
+            if (location != nil) {
+                ONERecommendation *rL = self.recommendations[page];
+                rL.imageUrl = location.path;
+                ONERecommendationBriefViewController *bvcL = self.viewControllers[page];
+                [bvcL updateRecommendationImage];
+            }
         }];
+        // at this time, the recommendation may be nil
         [self.recommendations addObject:recommendation];
         
         // the create the viewController

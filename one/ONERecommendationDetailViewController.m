@@ -52,22 +52,12 @@
     self.titleLabel.text = self.recommendation.title;
     self.descriptionLabel.text = self.recommendation.description;
     self.likesLabel.text = [@(self.recommendation.likes) stringValue];
-    [self loadThingImage];
+
+    if ([[NSFileManager defaultManager] fileExistsAtPath:self.recommendation.imageUrl]) {
+        self.thingImageView.image = [UIImage imageWithContentsOfFile:self.recommendation.imageUrl];
+    }
     
     [self.dismissButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
-}
-
-- (void)loadThingImage
-{
-    self.thingImageView.image = [UIImage imageNamed:@"404.jpg"];
-    NSURL *imageUrl = [NSURL URLWithString:self.recommendation.imageUrl];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSData *imageData = [NSData dataWithContentsOfURL:imageUrl];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.thingImageView.image = [UIImage imageWithData:imageData];
-        });
-    });
 }
 
 - (void)dismiss

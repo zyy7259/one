@@ -52,7 +52,7 @@
     // type image
     self.titleLabel.text = self.recommendation.title;
     self.descriptionLabel.text = self.recommendation.description;
-    [self loadThingImage];
+    [self updateRecommendationImage];
     self.likesLabel.text = [@(self.recommendation.likes) stringValue];
     self.yearLabel.text = [@(self.recommendation.year) stringValue];
     self.monthLabel.text = [@(self.recommendation.month) stringValue];
@@ -65,18 +65,11 @@
     // Do any additional setup after loading the view from its nib.
 }
 
-- (void)loadThingImage
+- (void)updateRecommendationImage
 {
-    self.thingImageView.image = [UIImage imageNamed:@"404.jpg"];
-    NSURL *imageUrl = [NSURL URLWithString:self.recommendation.imageUrl];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSData *imageData = [NSData dataWithContentsOfURL:imageUrl];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            // update the image view
-            self.thingImageView.image = [UIImage imageWithData:imageData];
-        });
-    });
+    if ([[NSFileManager defaultManager] fileExistsAtPath:self.recommendation.imageUrl]) {
+        self.thingImageView.image = [UIImage imageWithContentsOfFile:self.recommendation.imageUrl];
+    }
 }
 
 - (void)didReceiveMemoryWarning

@@ -8,12 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^TaskCompletionHandlerType)(NSData *data, NSError *error);
+typedef void (^DataTaskCompletionHandlerType)(NSData *data, NSError *error);
+typedef void (^DownloadTaskCompletionHandlerType)(NSURL *location, NSError *error);
 
 @interface ONESessionDelegate : NSObject <NSURLSessionDelegate, NSURLSessionTaskDelegate, NSURLSessionDataDelegate, NSURLSessionDownloadDelegate>
 
-- (void)addCompletionHandler:(TaskCompletionHandlerType)handler forSession:(NSString *)identifier;
+- (void)addCompletionHandler:(DataTaskCompletionHandlerType)handler forSession:(NSString *)identifier;
 
-- (void)startTaskWithUrl:(NSString *)urlStr completionHandler:(TaskCompletionHandlerType)handler;
+- (void)startDataTaskWithUrl:(NSString *)urlStr completionHandler:(DataTaskCompletionHandlerType)handler;
+
+- (void)startDownloadTaskWithUrl:(NSString *)urlStr completionHandler:(DownloadTaskCompletionHandlerType)handler;
 
 @end

@@ -15,4 +15,6 @@
 
 - (id)initWithRecommendation:(ONERecommendation *)recommendation;
 
+- (void)updateRecommendationImage;
+
 @end

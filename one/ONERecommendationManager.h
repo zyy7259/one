@@ -9,15 +9,17 @@
 #import <Foundation/Foundation.h>
 #import "ONERecommendation.h"
 
-typedef void (^RecommendationCompletionHandlerType)(ONERecommendation *r);
+typedef void (^RecommendationDataCompletionHandlerType)(ONERecommendation *r);
+typedef void (^RecommendationImageCompletionHandlerType)(NSURL *location);
 
 @interface ONERecommendationManager : NSObject
 
 - (ONERecommendation *)getRecommendationOfYear:(NSUInteger)year
                                          month:(NSUInteger)month
                                            day:(NSUInteger)day
-                             completionHandler:(RecommendationCompletionHandlerType)handler;
+                             dataCompletionHandler:(RecommendationDataCompletionHandlerType)dataHandler
+                        imageCompletionHandler:(RecommendationImageCompletionHandlerType)imageHandler;
 
-+ (ONERecommendationManager *)sharedManager;
++ (ONERecommendationManager *)defaultManager;
 
 @end

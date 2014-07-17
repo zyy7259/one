@@ -13,10 +13,10 @@
 - (id)initWithJSONData:(NSData *)jsonData
 {
 //    NSLog(@"DATA:\n%@\nEND DATA\n", [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]);
-    NSError *error = [NSError new];
+    NSError *error = nil;
     NSDictionary *properties = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
     // must use intValue here, use (int) to convert will cause bad thing happen
-    if (properties != nil) {
+    if (error == nil) {
         self = [self initWithCity:properties[@"city"]
                              type:properties[@"type"]
                             title:properties[@"title"]
