@@ -12,7 +12,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" id="LS6-bi-giH">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="LS6-bi-giH">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
@@ -21,9 +21,6 @@
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="0.0" colorSpace="calibratedRGB"/>
                                         <gestureRecognizers/>
-                                        <connections>
-                                            <outletCollection property="gestureRecognizers" destination="7u5-Pa-ZCV" appends="YES" id="Xyd-HF-NKs"/>
-                                        </connections>
                                     </scrollView>
                                     <view contentMode="scaleToFill" id="uXn-eb-ekN">
                                         <rect key="frame" x="0.0" y="568" width="320" height="44"/>
@@ -35,11 +32,14 @@
                                                 <state key="normal" title="设置">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <connections>
+                                                    <segue destination="qTa-Zd-jaZ" kind="modal" id="IQT-pI-WJN"/>
+                                                </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Udu-h8-mbN">
-                                                <rect key="frame" x="270" y="7" width="30" height="30"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="IZq-Wm-omD">
+                                                <rect key="frame" x="145" y="7" width="30" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <state key="normal" title="分享">
+                                                <state key="normal" title="收藏">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                             </button>
@@ -49,11 +49,14 @@
                                                 <state key="normal" title="查看收藏">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <connections>
+                                                    <segue destination="le0-HS-WqI" kind="modal" id="zpx-RM-lUP"/>
+                                                </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="IZq-Wm-omD">
-                                                <rect key="frame" x="145" y="7" width="30" height="30"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Udu-h8-mbN">
+                                                <rect key="frame" x="270" y="7" width="30" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <state key="normal" title="收藏">
+                                                <state key="normal" title="分享">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                             </button>
@@ -67,19 +70,126 @@
                         <gestureRecognizers/>
                     </view>
                     <connections>
+                        <outlet property="collectButton" destination="IZq-Wm-omD" id="ZRp-xu-t4q"/>
                         <outlet property="mainScrollView" destination="LS6-bi-giH" id="rBC-oc-2EI"/>
                         <outlet property="pullUpMenuView" destination="uXn-eb-ekN" id="mhn-nw-LPa"/>
                         <outlet property="recommendationsScrollView" destination="aiS-nI-Je0" id="YU3-Ls-yH2"/>
+                        <outlet property="settingButton" destination="zVn-tS-ZLd" id="MxQ-7M-Sgk"/>
+                        <outlet property="shareButton" destination="Udu-h8-mbN" id="lqZ-jK-xP6"/>
+                        <outlet property="viewCollectButton" destination="pcT-2b-yEc" id="tT5-H1-zYf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8NB-9p-jkx" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="7u5-Pa-ZCV">
-                    <connections>
-                        <action selector="viewDidTapped:" destination="m6v-ju-fb2" id="D24-n8-N7T"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="114" y="67"/>
+        </scene>
+        <!--Recommendation Collection View Controller - 收藏-->
+        <scene sceneID="eIs-BZ-jZo">
+            <objects>
+                <viewController id="W4Q-0i-7aD" customClass="ONERecommendationCollectionViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1Xm-9U-7UN">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="3Hy-uU-564">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="CollectionPrototypeCell" id="48d-yY-gkN">
+                                        <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="48d-yY-gkN" id="QuZ-jA-Vsw">
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="收藏" id="vSd-th-VCx">
+                        <barButtonItem key="leftBarButtonItem" systemItem="stop" id="Pek-gw-FKc">
+                            <connections>
+                                <segue destination="3uj-IZ-xKC" kind="unwind" unwindAction="unwindFromRecommendationCollection:" id="Vbk-su-Tdt"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="编辑" id="geq-iB-19I"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="collectionTableView" destination="3Hy-uU-564" id="jsi-MH-sow"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Irm-60-wbh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="3uj-IZ-xKC" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1143" y="67"/>
+        </scene>
+        <!--View Controller - 设置-->
+        <scene sceneID="3xq-gc-PXo">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="e5G-wR-RjF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="XiO-f0-gQf" userLabel="Exit" sceneMemberID="exit"/>
+                <viewController id="Agz-ea-118" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="wEp-2D-nEh">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="hQ0-C1-EYy">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="196"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="设置" id="7p7-DN-rqY">
+                        <barButtonItem key="leftBarButtonItem" systemItem="stop" id="IT7-9c-b9Z">
+                            <connections>
+                                <segue destination="XiO-f0-gQf" kind="unwind" unwindAction="unwindFromSetting:" id="APU-0F-Lmp"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1143" y="-699"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="cUj-ZB-AEp">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="le0-HS-WqI" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="BlC-PD-YvL">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="W4Q-0i-7aD" kind="relationship" relationship="rootViewController" id="QC6-oO-Oof"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bJ7-g0-gnH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="617" y="67"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="YoS-7j-Mta">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="qTa-Zd-jaZ" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="TGF-Iv-A4S">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Agz-ea-118" kind="relationship" relationship="rootViewController" id="24s-BU-E8V"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wKd-TR-zpa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="617" y="-699"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

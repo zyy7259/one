@@ -15,6 +15,7 @@
 @property ONESessionDelegate *sessionDelegate;
 @property NSString *urlBase;
 @property NSString *cacheDir;
+@property NSString *collectionFileName;
 
 @end
 
@@ -46,6 +47,7 @@ static ONERecommendationManager *sharedSingleton;
     self.cacheDir = [[NSHomeDirectory()
                            stringByAppendingPathComponent:@"Library"]
                           stringByAppendingPathComponent:@"Caches"];
+    self.collectionFileName = @"collection";
     
     return self;
 }
@@ -91,12 +93,9 @@ static ONERecommendationManager *sharedSingleton;
             
             // TODO in production, splice the imageUrl.
 //            recommendation.imageUrl = [self.urlBase stringByAppendingString:recommendation.imageUrl];
-
-            // save recommendation to local file
-            [self writeRecommendationToFile:recommendation];
             
             // download the recommendation's image
-            [self downloadImageWithUrl:recommendation.imageUrl year:year month:month day:day imageCompletionHandler:imageHandler];
+            [self downloadRecommendationImage:recommendation imageCompletionHandler:imageHandler];
             
             // pass the recommendation to the handler
             dataHandler(recommendation);
@@ -108,9 +107,9 @@ static ONERecommendationManager *sharedSingleton;
     return recommendation;
 }
 
-- (void)downloadImageWithUrl:(NSString *)url year:(NSUInteger)year month:(NSUInteger)month day:(NSUInteger)day imageCompletionHandler:(RecommendationImageCompletionHandlerType)imageHandler
+- (void)downloadRecommendationImage:(ONERecommendation *)recommendation imageCompletionHandler:(RecommendationImageCompletionHandlerType)imageHandler
 {
-    [self.sessionDelegate startDownloadTaskWithUrl:url completionHandler:^(NSURL *location, NSError *error) {
+    [self.sessionDelegate startDownloadTaskWithUrl:recommendation.imageUrl completionHandler:^(NSURL *location, NSError *error) {
         // 如果消息是任务完成，直接返回，不做处理
         if (location == nil && error == nil) {
             return ;
@@ -125,7 +124,7 @@ static ONERecommendationManager *sharedSingleton;
         NSError *e = nil;
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSURL *cacheDirUrl = [NSURL fileURLWithPath:self.cacheDir];
-        NSURL *targetFileUrl = [cacheDirUrl URLByAppendingPathComponent:[NSString stringWithFormat:@"%lu%lu%lu.jpg", (unsigned long)year, (unsigned long)month, (unsigned long)day]];
+        NSURL *targetFileUrl = [cacheDirUrl URLByAppendingPathComponent:[NSString stringWithFormat:@"%lu%lu%lu.jpg", (unsigned long)recommendation.year, (unsigned long)recommendation.month, (unsigned long)recommendation.day]];
         [ONELogger logTitle:@"image new location" content:targetFileUrl.path];
         
         [self clearFileAtUrl:targetFileUrl];
@@ -138,6 +137,9 @@ static ONERecommendationManager *sharedSingleton;
             [ONELogger logTitle:@"move image failed" content:e.localizedDescription];
             imageHandler(nil);
         }
+        
+        // save recommendation to local file
+        [self writeRecommendationToFile:recommendation];
     }];
 }
 
@@ -156,30 +158,7 @@ static ONERecommendationManager *sharedSingleton;
 {
     NSString *fileName = [NSString stringWithFormat:@"%lu%lu%lu", (unsigned long)recommendation.year, (unsigned long)recommendation.month, (unsigned long)recommendation.day];
     NSString *filePath = [self.cacheDir stringByAppendingPathComponent:fileName];
-    NSDictionary *dic = [NSDictionary dictionaryWithObjects: @[recommendation.city,
-                                                               recommendation.address,
-                                                               @(recommendation.type),
-                                                               recommendation.title,
-                                                               recommendation.intro,
-                                                               recommendation.briefDetail,
-                                                               recommendation.detail,
-                                                               recommendation.imageUrl,
-                                                               @(recommendation.likes),
-                                                               @(recommendation.year),
-                                                               @(recommendation.month),
-                                                               @(recommendation.day)]
-                                                    forKeys:@[@"city",
-                                                              @"address",
-                                                              @"type",
-                                                              @"title",
-                                                              @"intro",
-                                                              @"briefDetail",
-                                                              @"detail",
-                                                              @"imageUrl",
-                                                              @"likes",
-                                                              @"year",
-                                                              @"month",
-                                                              @"day"]];
+    NSDictionary *dic = [recommendation properties];
     BOOL success = [dic writeToFile:filePath atomically:YES];
     NSString *info = [NSString stringWithFormat:@"%@ write recommendation data to file %@", (success ? @"success" : @"fail"), fileName];
     [ONELogger logTitle:info content:nil];
@@ -187,33 +166,51 @@ static ONERecommendationManager *sharedSingleton;
 
 - (ONERecommendation *)readRecommendationFromFileOfYear:(NSUInteger)year month:(NSUInteger)month day:(NSUInteger)day
 {
+    // TODO 若返回nil，则强制从服务器取数据
+//    return nil;
+    
     NSString *fileName = [NSString stringWithFormat:@"%lu%lu%lu", (unsigned long)year, (unsigned long)month, (unsigned long)day];
     NSString *filePath = [self.cacheDir stringByAppendingPathComponent:fileName];
-    NSDictionary *dic = [NSDictionary dictionaryWithContentsOfFile:filePath];
+    NSDictionary *properties = [NSDictionary dictionaryWithContentsOfFile:filePath];
     
-    NSString *info = [NSString stringWithFormat:@"%@ read recommendation data from file %@", (dic != nil ? @"success" : @"fail"), filePath];
+    NSString *info = [NSString stringWithFormat:@"%@ read recommendation data from file %@", (properties != nil ? @"success" : @"fail"), filePath];
     [ONELogger logTitle:info content:nil];
     
     ONERecommendation *recommendation = nil;
-    if (dic != nil) {
-        recommendation = [[ONERecommendation alloc]
-                          initWithCity:dic[@"city"]
-                          address:dic[@"address"]
-                          type:[dic[@"type"] intValue]
-                          title:dic[@"title"]
-                          intro:dic[@"intro"]
-                          briefDetail:dic[@"briefDetail"]
-                          detail:dic[@"detail"]
-                          imageUrl:dic[@"imageUrl"]
-                          likes:[dic[@"likes"] intValue]
-                          year:[dic[@"year"] intValue]
-                          month:[dic[@"month"] intValue]
-                          day:[dic[@"day"] intValue]];
+    if (properties != nil) {
+        recommendation = [[ONERecommendation alloc] initWithProperties:properties];
     }
     
     return recommendation;
-    // TODO 若返回nil，则强制从服务器取数据
-//    return nil;
+}
+
+- (void)writeRecommendationCollectionToFile:(NSArray *)recommendationArray
+{
+    NSMutableArray *propertiesArray = [NSMutableArray arrayWithCapacity:recommendationArray.count];
+    for (ONERecommendation *recommendation in recommendationArray) {
+        [propertiesArray addObject:[recommendation properties]];
+    }
+    
+    NSString *filePath = [self.cacheDir stringByAppendingPathComponent:self.collectionFileName];
+    BOOL success = [propertiesArray writeToFile:filePath atomically:YES];
+    NSString *info = [NSString stringWithFormat:@"%@ write collection to file %@", (success ? @"success" : @"fail"), self.collectionFileName];
+    [ONELogger logTitle:info content:nil];
+}
+
+- (NSMutableArray *)readRecommendationCollectionFromFile
+{
+    NSString *filePath = [self.cacheDir stringByAppendingPathComponent:self.collectionFileName];
+    NSMutableArray *propertiesArray = [NSMutableArray arrayWithContentsOfFile:filePath];
+    
+    NSString *info = [NSString stringWithFormat:@"%@ read recommendation collection from file %@", (propertiesArray != nil ? @"success" : @"fail"), filePath];
+    [ONELogger logTitle:info content:nil];
+    
+    NSMutableArray *recommendationArray = [NSMutableArray arrayWithCapacity:propertiesArray.count];
+    for (NSDictionary *properties in propertiesArray) {
+        ONERecommendation *recommendation = [[ONERecommendation alloc] initWithProperties:properties];
+        [recommendationArray addObject:recommendation];
+    }
+    return recommendationArray;
 }
 
 @end

@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol ONEREcommendationDelegate;
+
 @interface ONERecommendation : NSObject
 
 @property NSString *city;
@@ -23,7 +25,12 @@
 @property NSUInteger month;
 @property NSUInteger day;
 
+@property (nonatomic) BOOL collected;
+@property id<ONEREcommendationDelegate> delegate;
+
 - (id)initWithJSONData:(NSData *)jsonData;
+
+- (id)initWithProperties:(NSDictionary *)properties;
 
 - (id)initWithCity:(NSString *)city
            address:(NSString *)address
@@ -37,5 +44,17 @@
               year:(NSUInteger)year
              month:(NSUInteger)month
                day:(NSUInteger)day;
+
+- (NSDictionary *)properties;
+- (NSString *)date;
+
+- (void)updateCollected:(BOOL)collected;
+
+@end
+
+@protocol ONEREcommendationDelegate <NSObject>
+
+- (void)ONERecommendationDidCollect:(ONERecommendation *)recommendation;
+- (void)ONERecommendationDidDecollect:(ONERecommendation *)recommendation;
 
 @end

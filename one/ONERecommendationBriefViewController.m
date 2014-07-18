@@ -8,19 +8,20 @@
 
 #import "ONERecommendationBriefViewController.h"
 #import "ONERecommendation.h"
+#import "JCRBlurView.h"
 
 @interface ONERecommendationBriefViewController ()
 
-@property (weak, nonatomic) IBOutlet UILabel *cityLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *typeImageView;
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *introLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *thingImageView;
-@property (weak, nonatomic) IBOutlet UILabel *likesLabel;
-@property (weak, nonatomic) IBOutlet UIView *infoView;
 @property (weak, nonatomic) IBOutlet UILabel *yearLabel;
 @property (weak, nonatomic) IBOutlet UILabel *monthLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dayLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *typeImageView;
+@property (weak, nonatomic) IBOutlet UILabel *cityLabel;
+@property (weak, nonatomic) IBOutlet UILabel *likesLabel;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *introLabel;
+@property (weak, nonatomic) IBOutlet UILabel *briefDetailLabel;
 
 @end
 
@@ -47,6 +48,7 @@
 - (void)setRecommendation:(ONERecommendation *)recommendation
 {
     _recommendation = recommendation;
+    
     // 如果还没有加载，直接返回
     if (!self.isViewLoaded) {
         return;
@@ -61,6 +63,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
     [self updateRecommendation];
 }
 
@@ -82,6 +85,16 @@
     if ([[NSFileManager defaultManager] fileExistsAtPath:self.recommendation.imageUrl]) {
         self.thingImageView.image = [UIImage imageWithContentsOfFile:self.recommendation.imageUrl];
     }
+}
+
+- (IBAction)introViewTapped:(UITapGestureRecognizer *)sender
+{
+    [self.delegate ONERecommendationBriefViewIntroTapped];
+}
+
+- (IBAction)imageTapped:(UITapGestureRecognizer *)sender
+{
+    [self.delegate ONERecommendationBriefViewImageTapped];
 }
 
 - (void)didReceiveMemoryWarning

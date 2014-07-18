@@ -10,4 +10,7 @@
 
 @interface ONERootViewController : UIViewController <UIScrollViewDelegate>
 
+- (IBAction)unwindFromRecommendationCollection:(UIStoryboardSegue *)sender;
+- (IBAction)unwindFromSetting:(UIStoryboardSegue *)sender;
+
 @end

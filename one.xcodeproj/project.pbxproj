@@ -12,6 +12,8 @@
 		7A937B3F197622BD0087D4F2 /* ONESessionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A937B3E197622BD0087D4F2 /* ONESessionDelegate.m */; };
 		7A937B4219766E760087D4F2 /* ONERecommendationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A937B4119766E760087D4F2 /* ONERecommendationManager.m */; };
 		7A937B45197678E40087D4F2 /* ONEDateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A937B44197678E40087D4F2 /* ONEDateHelper.m */; };
+		7AB6AABC1978BA06002A8992 /* ONERecommendationCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB6AABA1978BA06002A8992 /* ONERecommendationCollectionViewController.m */; };
+		7AB6AAC319794F56002A8992 /* JCRBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB6AAC219794F56002A8992 /* JCRBlurView.m */; };
 		7AC5726F19775BF900DDD900 /* bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7AC5726E19775BF900DDD900 /* bg.jpg */; };
 		7AC572721977895C00DDD900 /* ONELogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AC572711977895C00DDD900 /* ONELogger.m */; };
 		7AF27FC019727B4B00BBC0AC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7AF27FBF19727B4B00BBC0AC /* Main.storyboard */; };
@@ -54,6 +56,10 @@
 		7A937B4119766E760087D4F2 /* ONERecommendationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONERecommendationManager.m; sourceTree = "<group>"; };
 		7A937B43197678E40087D4F2 /* ONEDateHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONEDateHelper.h; sourceTree = "<group>"; };
 		7A937B44197678E40087D4F2 /* ONEDateHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONEDateHelper.m; sourceTree = "<group>"; };
+		7AB6AAB91978BA06002A8992 /* ONERecommendationCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONERecommendationCollectionViewController.h; sourceTree = "<group>"; };
+		7AB6AABA1978BA06002A8992 /* ONERecommendationCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONERecommendationCollectionViewController.m; sourceTree = "<group>"; };
+		7AB6AAC119794F56002A8992 /* JCRBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCRBlurView.h; sourceTree = "<group>"; };
+		7AB6AAC219794F56002A8992 /* JCRBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCRBlurView.m; sourceTree = "<group>"; };
 		7AC5726E19775BF900DDD900 /* bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg.jpg; sourceTree = "<group>"; };
 		7AC572701977895C00DDD900 /* ONELogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONELogger.h; sourceTree = "<group>"; };
 		7AC572711977895C00DDD900 /* ONELogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONELogger.m; sourceTree = "<group>"; };
@@ -111,6 +117,8 @@
 		7A8196DC1973D24E0032B38F /* view */ = {
 			isa = PBXGroup;
 			children = (
+				7AB6AAC119794F56002A8992 /* JCRBlurView.h */,
+				7AB6AAC219794F56002A8992 /* JCRBlurView.m */,
 				7AF27FBF19727B4B00BBC0AC /* Main.storyboard */,
 			);
 			name = view;
@@ -138,6 +146,8 @@
 				7AF27FCB197287EA00BBC0AC /* ONERecommendationDetailViewController.xib */,
 				7AF27FC119727B5B00BBC0AC /* ONERootViewController.h */,
 				7AF27FC219727B5B00BBC0AC /* ONERootViewController.m */,
+				7AB6AAB91978BA06002A8992 /* ONERecommendationCollectionViewController.h */,
+				7AB6AABA1978BA06002A8992 /* ONERecommendationCollectionViewController.m */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -335,10 +345,12 @@
 				7AFDDEBE197190C40031F293 /* main.m in Sources */,
 				7A937B3F197622BD0087D4F2 /* ONESessionDelegate.m in Sources */,
 				7AF27FC319727B5B00BBC0AC /* ONERootViewController.m in Sources */,
+				7AB6AAC319794F56002A8992 /* JCRBlurView.m in Sources */,
 				7AF27FC71972873D00BBC0AC /* ONERecommendationBriefViewController.m in Sources */,
 				7AFDDEC2197190C40031F293 /* ONEAppDelegate.m in Sources */,
 				7AF27FCC197287EA00BBC0AC /* ONERecommendationDetailViewController.m in Sources */,
 				7A59E84519729F6600E637D4 /* ONERecommendation.m in Sources */,
+				7AB6AABC1978BA06002A8992 /* ONERecommendationCollectionViewController.m in Sources */,
 				7A937B45197678E40087D4F2 /* ONEDateHelper.m in Sources */,
 				7AC572721977895C00DDD900 /* ONELogger.m in Sources */,
 				7A937B4219766E760087D4F2 /* ONERecommendationManager.m in Sources */,

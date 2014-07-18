@@ -20,7 +20,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *likesLabel;
 @property (weak, nonatomic) IBOutlet UILabel *detailLabel;
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
-@property (weak, nonatomic) IBOutlet UIButton *storeButton;
+@property (weak, nonatomic) IBOutlet UIButton *collectButton;
 
 @end
 
@@ -58,11 +58,22 @@
     }
     
     [self.dismissButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
+    [self.collectButton addTarget:self action:@selector(collectButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.collectButton.selected = self.recommendation.collected;
 }
 
 - (void)dismiss
 {
     [self.delegate ONERecommendationDetailViewControllerDidFinishDisplay:self];
+}
+
+// collect
+- (void)collectButtonTapped
+{
+    self.collectButton.selected = !self.collectButton.selected;
+    [self.recommendation updateCollected:self.collectButton.selected];
+    return;
 }
 
 - (void)didReceiveMemoryWarning

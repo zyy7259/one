@@ -22,4 +22,8 @@ typedef void (^RecommendationImageCompletionHandlerType)(NSURL *location);
 
 + (ONERecommendationManager *)defaultManager;
 
+- (void)writeRecommendationCollectionToFile:(NSArray *)recommendationArray;
+
+- (NSMutableArray *)readRecommendationCollectionFromFile;
+
 @end

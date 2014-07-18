@@ -11,13 +11,18 @@
 #import "ONERecommendationManager.h"
 #import "ONERecommendationBriefViewController.h"
 #import "ONERecommendationDetailViewController.h"
+#import "ONERecommendationCollectionViewController.h"
 #import "ONEDateHelper.h"
 
-@interface ONERootViewController () <ONERecommendationDetailDelegate>
+@interface ONERootViewController () <ONERecommendationBriefViewControllerDelegate, ONERecommendationDetailDelegate, ONEREcommendationDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *mainScrollView;
 @property (weak, nonatomic) IBOutlet UIScrollView *recommendationsScrollView;
 @property (weak, nonatomic) IBOutlet UIView *pullUpMenuView;
+@property (weak, nonatomic) IBOutlet UIButton *settingButton;
+@property (weak, nonatomic) IBOutlet UIButton *collectButton;
+@property (weak, nonatomic) IBOutlet UIButton *viewCollectButton;
+@property (weak, nonatomic) IBOutlet UIButton *shareButton;
 @property ONERecommendationManager *recommendationManager;
 @property NSUInteger capacity;
 @property NSMutableArray *recommendations;
@@ -26,6 +31,8 @@
 @property NSUInteger pageWidth;
 @property ONEDateHelper *dateHelper;
 @property CGFloat startPositionOfMainScrollView;
+@property NSMutableSet *recommendationCollection;
+@property NSMutableDictionary *recommendationCollectFlag;
 
 @end
 
@@ -53,6 +60,9 @@
     self.pageWidth = CGRectGetWidth(self.view.frame);
     self.dateHelper = [ONEDateHelper new];
     self.startPositionOfMainScrollView = -1;
+    
+    self.recommendationCollection = [NSMutableSet set];
+    self.recommendationCollectFlag = [NSMutableDictionary dictionary];
 
     self.recommendationsScrollView.delegate = self;
     self.mainScrollView.delegate = self;
@@ -62,6 +72,14 @@
     for (NSUInteger i = 0; i < self.capacity; i++) {
         [self loadPage:i];
     }
+    
+    // 初始化按钮
+    [self initButtons];
+    
+    // 读取存储在本地的收藏列表
+    self.recommendationCollection = [NSMutableSet setWithArray:[self.recommendationManager readRecommendationCollectionFromFile]];
+    // 更新收藏按钮的状态
+    [self updateCollectButtonState];
     
 //    [self updateThemeColor];
 }
@@ -73,16 +91,9 @@
     self.mainScrollView.contentSize = CGSizeMake(CGRectGetWidth(frame), CGRectGetHeight(frame) + 44);
 }
 
-// change the current theme color
-- (void)updateThemeColor
+- (void)initButtons
 {
-    [self updateThemeColorWithPage:self.currentPage];
-}
-
-- (void)updateThemeColorWithPage:(NSUInteger)page
-{
-//    ONERecommendation *recommendation = self.recommendations[page];
-    //    self.view.backgroundColor = recommendation.themeColor;
+    [self.collectButton addTarget:self action:@selector(collectButtonTapped) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)loadPage:(NSUInteger)page
@@ -107,6 +118,7 @@
         ONERecommendation *recommendation = [self.recommendationManager getRecommendationOfYear:targetDateComponents.year month:targetDateComponents.month day:targetDateComponents.day dataCompletionHandler:^(ONERecommendation *r) {
             // the recommendation (r) is returned from the server asynchronously
             // use r to update the corresponding view controller
+            r.delegate = self;
             self.recommendations[page] = r;
             ONERecommendationBriefViewController *viewController = self.viewControllers[page];
             viewController.recommendation = r;
@@ -123,11 +135,13 @@
         if (recommendation == nil) {
             [self.recommendations addObject:[NSNull null]];
         } else {
+            recommendation.delegate = self;
             [self.recommendations addObject:recommendation];
         }
         
         // then create the viewController
         viewController = [[ONERecommendationBriefViewController alloc] initWithRecommendation:recommendation];
+        viewController.delegate = self;
         [self.viewControllers addObject:viewController];
     } else {
         viewController = self.viewControllers[page];
@@ -196,7 +210,9 @@
     NSUInteger page = floor((self.recommendationsScrollView.contentOffset.x - self.pageWidth / 2) / self.pageWidth) + 1;
     self.currentPage = page;
     
+    // 切换页面之后，更新页面状态
     [self updateThemeColor];
+    [self updateCollectButtonState];
     
     [self loadPage:page];
     [self loadPage:page + 1];
@@ -238,17 +254,83 @@
     self.startPositionOfMainScrollView = startPosition;
 }
 
+// change the current theme color
+- (void)updateThemeColor
+{
+    [self updateThemeColorWithPage:self.currentPage];
+}
+
+- (void)updateThemeColorWithPage:(NSUInteger)page
+{
+    //    ONERecommendation *recommendation = self.recommendations[page];
+    //    self.view.backgroundColor = recommendation.themeColor;
+}
+
 // tap gesture recognizer
-- (IBAction)viewDidTapped:(UITapGestureRecognizer *)sender {
-    ONERecommendationDetailViewController *detailController = [[ONERecommendationDetailViewController alloc] initWithRecommendation:self.recommendations[self.currentPage]];
-    detailController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    detailController.delegate = self;
-    [self presentViewController:detailController animated:YES completion:nil];
+
+- (void)ONERecommendationBriefViewIntroTapped
+{
+    if (self.mainScrollView.contentOffset.y > 0) {
+        [self.mainScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+        self.recommendationsScrollView.scrollEnabled = YES;
+    } else {
+        ONERecommendationDetailViewController *detailController = [[ONERecommendationDetailViewController alloc] initWithRecommendation:self.recommendations[self.currentPage]];
+        detailController.delegate = self;
+        [self presentViewController:detailController animated:YES completion:nil];
+    }
+}
+
+- (void)ONERecommendationBriefViewImageTapped
+{
+    if (self.mainScrollView.contentOffset.y > 0) {
+        [self.mainScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+        self.recommendationsScrollView.scrollEnabled = YES;
+    } else {
+        // TODO load initial image
+    }
 }
 
 - (void)ONERecommendationDetailViewControllerDidFinishDisplay:(ONERecommendationDetailViewController *)recommendationDetailController
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+// collect
+
+- (void)updateCollectButtonState
+{
+    ONERecommendation *recommendation = self.recommendations[self.currentPage];
+    self.collectButton.selected = [self.recommendationCollection containsObject:recommendation];
+    if (recommendation != nil && (NSNull *)recommendation != [NSNull null] && recommendation.collected != self.collectButton.selected) {
+        recommendation.collected = self.collectButton.selected;
+    }
+}
+
+- (void)collectButtonTapped
+{
+    self.collectButton.selected = !self.collectButton.selected;
+    ONERecommendation *recommendation = self.recommendations[self.currentPage];
+    [recommendation updateCollected:self.collectButton.selected];
+    return;
+}
+
+- (void)ONERecommendationDidCollect:(ONERecommendation *)recommendation
+{
+    self.collectButton.selected = YES;
+    [self.recommendationCollection addObject:recommendation];
+    [self saveRecommendationCollection];
+}
+
+- (void)ONERecommendationDidDecollect:(ONERecommendation *)recommendation
+{
+    self.collectButton.selected = NO;
+    [self.recommendationCollection removeObject:recommendation];
+    [self saveRecommendationCollection];
+}
+
+- (void)saveRecommendationCollection
+{
+    [self.recommendationManager writeRecommendationCollectionToFile:self.recommendationCollection.allObjects];
 }
 
 - (void)didReceiveMemoryWarning
@@ -257,7 +339,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -265,7 +346,25 @@
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    UINavigationController *navigationController = [segue destinationViewController];
+    UIViewController *viewController = navigationController.viewControllers[0];
+    
+    if ([viewController isKindOfClass:[ONERecommendationCollectionViewController class]]) {
+        ONERecommendationCollectionViewController *collectionController = (ONERecommendationCollectionViewController *)viewController;
+        collectionController.recommendationCollection = [NSMutableArray arrayWithArray:self.recommendationCollection.allObjects];
+    }
 }
-*/
+
+- (void)unwindFromRecommendationCollection:(UIStoryboardSegue *)sender
+{
+    ONERecommendationCollectionViewController *collectionController = sender.sourceViewController;
+    self.recommendationCollection = [NSMutableSet setWithArray:collectionController.recommendationCollection];
+    // 从收藏列表回来之后，收藏状态可能发生改变，更新收藏按钮状态
+    [self updateCollectButtonState];
+}
+
+- (void)unwindFromSetting:(UIStoryboardSegue *)sender
+{
+}
 
 @end
