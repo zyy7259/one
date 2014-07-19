@@ -24,14 +24,13 @@
 @property NSUInteger year;
 @property NSUInteger month;
 @property NSUInteger day;
+@property NSUInteger weekday;
 
 @property (nonatomic) BOOL collected;
 @property id<ONEREcommendationDelegate> delegate;
 
 - (id)initWithJSONData:(NSData *)jsonData;
-
 - (id)initWithProperties:(NSDictionary *)properties;
-
 - (id)initWithCity:(NSString *)city
            address:(NSString *)address
               type:(NSUInteger)type
@@ -43,11 +42,11 @@
              likes:(NSUInteger)likes
               year:(NSUInteger)year
              month:(NSUInteger)month
-               day:(NSUInteger)day;
+               day:(NSUInteger)day
+           weekday:(NSUInteger)weekday;
 
 - (NSDictionary *)properties;
 - (NSString *)date;
-
 - (void)updateCollected:(BOOL)collected;
 
 @end

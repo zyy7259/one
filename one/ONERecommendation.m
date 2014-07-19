@@ -38,11 +38,12 @@
                          year:[properties[@"year"] intValue]
                         month:[properties[@"month"] intValue]
                           day:[properties[@"day"] intValue]
+                      weekday:[properties[@"weekday"] intValue]
             ];
     return self;
 }
 
-- (id)initWithCity:(NSString *)city address:(NSString *)address type:(NSUInteger)type title:(NSString *)title intro:(NSString *)intro briefDetail:(NSString *)briefDetail detail:(NSString *)detail imageUrl:(NSString *)imageUrl likes:(NSUInteger)likes year:(NSUInteger)year month:(NSUInteger)month day:(NSUInteger)day
+- (id)initWithCity:(NSString *)city address:(NSString *)address type:(NSUInteger)type title:(NSString *)title intro:(NSString *)intro briefDetail:(NSString *)briefDetail detail:(NSString *)detail imageUrl:(NSString *)imageUrl likes:(NSUInteger)likes year:(NSUInteger)year month:(NSUInteger)month day:(NSUInteger)day weekday:(NSUInteger)weekday
 {
     self = [super init];
     
@@ -58,6 +59,7 @@
     _year = year;
     _month = month;
     _day = day;
+    _weekday = weekday;
     
     return self;
 }
@@ -76,6 +78,7 @@
                                                                       @(self.year),
                                                                       @(self.month),
                                                                       @(self.day),
+                                                                      @(self.weekday),
                                                                       @(self.collected)]
                                                            forKeys:@[@"city",
                                                                      @"address",
@@ -89,6 +92,7 @@
                                                                      @"year",
                                                                      @"month",
                                                                      @"day",
+                                                                     @"weekday",
                                                                      @"collected"]];
     return properties;
 }

@@ -14,6 +14,4 @@
 
 @property NSMutableArray *recommendationCollection;
 
-- (id)initWithRecommendationCollection:(NSMutableSet *)recommendationCollection;
-
 @end

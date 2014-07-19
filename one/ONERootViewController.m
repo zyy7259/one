@@ -58,8 +58,8 @@
     self.viewControllers = [NSMutableArray arrayWithCapacity:self.capacity];
     self.currentPage = 0;
     self.pageWidth = CGRectGetWidth(self.view.frame);
-    self.dateHelper = [ONEDateHelper new];
-    self.startPositionOfMainScrollView = -1;
+    self.dateHelper = [ONEDateHelper defaultDateHelper];
+    self.startPositionOfMainScrollView = 0;
     
     self.recommendationCollection = [NSMutableSet set];
     self.recommendationCollectFlag = [NSMutableDictionary dictionary];
@@ -116,10 +116,13 @@
         // then load the corresponding Recommendation
         NSDateComponents *targetDateComponents = [self.dateHelper dateComponentsBeforeNDays:page];
         ONERecommendation *recommendation = [self.recommendationManager getRecommendationOfYear:targetDateComponents.year month:targetDateComponents.month day:targetDateComponents.day dataCompletionHandler:^(ONERecommendation *r) {
-            // the recommendation (r) is returned from the server asynchronously
-            // use r to update the corresponding view controller
+            // update r's weekday
+            r.weekday = targetDateComponents.weekday;
+            // update delegate
             r.delegate = self;
+            // save r
             self.recommendations[page] = r;
+            // use r to update the corresponding view controller
             ONERecommendationBriefViewController *viewController = self.viewControllers[page];
             viewController.recommendation = r;
         } imageCompletionHandler:^(NSURL *location) {
@@ -171,9 +174,7 @@
     if ([scrollView isEqual:self.recommendationsScrollView]) {
         [self recommendationsScrollViewDidScroll];
     } else if ([scrollView isEqual:self.mainScrollView]) {
-        if (self.startPositionOfMainScrollView < 0) {
-            self.startPositionOfMainScrollView = self.mainScrollView.contentOffset.y;
-        }
+        
     }
 }
 
@@ -220,37 +221,34 @@
 
 - (void)mainScrollViewDidEndScrolling
 {
-    CGFloat endPositionOfMainScrollView = self.mainScrollView.contentOffset.y;
+    CGFloat startPosition = self.startPositionOfMainScrollView;
+    CGFloat endPosition = self.mainScrollView.contentOffset.y;
     CGFloat height = CGRectGetHeight(self.pullUpMenuView.frame);
     CGFloat threshold = height / 2;
-    CGPoint contentOffset;
-    CGFloat startPosition;
-    if (endPositionOfMainScrollView > self.startPositionOfMainScrollView) {
+    
+    if (endPosition > startPosition) {
         // 向上拉
-        if (endPositionOfMainScrollView >= threshold) {
+        if (endPosition >= threshold) {
             // 拉过一半，显示菜单，同时禁止浏览其它推荐
-            contentOffset = CGPointMake(0, height);
             startPosition = height;
-            self.recommendationsScrollView.scrollEnabled = NO;
+            [self showPullUpMenu];
         } else {
             // 没有拉过一半，不显示菜单
-            contentOffset = CGPointMake(0, 0);
             startPosition = 0;
+            [self hidePullUpMenu];
         }
     } else {
         // 向下拉
-        if (endPositionOfMainScrollView <= threshold) {
+        if (endPosition <= threshold) {
             // 拉过一半，隐藏菜单，同时可以浏览其它推荐
-            contentOffset = CGPointMake(0, 0);
             startPosition = 0;
-            self.recommendationsScrollView.scrollEnabled = YES;
+            [self hidePullUpMenu];
         } else {
             // 没有拉过一半，不隐藏菜单
-            contentOffset = CGPointMake(0, height);
             startPosition = height;
+            [self showPullUpMenu];
         }
     }
-    [self.mainScrollView setContentOffset:contentOffset animated:YES];
     self.startPositionOfMainScrollView = startPosition;
 }
 
@@ -271,8 +269,7 @@
 - (void)ONERecommendationBriefViewIntroTapped
 {
     if (self.mainScrollView.contentOffset.y > 0) {
-        [self.mainScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
-        self.recommendationsScrollView.scrollEnabled = YES;
+        [self hidePullUpMenu];
     } else {
         ONERecommendationDetailViewController *detailController = [[ONERecommendationDetailViewController alloc] initWithRecommendation:self.recommendations[self.currentPage]];
         detailController.delegate = self;
@@ -283,8 +280,7 @@
 - (void)ONERecommendationBriefViewImageTapped
 {
     if (self.mainScrollView.contentOffset.y > 0) {
-        [self.mainScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
-        self.recommendationsScrollView.scrollEnabled = YES;
+        [self hidePullUpMenu];
     } else {
         // TODO load initial image
     }
@@ -293,6 +289,18 @@
 - (void)ONERecommendationDetailViewControllerDidFinishDisplay:(ONERecommendationDetailViewController *)recommendationDetailController
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)showPullUpMenu
+{
+    [self.mainScrollView setContentOffset:CGPointMake(0, CGRectGetHeight(self.pullUpMenuView.frame)) animated:YES];
+    self.recommendationsScrollView.scrollEnabled = NO;
+}
+
+- (void)hidePullUpMenu
+{
+    [self.mainScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+    self.recommendationsScrollView.scrollEnabled = YES;
 }
 
 // collect

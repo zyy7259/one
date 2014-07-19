@@ -10,6 +10,10 @@
 
 @interface ONEDateHelper : NSObject
 
++ (ONEDateHelper *)defaultDateHelper;
+
 - (NSDateComponents *)dateComponentsBeforeNDays:(NSUInteger)n;
+- (NSString *)briefStringOfMonth:(NSUInteger)month;
+- (NSString *)stringOfWeekday:(NSUInteger)weekday;
 
 @end

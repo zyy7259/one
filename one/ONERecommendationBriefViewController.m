@@ -8,14 +8,15 @@
 
 #import "ONERecommendationBriefViewController.h"
 #import "ONERecommendation.h"
+#import "ONEDateHelper.h"
 #import "JCRBlurView.h"
 
 @interface ONERecommendationBriefViewController ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *thingImageView;
-@property (weak, nonatomic) IBOutlet UILabel *yearLabel;
-@property (weak, nonatomic) IBOutlet UILabel *monthLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dayLabel;
+@property (weak, nonatomic) IBOutlet UILabel *monthLabel;
+@property (weak, nonatomic) IBOutlet UILabel *weekdayLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *typeImageView;
 @property (weak, nonatomic) IBOutlet UILabel *cityLabel;
 @property (weak, nonatomic) IBOutlet UILabel *likesLabel;
@@ -75,9 +76,9 @@
     self.introLabel.text = self.recommendation.intro;
     [self updateRecommendationImage];
     self.likesLabel.text = [@(self.recommendation.likes) stringValue];
-    self.yearLabel.text = [@(self.recommendation.year) stringValue];
-    self.monthLabel.text = [@(self.recommendation.month) stringValue];
     self.dayLabel.text = [@(self.recommendation.day) stringValue];
+    self.monthLabel.text = [[ONEDateHelper defaultDateHelper] briefStringOfMonth:self.recommendation.month];
+    self.weekdayLabel.text = [[ONEDateHelper defaultDateHelper] stringOfWeekday:self.recommendation.weekday];
 }
 
 - (void)updateRecommendationImage

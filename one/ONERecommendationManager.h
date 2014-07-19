@@ -14,13 +14,13 @@ typedef void (^RecommendationImageCompletionHandlerType)(NSURL *location);
 
 @interface ONERecommendationManager : NSObject
 
++ (ONERecommendationManager *)defaultManager;
+
 - (ONERecommendation *)getRecommendationOfYear:(NSUInteger)year
                                          month:(NSUInteger)month
                                            day:(NSUInteger)day
                              dataCompletionHandler:(RecommendationDataCompletionHandlerType)dataHandler
                         imageCompletionHandler:(RecommendationImageCompletionHandlerType)imageHandler;
-
-+ (ONERecommendationManager *)defaultManager;
 
 - (void)writeRecommendationCollectionToFile:(NSArray *)recommendationArray;
 

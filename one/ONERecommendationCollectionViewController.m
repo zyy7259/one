@@ -27,12 +27,6 @@
     return self;
 }
 
-- (id)initWithRecommendationCollection:(NSMutableSet *)recommendationCollection
-{
-//    self = [self initWithNibName:NSStringFromClass([ONERecommendationCollectionViewController class]) bundle:nil];
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
