@@ -71,6 +71,9 @@
 
 - (void)updateRecommendation
 {
+    if (self.recommendation == nil) {
+        return;
+    }
     [self updateRecommendationImage];
     self.dayLabel.text = [@(self.recommendation.day) stringValue];
     self.monthLabel.text = [[ONEDateHelper defaultDateHelper] briefStringOfMonth:self.recommendation.month];
@@ -79,6 +82,15 @@
     self.cityLabel.text = self.recommendation.city;
     self.titleLabel.text = self.recommendation.title;
     self.introLabel.text = self.recommendation.intro;
+    
+    NSString *labelText = self.recommendation.briefDetail;
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:labelText];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setLineSpacing:17];
+    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [labelText length])];
+    self.briefDetailLabel.attributedText = attributedString;
+    [self.briefDetailLabel sizeToFit];
+    
     self.likesLabel.text = [@(self.recommendation.likes) stringValue];
 }
 

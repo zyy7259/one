@@ -66,6 +66,7 @@
 		7AC30F62197A8AF900A5C71C /* ONERecommendationImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AC30F60197A8AF900A5C71C /* ONERecommendationImageViewController.m */; };
 		7AC30F63197A8AF900A5C71C /* ONERecommendationImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7AC30F61197A8AF900A5C71C /* ONERecommendationImageViewController.xib */; };
 		7AC30F65197A8BB200A5C71C /* aboutUs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AC30F64197A8BB200A5C71C /* aboutUs@2x.png */; };
+		7AC30F67197A985F00A5C71C /* hangzhou@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AC30F66197A985F00A5C71C /* hangzhou@2x.png */; };
 		7AC572721977895C00DDD900 /* ONELogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AC572711977895C00DDD900 /* ONELogger.m */; };
 		7AC7AE0E197A05A000BA283A /* ONESettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AC7AE0D197A05A000BA283A /* ONESettingViewController.m */; };
 		7AC7AE12197A0A7D00BA283A /* ONEAboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AC7AE10197A0A7D00BA283A /* ONEAboutUsViewController.m */; };
@@ -168,6 +169,7 @@
 		7AC30F60197A8AF900A5C71C /* ONERecommendationImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONERecommendationImageViewController.m; sourceTree = "<group>"; };
 		7AC30F61197A8AF900A5C71C /* ONERecommendationImageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ONERecommendationImageViewController.xib; sourceTree = "<group>"; };
 		7AC30F64197A8BB200A5C71C /* aboutUs@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "aboutUs@2x.png"; sourceTree = "<group>"; };
+		7AC30F66197A985F00A5C71C /* hangzhou@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hangzhou@2x.png"; sourceTree = "<group>"; };
 		7AC572701977895C00DDD900 /* ONELogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONELogger.h; sourceTree = "<group>"; };
 		7AC572711977895C00DDD900 /* ONELogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONELogger.m; sourceTree = "<group>"; };
 		7AC7AE0C197A05A000BA283A /* ONESettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONESettingViewController.h; sourceTree = "<group>"; };
@@ -292,6 +294,7 @@
 		7AC30EBD197A350B00A5C71C /* image */ = {
 			isa = PBXGroup;
 			children = (
+				7AC30F66197A985F00A5C71C /* hangzhou@2x.png */,
 				7AC30F00197A647000A5C71C /* arrowRightGrey@2x.png */,
 				7AC30F01197A647000A5C71C /* arrowRightWhite@2x.png */,
 				7AC30ED8197A40AF00A5C71C /* close@2x.png */,
@@ -542,6 +545,7 @@
 				7AC30F63197A8AF900A5C71C /* ONERecommendationImageViewController.xib in Resources */,
 				7AC30F5B197A887500A5C71C /* sportDetail@2x.png in Resources */,
 				7AC30F53197A887500A5C71C /* houseBrief@2x.png in Resources */,
+				7AC30F67197A985F00A5C71C /* hangzhou@2x.png in Resources */,
 				7AC30EF1197A577300A5C71C /* info@2x.png in Resources */,
 				7AC30F03197A647000A5C71C /* arrowRightWhite@2x.png in Resources */,
 				7AC30F5D197A887500A5C71C /* travelCollect@2x.png in Resources */,
