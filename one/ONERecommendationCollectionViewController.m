@@ -37,13 +37,29 @@
     self.collectionTableView.delegate = self;
     self.collectionTableView.dataSource = self;
     self.collectionTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    
     [self initBarButtons];
 }
 
 - (void)initBarButtons
 {
-    UIImage *editImage = [UIImage imageNamed:@"404.jpg"];
-    UIImage *editImageSelected = [UIImage imageNamed:@"404.jpg"];
+    ONEResourceManager *resourceManager = [ONEResourceManager defaultManager];
+    UIButton *editButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [editButton setImage:resourceManager.editImage forState:UIControlStateNormal];
+    [editButton setImage:resourceManager.editSelectedImage forState:UIControlStateSelected];
+    [editButton setImage:resourceManager.editSelectedImage forState:UIControlStateHighlighted];
+    editButton.frame = CGRectMake(0, 0, 23, 23);
+    [editButton addTarget:self action:@selector(editTapped) forControlEvents:UIControlEventTouchUpInside];
+    self.editBarButton = [[UIBarButtonItem alloc] initWithCustomView:editButton];
+    self.navigationItem.rightBarButtonItem = self.editBarButton;
+    
+    UIButton *completeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [completeButton setImage:resourceManager.completeImage forState:UIControlStateNormal];
+    [completeButton setImage:resourceManager.completeSelectedImage forState:UIControlStateSelected];
+    [completeButton setImage:resourceManager.completeSelectedImage forState:UIControlStateHighlighted];
+    completeButton.frame = CGRectMake(0, 0, 23, 23);
+    [completeButton addTarget:self action:@selector(completeTapped) forControlEvents:UIControlEventTouchUpInside];
+    self.completeBarButton = [[UIBarButtonItem alloc] initWithCustomView:completeButton];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -77,14 +93,14 @@
     [self presentViewController:detailController animated:YES completion:nil];
 }
 
-- (void)edit
+- (void)editTapped
 {
-    
+    self.navigationItem.rightBarButtonItem = self.completeBarButton;
 }
 
-- (void)complete
+- (void)completeTapped
 {
-    
+    self.navigationItem.rightBarButtonItem = self.editBarButton;
 }
 
 - (void)ONERecommendationDetailViewControllerDidFinishDisplay:(ONERecommendationDetailViewController *)recommendationDetailController

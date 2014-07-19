@@ -147,12 +147,20 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="收藏" id="vSd-th-VCx">
-                        <barButtonItem key="leftBarButtonItem" systemItem="stop" id="Pek-gw-FKc">
-                            <connections>
-                                <segue destination="3uj-IZ-xKC" kind="unwind" unwindAction="unwindFromRecommendationCollection:" id="Vbk-su-Tdt"/>
-                            </connections>
+                        <barButtonItem key="leftBarButtonItem" id="KLa-Pt-9iT">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="7sm-0R-4gz">
+                                <rect key="frame" x="16" y="10" width="23" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="close.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="selected" image="closeSelected.png"/>
+                                <state key="highlighted" image="closeSelected.png"/>
+                                <connections>
+                                    <segue destination="3uj-IZ-xKC" kind="unwind" unwindAction="unwindFromRecommendationCollection:" id="R3s-2r-CHL"/>
+                                </connections>
+                            </button>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="编辑" id="geq-iB-19I"/>
                     </navigationItem>
                     <connections>
                         <outlet property="collectionTableView" destination="3Hy-uU-564" id="jsi-MH-sow"/>
@@ -200,7 +208,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="设置" id="7p7-DN-rqY">
-                        <barButtonItem key="leftBarButtonItem" style="plain" id="UA8-Lm-THo">
+                        <barButtonItem key="leftBarButtonItem" id="UA8-Lm-THo">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="l5b-lT-ogb">
                                 <rect key="frame" x="16" y="10" width="23" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -263,6 +271,7 @@
     </scenes>
     <resources>
         <image name="close.png" width="23" height="23"/>
+        <image name="closeSelected.png" width="23" height="23"/>
         <image name="collect.png" width="22" height="21"/>
         <image name="collectSelected.png" width="22" height="21"/>
         <image name="onelifeLeft.png" width="74" height="50"/>

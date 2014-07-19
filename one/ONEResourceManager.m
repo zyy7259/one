@@ -46,14 +46,16 @@ static ONEResourceManager *sharedSingleton;
 
 - (void)initButtonImages
 {
-    self.closeImage = [UIImage imageNamed:@"close"];
-    self.closeImageSelected = [UIImage imageNamed:@"closeSelected"];
-    self.returnImage = [UIImage imageNamed:@"return"];
-    self.returnImageSelected = [UIImage imageNamed:@"returnSelected"];
+    self.returnGreyImage = [UIImage imageNamed:@"returnGrey"];
+    self.returnGreySelectedImage = [UIImage imageNamed:@"returnGreySelected"];
     self.editImage = [UIImage imageNamed:@"edit"];
-    self.editImageSelected = [UIImage imageNamed:@"editSelected"];
+    self.editSelectedImage = [UIImage imageNamed:@"editSelected"];
     self.completeImage = [UIImage imageNamed:@"complete"];
-    self.completeImageSelected = [UIImage imageNamed:@"completeSelected"];
+    self.completeSelectedImage = [UIImage imageNamed:@"completeSelected"];
+    
+    self.infoImage = [UIImage imageNamed:@"info"];
+    self.likeImage = [UIImage imageNamed:@"like"];
+    self.heartImage = [UIImage imageNamed:@"heart"];
 }
 
 - (void)initTypeImages

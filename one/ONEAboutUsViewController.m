@@ -7,6 +7,7 @@
 //
 
 #import "ONEAboutUsViewController.h"
+#import "ONEResourceManager.h"
 
 @interface ONEAboutUsViewController ()
 
@@ -28,21 +29,19 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.title = @"关于我们";
-    [self changeBarButtons];
+    [self initBarButtons];
 }
 
-- (void)changeBarButtons
+- (void)initBarButtons
 {
-    UIImage *background = [UIImage imageNamed:@"404.jpg"];
-    UIImage *backgroundSelected = [UIImage imageNamed:@"404.jpg"];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button addTarget:self action:@selector(leftBarButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [button setBackgroundImage:background forState:UIControlStateNormal];
-    [button setBackgroundImage:backgroundSelected forState:UIControlStateSelected];
-    button.frame = CGRectMake(0, 0, 35, 35);
-    
-    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView:button];
-    self.navigationItem.leftBarButtonItem = barButton;
+    ONEResourceManager *resourceManager = [ONEResourceManager defaultManager];
+    UIButton *returnButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [returnButton setImage:resourceManager.returnGreyImage forState:UIControlStateNormal];
+    [returnButton setImage:resourceManager.returnGreySelectedImage forState:UIControlStateSelected];
+    [returnButton setImage:resourceManager.returnGreySelectedImage forState:UIControlStateHighlighted];
+    returnButton.frame = CGRectMake(0, 0, 23, 23);
+    [returnButton addTarget:self action:@selector(leftBarButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:returnButton];;
 }
 
 - (void)leftBarButtonTapped

@@ -10,14 +10,16 @@
 
 @interface ONEResourceManager : NSObject
 
-@property UIImage *closeImage;
-@property UIImage *closeImageSelected;
-@property UIImage *returnImage;
-@property UIImage *returnImageSelected;
+@property UIImage *returnGreyImage;
+@property UIImage *returnGreySelectedImage;
 @property UIImage *editImage;
-@property UIImage *editImageSelected;
+@property UIImage *editSelectedImage;
 @property UIImage *completeImage;
-@property UIImage *completeImageSelected;
+@property UIImage *completeSelectedImage;
+
+@property UIImage *infoImage;
+@property UIImage *likeImage;
+@property UIImage *heartImage;
 
 + (ONEResourceManager *)defaultManager;
 

@@ -41,12 +41,13 @@
 
 - (void)initCellInfos
 {
+    ONEResourceManager *resourceManager = [ONEResourceManager defaultManager];
     self.cellInfos = [NSArray arrayWithObjects:
-                      @{@"imageName": @"404.jpg",
+                      @{@"image": resourceManager.infoImage,
                         @"title": @"关于我们"},
-                      @{@"imageName": @"404.jpg",
+                      @{@"image": resourceManager.likeImage,
                         @"title": @"推荐给朋友"},
-                      @{@"imageName": @"404.jpg",
+                      @{@"image": resourceManager.heartImage,
                         @"title": @"评个分吧"},
                       nil];
 }
@@ -72,7 +73,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SettingPrototypeCell" forIndexPath:indexPath];
     
     NSInteger row = indexPath.row;
-    cell.imageView.image = [UIImage imageNamed:self.cellInfos[row][@"imageName"]];
+    cell.imageView.image = self.cellInfos[row][@"image"];
     cell.textLabel.text = self.cellInfos[row][@"title"];
     
     return cell;
