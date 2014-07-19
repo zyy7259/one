@@ -80,6 +80,7 @@
     cell.textLabel.text = recommendation.title;
     cell.detailTextLabel.text = recommendation.intro;
     cell.imageView.image = [[ONEResourceManager defaultManager] briefTypeImage:recommendation.type];
+    cell.accessoryView = [[UIImageView alloc] initWithImage:[ONEResourceManager defaultManager].arrowRightGreyImage];
 //    cell.editing = YES;
     
     return cell;

@@ -21,6 +21,9 @@
 @property UIImage *likeImage;
 @property UIImage *heartImage;
 
+@property UIImage *arrowRightGreyImage;
+@property UIImage *arrowRightWhiteImage;
+
 + (ONEResourceManager *)defaultManager;
 
 - (UIImage *)briefTypeImage:(NSUInteger)type;
