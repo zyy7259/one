@@ -8,6 +8,7 @@
 
 #import "ONERecommendationDetailViewController.h"
 #import "ONERecommendation.h"
+#import "ONEResourceManager.h"
 
 @interface ONERecommendationDetailViewController ()
 
@@ -49,6 +50,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+    self.typeImageView.image = [[ONEResourceManager defaultManager] briefTypeImage:self.recommendation.type];
     self.titleLabel.text = self.recommendation.title;
     self.introLabel.text = self.recommendation.intro;
     self.likesLabel.text = [@(self.recommendation.likes) stringValue];

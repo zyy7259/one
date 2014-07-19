@@ -9,10 +9,13 @@
 #import "ONERecommendationCollectionViewController.h"
 #import "ONERecommendation.h"
 #import "ONERecommendationDetailViewController.h"
+#import "ONEResourceManager.h"
 
 @interface ONERecommendationCollectionViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *collectionTableView;
+@property UIBarButtonItem *editBarButton;
+@property UIBarButtonItem *completeBarButton;
 
 @end
 
@@ -33,6 +36,14 @@
     // Do any additional setup after loading the view from its nib.
     self.collectionTableView.delegate = self;
     self.collectionTableView.dataSource = self;
+    self.collectionTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    [self initBarButtons];
+}
+
+- (void)initBarButtons
+{
+    UIImage *editImage = [UIImage imageNamed:@"404.jpg"];
+    UIImage *editImageSelected = [UIImage imageNamed:@"404.jpg"];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -51,6 +62,9 @@
     
     ONERecommendation *recommendation = self.recommendationCollection[indexPath.row];
     cell.textLabel.text = recommendation.title;
+    cell.detailTextLabel.text = recommendation.intro;
+    cell.imageView.image = [[ONEResourceManager defaultManager] briefTypeImage:recommendation.type];
+//    cell.editing = YES;
     
     return cell;
 }
@@ -61,6 +75,16 @@
     ONERecommendationDetailViewController *detailController = [[ONERecommendationDetailViewController alloc] initWithRecommendation:recommendation];
     detailController.delegate = self;
     [self presentViewController:detailController animated:YES completion:nil];
+}
+
+- (void)edit
+{
+    
+}
+
+- (void)complete
+{
+    
 }
 
 - (void)ONERecommendationDetailViewControllerDidFinishDisplay:(ONERecommendationDetailViewController *)recommendationDetailController

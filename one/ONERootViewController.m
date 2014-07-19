@@ -319,7 +319,6 @@
     self.collectButton.selected = !self.collectButton.selected;
     ONERecommendation *recommendation = self.recommendations[self.currentPage];
     [recommendation updateCollected:self.collectButton.selected];
-    return;
 }
 
 - (void)ONERecommendationDidCollect:(ONERecommendation *)recommendation
@@ -369,10 +368,12 @@
     self.recommendationCollection = [NSMutableSet setWithArray:collectionController.recommendationCollection];
     // 从收藏列表回来之后，收藏状态可能发生改变，更新收藏按钮状态
     [self updateCollectButtonState];
+    [self hidePullUpMenu];
 }
 
 - (void)unwindFromSetting:(UIStoryboardSegue *)sender
 {
+    [self hidePullUpMenu];
 }
 
 @end

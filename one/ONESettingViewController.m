@@ -8,6 +8,7 @@
 
 #import "ONESettingViewController.h"
 #import "ONEAboutUsViewController.h"
+#import "ONEResourceManager.h"
 
 @interface ONESettingViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -33,6 +34,7 @@
     // Do any additional setup after loading the view.
     self.settingTableView.delegate = self;
     self.settingTableView.dataSource = self;
+    self.settingTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
     [self initCellInfos];
 }
