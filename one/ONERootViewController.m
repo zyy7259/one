@@ -122,10 +122,9 @@
             ONERecommendationBriefViewController *viewController = self.viewControllers[page];
             viewController.recommendation = r;
         } imageCompletionHandler:^(NSURL *location) {
-            // 图片下载完成之后，将地址更新到recommendation，然后更新对应的view controller
+            // 图片下载完成之后，更新对应的view controller
             if (location != nil) {
-                ONERecommendation *r = self.recommendations[page];
-                r.blurredImageUrl = location.path;
+                // TODO 或者总是更新，由vc判断是否为合法图片地址，如果不合法则显示loading
                 ONERecommendationBriefViewController *vc = self.viewControllers[page];
                 [vc updateRecommendationImage];
             }

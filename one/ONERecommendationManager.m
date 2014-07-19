@@ -88,7 +88,7 @@ static ONERecommendationManager *sharedSingleton;
             // 如果服务器返回成功，用返回的数据来拼装出推荐内容
             ONERecommendation *recommendation = [[ONERecommendation alloc] initWithJSONData:data];
             
-            // set the date of the recommendation, which will use to save the recommendation to local file
+            // 设置推荐内容的日期属性，日期属性被用于把推荐内容保存到本地文件
             recommendation.year = dateComponents.year;
             recommendation.month = dateComponents.month;
             recommendation.day = dateComponents.day;
@@ -137,8 +137,9 @@ static ONERecommendationManager *sharedSingleton;
         [self clearFileAtUrl:targetFileUrl];
         
         if ([fileManager moveItemAtURL:location toURL:targetFileUrl error:&e]) {
-            // store some reference to the new URL
             [ONELogger logTitle:@"cache image success" content:nil];
+            // 记录新的图片地址后，通知handler
+            recommendation.blurredImageUrl = targetFileUrl.path;
             imageHandler(targetFileUrl);
         } else {
             [ONELogger logTitle:@"move image failed" content:e.localizedDescription];
