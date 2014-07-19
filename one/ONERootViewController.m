@@ -14,7 +14,7 @@
 #import "ONERecommendationCollectionViewController.h"
 #import "ONEDateHelper.h"
 
-@interface ONERootViewController () <ONERecommendationBriefViewControllerDelegate, ONERecommendationDetailDelegate, ONEREcommendationDelegate>
+@interface ONERootViewController () <ONERecommendationBriefViewControllerDelegate, ONERecommendationDetailDelegate, ONERecommendationDelegate, ONERecommendationCollectionDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *mainScrollView;
 @property (weak, nonatomic) IBOutlet UIScrollView *recommendationsScrollView;
@@ -335,6 +335,12 @@
     [self saveRecommendationCollection];
 }
 
+- (void)ONERecommendationCollectionViewControllerDidDeleteRecommendation:(ONERecommendation *)recommendation
+{
+    [self.recommendationCollection removeObject:recommendation];
+    [self saveRecommendationCollection];
+}
+
 - (void)saveRecommendationCollection
 {
     [self.recommendationManager writeRecommendationCollectionToFile:self.recommendationCollection.allObjects];
@@ -358,6 +364,7 @@
     
     if ([viewController isKindOfClass:[ONERecommendationCollectionViewController class]]) {
         ONERecommendationCollectionViewController *collectionController = (ONERecommendationCollectionViewController *)viewController;
+        collectionController.delegate = self;
         collectionController.recommendationCollection = [NSMutableArray arrayWithArray:self.recommendationCollection.allObjects];
     }
 }
@@ -366,7 +373,7 @@
 {
     ONERecommendationCollectionViewController *collectionController = sender.sourceViewController;
     self.recommendationCollection = [NSMutableSet setWithArray:collectionController.recommendationCollection];
-    // 从收藏列表回来之后，收藏状态可能发生改变，更新收藏按钮状态
+    // 从收藏列表回来之后，当前项的收藏状态可能发生改变，更新收藏按钮状态
     [self updateCollectButtonState];
     [self hidePullUpMenu];
 }

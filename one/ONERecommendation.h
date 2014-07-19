@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol ONEREcommendationDelegate;
+@protocol ONERecommendationDelegate;
 
 @interface ONERecommendation : NSObject
 
@@ -27,7 +27,7 @@
 @property NSUInteger weekday;
 
 @property (nonatomic) BOOL collected;
-@property id<ONEREcommendationDelegate> delegate;
+@property id<ONERecommendationDelegate> delegate;
 
 - (id)initWithJSONData:(NSData *)jsonData;
 - (id)initWithProperties:(NSDictionary *)properties;
@@ -51,7 +51,7 @@
 
 @end
 
-@protocol ONEREcommendationDelegate <NSObject>
+@protocol ONERecommendationDelegate <NSObject>
 
 - (void)ONERecommendationDidCollect:(ONERecommendation *)recommendation;
 - (void)ONERecommendationDidDecollect:(ONERecommendation *)recommendation;

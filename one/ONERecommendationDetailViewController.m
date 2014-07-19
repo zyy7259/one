@@ -63,7 +63,6 @@
     [self.collectButton addTarget:self action:@selector(collectButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     
     self.collectButton.selected = self.recommendation.collected;
-    NSLog(@"%@", @(self.collectButton.selected));
 }
 
 - (void)dismiss

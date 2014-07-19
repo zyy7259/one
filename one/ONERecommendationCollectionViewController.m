@@ -81,7 +81,6 @@
     cell.detailTextLabel.text = recommendation.intro;
     cell.imageView.image = [[ONEResourceManager defaultManager] collectTypeImage:recommendation.type];
     cell.accessoryView = [[UIImageView alloc] initWithImage:[ONEResourceManager defaultManager].arrowRightGreyImage];
-//    cell.editing = YES;
     
     return cell;
 }
@@ -94,14 +93,28 @@
     [self presentViewController:detailController animated:YES completion:nil];
 }
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // tell delegate about the deletion
+        [self.delegate ONERecommendationCollectionViewControllerDidDeleteRecommendation:self.recommendationCollection[indexPath.row]];
+        // delete the data
+        [self.recommendationCollection removeObjectAtIndex:indexPath.row];
+        // update the table view
+        [self.collectionTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+}
+
 - (void)editTapped
 {
     self.navigationItem.rightBarButtonItem = self.completeBarButton;
+    [self.collectionTableView setEditing:YES animated:YES];
 }
 
 - (void)completeTapped
 {
     self.navigationItem.rightBarButtonItem = self.editBarButton;
+    [self.collectionTableView setEditing:NO animated:YES];
 }
 
 - (void)ONERecommendationDetailViewControllerDidFinishDisplay:(ONERecommendationDetailViewController *)recommendationDetailController

@@ -10,8 +10,17 @@
 
 #import "ONERecommendationDetailViewController.h"
 
+@protocol ONERecommendationCollectionDelegate;
+
 @interface ONERecommendationCollectionViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, ONERecommendationDetailDelegate>
 
+@property id<ONERecommendationCollectionDelegate> delegate;
 @property NSMutableArray *recommendationCollection;
+
+@end
+
+@protocol ONERecommendationCollectionDelegate <NSObject>
+
+- (void)ONERecommendationCollectionViewControllerDidDeleteRecommendation:(ONERecommendation *)recommendation;
 
 @end
