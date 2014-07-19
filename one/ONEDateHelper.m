@@ -31,7 +31,7 @@ static ONEDateHelper *sharedSingleton;
     }
 }
 
-+ (ONEDateHelper *)defaultDateHelper
++ (ONEDateHelper *)sharedDateHelper
 {
     return sharedSingleton;
 }

@@ -50,13 +50,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    self.typeImageView.image = [[ONEResourceManager defaultManager] detailTypeImage:self.recommendation.type];
+    self.typeImageView.image = [[ONEResourceManager sharedManager] detailTypeImage:self.recommendation.type];
     self.titleLabel.text = self.recommendation.title;
     self.introLabel.text = self.recommendation.intro;
     self.likesLabel.text = [@(self.recommendation.likes) stringValue];
 
-    if ([[NSFileManager defaultManager] fileExistsAtPath:self.recommendation.imageUrl]) {
-        self.thingImageView.image = [UIImage imageWithContentsOfFile:self.recommendation.imageUrl];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:self.recommendation.blurredImageUrl]) {
+        self.thingImageView.image = [UIImage imageWithContentsOfFile:self.recommendation.blurredImageUrl];
     }
     
     [self.dismissButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];

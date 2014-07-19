@@ -24,7 +24,7 @@
 @property UIImage *arrowRightGreyImage;
 @property UIImage *arrowRightWhiteImage;
 
-+ (ONEResourceManager *)defaultManager;
++ (ONEResourceManager *)sharedManager;
 
 - (UIImage *)briefTypeImage:(NSUInteger)type;
 - (UIImage *)detailTypeImage:(NSUInteger)type;

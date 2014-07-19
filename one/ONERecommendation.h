@@ -14,36 +14,24 @@
 
 @property NSString *city;
 @property NSString *address;
-@property NSUInteger type;
+@property NSInteger type;
 @property NSString *title;
 @property NSString *intro;
 @property NSString *briefDetail;
 @property NSString *detail;
+@property NSString *blurredImageUrl;
 @property NSString *imageUrl;
-@property NSUInteger likes;
-@property NSUInteger year;
-@property NSUInteger month;
-@property NSUInteger day;
-@property NSUInteger weekday;
+@property NSInteger likes;
+@property NSInteger year;
+@property NSInteger month;
+@property NSInteger day;
+@property NSInteger weekday;
 
 @property (nonatomic) BOOL collected;
 @property id<ONERecommendationDelegate> delegate;
 
 - (id)initWithJSONData:(NSData *)jsonData;
 - (id)initWithProperties:(NSDictionary *)properties;
-- (id)initWithCity:(NSString *)city
-           address:(NSString *)address
-              type:(NSUInteger)type
-             title:(NSString *)title
-             intro:(NSString *)intro
-       briefDetail:(NSString *)briefDetail
-            detail:(NSString *)detail
-          imageUrl:(NSString *)imageUrl
-             likes:(NSUInteger)likes
-              year:(NSUInteger)year
-             month:(NSUInteger)month
-               day:(NSUInteger)day
-           weekday:(NSUInteger)weekday;
 
 - (NSDictionary *)properties;
 - (NSString *)date;

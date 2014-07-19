@@ -26,74 +26,60 @@
 
 - (id)initWithProperties:(NSDictionary *)properties
 {
-    self = [self initWithCity:properties[@"city"]
-                      address:properties[@"address"]
-                         type:[properties[@"type"] intValue]
-                        title:properties[@"title"]
-                        intro:properties[@"intro"]
-                  briefDetail:properties[@"briefDetail"]
-                       detail:properties[@"detail"]
-                     imageUrl:properties[@"imageUrl"]
-                        likes:[properties[@"likes"] intValue]
-                         year:[properties[@"year"] intValue]
-                        month:[properties[@"month"] intValue]
-                          day:[properties[@"day"] intValue]
-                      weekday:[properties[@"weekday"] intValue]
-            ];
-    return self;
-}
-
-- (id)initWithCity:(NSString *)city address:(NSString *)address type:(NSUInteger)type title:(NSString *)title intro:(NSString *)intro briefDetail:(NSString *)briefDetail detail:(NSString *)detail imageUrl:(NSString *)imageUrl likes:(NSUInteger)likes year:(NSUInteger)year month:(NSUInteger)month day:(NSUInteger)day weekday:(NSUInteger)weekday
-{
     self = [super init];
     
-    _city = city;
-    _address = address;
-    _type = type;
-    _title = title;
-    _intro = intro;
-    _briefDetail = briefDetail;
-    _detail = detail;
-    _imageUrl = imageUrl;
-    _likes = likes;
-    _year = year;
-    _month = month;
-    _day = day;
-    _weekday = weekday;
+    _city = properties[@"city"];
+    _address = properties[@"address"];
+    _type = [properties[@"type"] intValue];
+    _title = properties[@"title"];
+    _intro = properties[@"intro"];
+    _briefDetail = properties[@"briefDetail"];
+    _detail = properties[@"detail"];
+    _blurredImageUrl = properties[@"blurredImageUrl"];
+    _imageUrl = properties[@"imageUrl"];
+    _likes = [properties[@"likes"] intValue];
+    _year = [properties[@"year"] intValue];
+    _month = [properties[@"month"] intValue];
+    _day = [properties[@"day"] intValue];
+    _weekday = [properties[@"weekday"] intValue];
     
     return self;
 }
 
 - (NSDictionary *)properties
 {
-    NSDictionary *properties = [NSDictionary dictionaryWithObjects: @[self.city,
-                                                                      self.address,
-                                                                      @(self.type),
-                                                                      self.title,
-                                                                      self.intro,
-                                                                      self.briefDetail,
-                                                                      self.detail,
-                                                                      self.imageUrl,
-                                                                      @(self.likes),
-                                                                      @(self.year),
-                                                                      @(self.month),
-                                                                      @(self.day),
-                                                                      @(self.weekday),
-                                                                      @(self.collected)]
-                                                           forKeys:@[@"city",
-                                                                     @"address",
-                                                                     @"type",
-                                                                     @"title",
-                                                                     @"intro",
-                                                                     @"briefDetail",
-                                                                     @"detail",
-                                                                     @"imageUrl",
-                                                                     @"likes",
-                                                                     @"year",
-                                                                     @"month",
-                                                                     @"day",
-                                                                     @"weekday",
-                                                                     @"collected"]];
+    NSDictionary *properties = [NSDictionary dictionaryWithObjects:
+                                @[self.city,
+                                  self.address,
+                                  @(self.type),
+                                  self.title,
+                                  self.intro,
+                                  self.briefDetail,
+                                  self.detail,
+                                  self.blurredImageUrl,
+                                  self.imageUrl,
+                                  @(self.likes),
+                                  @(self.year),
+                                  @(self.month),
+                                  @(self.day),
+                                  @(self.weekday),
+                                  @(self.collected)]
+                                                           forKeys:
+                                @[@"city",
+                                  @"address",
+                                  @"type",
+                                  @"title",
+                                  @"intro",
+                                  @"briefDetail",
+                                  @"detail",
+                                  @"blurredImageUrl",
+                                  @"imageUrl",
+                                  @"likes",
+                                  @"year",
+                                  @"month",
+                                  @"day",
+                                  @"weekday",
+                                  @"collected"]];
     return properties;
 }
 
@@ -108,6 +94,7 @@
             [self.intro isEqualToString:r.intro] &&
             [self.briefDetail isEqualToString:r.briefDetail] &&
             [self.detail isEqualToString:r.detail] &&
+            [self.blurredImageUrl isEqualToString:r.blurredImageUrl] &&
             [self.imageUrl isEqualToString:r.imageUrl] &&
             self.likes == r.likes &&
             self.year == r.year &&
@@ -136,7 +123,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"city: %@\t\ttype: %@\t\ttitle: %@\nintro: %@\nimageUrl: %@\nlikes: %@\t\t\tyear: %@\t\t\tmonth: %@\t\t\tday: %@\n", self.city, @(self.type), self.title, self.intro, self.imageUrl, @(self.likes), @(self.year), @(self.month), @(self.day)];
+    return [NSString stringWithFormat:@"city: %@\t\ttype: %@\t\ttitle: %@\nintro: %@\nblurredImageUrl: %@\nimageUrl: %@\nlikes: %@\t\t\tyear: %@\t\t\tmonth: %@\t\t\tday: %@\n", self.city, @(self.type), self.title, self.intro, self.blurredImageUrl, self.imageUrl, @(self.likes), @(self.year), @(self.month), @(self.day)];
 }
 
 - (NSString *)date

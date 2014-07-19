@@ -29,7 +29,7 @@ static ONEResourceManager *sharedSingleton;
     }
 }
 
-+ (ONEResourceManager *)defaultManager
++ (ONEResourceManager *)sharedManager
 {
     return sharedSingleton;
 }

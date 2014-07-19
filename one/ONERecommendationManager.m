@@ -32,7 +32,7 @@ static ONERecommendationManager *sharedSingleton;
     }
 }
 
-+ (ONERecommendationManager *)defaultManager
++ (ONERecommendationManager *)sharedManager
 {
     return sharedSingleton;
 }
@@ -52,52 +52,58 @@ static ONERecommendationManager *sharedSingleton;
     return self;
 }
 
-- (ONERecommendation *)getRecommendationOfYear:(NSUInteger)year month:(NSUInteger)month day:(NSUInteger)day dataCompletionHandler:(RecommendationDataCompletionHandlerType)dataHandler imageCompletionHandler:(RecommendationImageCompletionHandlerType)imageHandler
+// 读取推荐内容
+- (ONERecommendation *)getRecommendationWithDateComponents:(NSDateComponents *)dateComponents dataCompletionHandler:(RecommendationDataCompletionHandlerType)dataHandler imageCompletionHandler:(RecommendationImageCompletionHandlerType)imageHandler
 {
     ONERecommendation *recommendation = nil;
     
-    // first find the recommendation from local
-    recommendation = [self getRecommendationFromLocalOfYear:year month:month day:day];
+    // 首先从本地读取，如果读取成功，直接返回
+    recommendation = [self getRecommendationFromLocalWithDateComponents:dateComponents];
     if (recommendation != nil) {
         return recommendation;
     }
     
-    // then find the recommendation from server, this call will return immediately
-    // when the server response, will call the handler to process the result
-    recommendation = [self getRecomendationFromServerOfYear:year month:month day:day dataCompletionHandler:dataHandler imageCompletionHandler:imageHandler];
+    // 如果本地读取不成功，则从服务器读取数据，此次调用会立刻返回；当服务器返回时，调用handler处理返回结果
+    recommendation = [self getRecomendationFromServerWithDateComponents:dateComponents dataCompletionHandler:dataHandler imageCompletionHandler:imageHandler];
     
     return recommendation;
 }
 
-- (ONERecommendation *)getRecommendationFromLocalOfYear:(NSUInteger)year month:(NSUInteger)month day:(NSUInteger)day
+// 从本地读取推荐内容
+- (ONERecommendation *)getRecommendationFromLocalWithDateComponents:(NSDateComponents *)dateComponents
 {
-    ONERecommendation *recommendation = [self readRecommendationFromFileOfYear:year month:month day:day];
+    ONERecommendation *recommendation = [self readRecommendationFromFileWithDateComponents:dateComponents];
     return recommendation;
 }
 
-- (ONERecommendation *)getRecomendationFromServerOfYear:(NSUInteger)year month:(NSUInteger)month day:(NSUInteger)day dataCompletionHandler:(RecommendationDataCompletionHandlerType)dataHandler imageCompletionHandler:(RecommendationImageCompletionHandlerType)imageHandler
+// 从服务器下载推荐内容
+- (ONERecommendation *)getRecomendationFromServerWithDateComponents:(NSDateComponents *)dateComponents dataCompletionHandler:(RecommendationDataCompletionHandlerType)dataHandler imageCompletionHandler:(RecommendationImageCompletionHandlerType)imageHandler
 {
     ONERecommendation *recommendation = nil;
     
-    NSString *url = [NSString stringWithFormat:@"%@recommendation?year=%lu&month=%lu&day=%lu", self.urlBase, (unsigned long)year, (unsigned long)month, (unsigned long)day];
+    NSString *url = [NSString stringWithFormat:@"%@recommendation?year=%d&month=%d&day=%d", self.urlBase, dateComponents.year, dateComponents.month, dateComponents.day];
     
     [self.sessionDelegate startDataTaskWithUrl:url completionHandler:^(NSData *data, NSError *error) {
         if (error == nil) {
-            // if success, use the data to init the recommendation and set the date
+            // 如果服务器返回成功，用返回的数据来拼装出推荐内容
             ONERecommendation *recommendation = [[ONERecommendation alloc] initWithJSONData:data];
             
             // set the date of the recommendation, which will use to save the recommendation to local file
-            recommendation.year = year;
-            recommendation.month = month;
-            recommendation.day = day;
+            recommendation.year = dateComponents.year;
+            recommendation.month = dateComponents.month;
+            recommendation.day = dateComponents.day;
+            recommendation.weekday = dateComponents.weekday;
             
             // TODO in production, splice the imageUrl.
-//            recommendation.imageUrl = [self.urlBase stringByAppendingString:recommendation.imageUrl];
+//            recommendation.blurredImageUrl = [self.urlBase stringByAppendingString:recommendation.blurredImageUrl];
             
-            // download the recommendation's image
+            // 下载推荐内容的图片
             [self downloadRecommendationImage:recommendation imageCompletionHandler:imageHandler];
             
-            // pass the recommendation to the handler
+            // 将推荐内容写入本地文件
+            [self writeRecommendationToFile:recommendation];
+            
+            // 处理推荐内容
             dataHandler(recommendation);
         } else {
             NSLog(@"ERROR - getRecomendationFromServerOfYear: %@", error);
@@ -107,9 +113,10 @@ static ONERecommendationManager *sharedSingleton;
     return recommendation;
 }
 
+// 下载图片
 - (void)downloadRecommendationImage:(ONERecommendation *)recommendation imageCompletionHandler:(RecommendationImageCompletionHandlerType)imageHandler
 {
-    [self.sessionDelegate startDownloadTaskWithUrl:recommendation.imageUrl completionHandler:^(NSURL *location, NSError *error) {
+    [self.sessionDelegate startDownloadTaskWithUrl:recommendation.blurredImageUrl completionHandler:^(NSURL *location, NSError *error) {
         // 如果消息是任务完成，直接返回，不做处理
         if (location == nil && error == nil) {
             return ;
@@ -124,7 +131,7 @@ static ONERecommendationManager *sharedSingleton;
         NSError *e = nil;
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSURL *cacheDirUrl = [NSURL fileURLWithPath:self.cacheDir];
-        NSURL *targetFileUrl = [cacheDirUrl URLByAppendingPathComponent:[NSString stringWithFormat:@"%lu%lu%lu.jpg", (unsigned long)recommendation.year, (unsigned long)recommendation.month, (unsigned long)recommendation.day]];
+        NSURL *targetFileUrl = [cacheDirUrl URLByAppendingPathComponent:[NSString stringWithFormat:@"%d%d%d.jpg", recommendation.year, recommendation.month, recommendation.day]];
         [ONELogger logTitle:@"image new location" content:targetFileUrl.path];
         
         [self clearFileAtUrl:targetFileUrl];
@@ -138,11 +145,12 @@ static ONERecommendationManager *sharedSingleton;
             imageHandler(nil);
         }
         
-        // save recommendation to local file
+        // 将推荐内容写入本地文件
         [self writeRecommendationToFile:recommendation];
     }];
 }
 
+// 清空文件
 - (void)clearFileAtUrl:(NSURL *)location
 {
     NSError *error = nil;
@@ -154,9 +162,10 @@ static ONERecommendationManager *sharedSingleton;
     }
 }
 
+// 将推荐内容写入本地文件
 - (void)writeRecommendationToFile:(ONERecommendation *)recommendation
 {
-    NSString *fileName = [NSString stringWithFormat:@"%lu%lu%lu", (unsigned long)recommendation.year, (unsigned long)recommendation.month, (unsigned long)recommendation.day];
+    NSString *fileName = [NSString stringWithFormat:@"%d%d%d", recommendation.year, recommendation.month, recommendation.day];
     NSString *filePath = [self.cacheDir stringByAppendingPathComponent:fileName];
     NSDictionary *dic = [recommendation properties];
     BOOL success = [dic writeToFile:filePath atomically:YES];
@@ -164,12 +173,10 @@ static ONERecommendationManager *sharedSingleton;
     [ONELogger logTitle:info content:nil];
 }
 
-- (ONERecommendation *)readRecommendationFromFileOfYear:(NSUInteger)year month:(NSUInteger)month day:(NSUInteger)day
+// 从本地文件读取推荐内容
+- (ONERecommendation *)readRecommendationFromFileWithDateComponents:(NSDateComponents *)dateComponents
 {
-    // TODO 若返回nil，则强制从服务器取数据
-//    return nil;
-    
-    NSString *fileName = [NSString stringWithFormat:@"%lu%lu%lu", (unsigned long)year, (unsigned long)month, (unsigned long)day];
+    NSString *fileName = [NSString stringWithFormat:@"%d%d%d", dateComponents.year, dateComponents.month, dateComponents.day];
     NSString *filePath = [self.cacheDir stringByAppendingPathComponent:fileName];
     NSDictionary *properties = [NSDictionary dictionaryWithContentsOfFile:filePath];
     
@@ -184,6 +191,7 @@ static ONERecommendationManager *sharedSingleton;
     return recommendation;
 }
 
+// 将收藏列表写入本地文件
 - (void)writeRecommendationCollectionToFile:(NSArray *)recommendationArray
 {
     NSMutableArray *propertiesArray = [NSMutableArray arrayWithCapacity:recommendationArray.count];
@@ -197,6 +205,7 @@ static ONERecommendationManager *sharedSingleton;
     [ONELogger logTitle:info content:nil];
 }
 
+// 从本地文件读取收藏列表
 - (NSMutableArray *)readRecommendationCollectionFromFile
 {
     NSString *filePath = [self.cacheDir stringByAppendingPathComponent:self.collectionFileName];

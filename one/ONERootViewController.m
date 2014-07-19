@@ -52,13 +52,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.recommendationManager = [ONERecommendationManager defaultManager];
+    self.recommendationManager = [ONERecommendationManager sharedManager];
     self.capacity = 3;
     self.recommendations = [NSMutableArray arrayWithCapacity:self.capacity];
     self.viewControllers = [NSMutableArray arrayWithCapacity:self.capacity];
     self.currentPage = 0;
     self.pageWidth = CGRectGetWidth(self.view.frame);
-    self.dateHelper = [ONEDateHelper defaultDateHelper];
+    self.dateHelper = [ONEDateHelper sharedDateHelper];
     self.startPositionOfMainScrollView = 0;
     
     self.recommendationCollection = [NSMutableSet set];
@@ -115,21 +115,17 @@
         
         // then load the corresponding Recommendation
         NSDateComponents *targetDateComponents = [self.dateHelper dateComponentsBeforeNDays:page];
-        ONERecommendation *recommendation = [self.recommendationManager getRecommendationOfYear:targetDateComponents.year month:targetDateComponents.month day:targetDateComponents.day dataCompletionHandler:^(ONERecommendation *r) {
-            // update r's weekday
-            r.weekday = targetDateComponents.weekday;
-            // update delegate
+        ONERecommendation *recommendation = [self.recommendationManager getRecommendationWithDateComponents:targetDateComponents dataCompletionHandler:^(ONERecommendation *r) {
+            // update r's delegate; save r; use r to update the corresponding view controller
             r.delegate = self;
-            // save r
             self.recommendations[page] = r;
-            // use r to update the corresponding view controller
             ONERecommendationBriefViewController *viewController = self.viewControllers[page];
             viewController.recommendation = r;
         } imageCompletionHandler:^(NSURL *location) {
             // 图片下载完成之后，将地址更新到recommendation，然后更新对应的view controller
             if (location != nil) {
                 ONERecommendation *r = self.recommendations[page];
-                r.imageUrl = location.path;
+                r.blurredImageUrl = location.path;
                 ONERecommendationBriefViewController *vc = self.viewControllers[page];
                 [vc updateRecommendationImage];
             }

@@ -34,7 +34,7 @@
 
 - (void)initBarButtons
 {
-    ONEResourceManager *resourceManager = [ONEResourceManager defaultManager];
+    ONEResourceManager *resourceManager = [ONEResourceManager sharedManager];
     UIButton *returnButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [returnButton setImage:resourceManager.returnGreyImage forState:UIControlStateNormal];
     [returnButton setImage:resourceManager.returnGreySelectedImage forState:UIControlStateSelected];

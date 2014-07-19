@@ -76,9 +76,9 @@
     }
     [self updateRecommendationImage];
     self.dayLabel.text = [@(self.recommendation.day) stringValue];
-    self.monthLabel.text = [[ONEDateHelper defaultDateHelper] briefStringOfMonth:self.recommendation.month];
-    self.weekdayLabel.text = [[ONEDateHelper defaultDateHelper] stringOfWeekday:self.recommendation.weekday];
-    self.typeImageView.image = [[ONEResourceManager defaultManager] briefTypeImage:self.recommendation.type];
+    self.monthLabel.text = [[ONEDateHelper sharedDateHelper] briefStringOfMonth:self.recommendation.month];
+    self.weekdayLabel.text = [[ONEDateHelper sharedDateHelper] stringOfWeekday:self.recommendation.weekday];
+    self.typeImageView.image = [[ONEResourceManager sharedManager] briefTypeImage:self.recommendation.type];
     self.cityLabel.text = self.recommendation.city;
     self.titleLabel.text = self.recommendation.title;
     self.introLabel.text = self.recommendation.intro;
@@ -96,8 +96,8 @@
 
 - (void)updateRecommendationImage
 {
-    if ([[NSFileManager defaultManager] fileExistsAtPath:self.recommendation.imageUrl]) {
-        self.thingImageView.image = [UIImage imageWithContentsOfFile:self.recommendation.imageUrl];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:self.recommendation.blurredImageUrl]) {
+        self.thingImageView.image = [UIImage imageWithContentsOfFile:self.recommendation.blurredImageUrl];
     }
 }
 

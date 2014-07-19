@@ -43,7 +43,7 @@
 
 - (void)initBarButtons
 {
-    ONEResourceManager *resourceManager = [ONEResourceManager defaultManager];
+    ONEResourceManager *resourceManager = [ONEResourceManager sharedManager];
     UIButton *editButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [editButton setImage:resourceManager.editImage forState:UIControlStateNormal];
     [editButton setImage:resourceManager.editSelectedImage forState:UIControlStateSelected];
@@ -79,8 +79,8 @@
     ONERecommendation *recommendation = self.recommendationCollection[indexPath.row];
     cell.textLabel.text = recommendation.title;
     cell.detailTextLabel.text = recommendation.intro;
-    cell.imageView.image = [[ONEResourceManager defaultManager] collectTypeImage:recommendation.type];
-    cell.accessoryView = [[UIImageView alloc] initWithImage:[ONEResourceManager defaultManager].arrowRightGreyImage];
+    cell.imageView.image = [[ONEResourceManager sharedManager] collectTypeImage:recommendation.type];
+    cell.accessoryView = [[UIImageView alloc] initWithImage:[ONEResourceManager sharedManager].arrowRightGreyImage];
     
     return cell;
 }

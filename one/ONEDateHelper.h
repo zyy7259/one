@@ -10,7 +10,7 @@
 
 @interface ONEDateHelper : NSObject
 
-+ (ONEDateHelper *)defaultDateHelper;
++ (ONEDateHelper *)sharedDateHelper;
 
 - (NSDateComponents *)dateComponentsBeforeNDays:(NSUInteger)n;
 - (NSString *)briefStringOfMonth:(NSUInteger)month;

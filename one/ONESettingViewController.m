@@ -41,7 +41,7 @@
 
 - (void)initCellInfos
 {
-    ONEResourceManager *resourceManager = [ONEResourceManager defaultManager];
+    ONEResourceManager *resourceManager = [ONEResourceManager sharedManager];
     self.cellInfos = [NSArray arrayWithObjects:
                       @{@"image": resourceManager.infoImage,
                         @"title": @"关于我们"},
