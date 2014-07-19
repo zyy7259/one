@@ -26,7 +26,6 @@
 		7AC30EE2197A4A9500A5C71C /* collectDetail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AC30EE0197A4A9500A5C71C /* collectDetail@2x.png */; };
 		7AC30EE6197A4B1F00A5C71C /* shareDetail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AC30EE4197A4B1F00A5C71C /* shareDetail@2x.png */; };
 		7AC30EE7197A4B1F00A5C71C /* shareDetailSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AC30EE5197A4B1F00A5C71C /* shareDetailSelected@2x.png */; };
-		7AC30EEA197A529900A5C71C /* onelifeAbout@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AC30EE8197A529900A5C71C /* onelifeAbout@2x.png */; };
 		7AC30EEB197A529900A5C71C /* onelifeLeft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AC30EE9197A529900A5C71C /* onelifeLeft@2x.png */; };
 		7AC30EEE197A53E900A5C71C /* edit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AC30EEC197A53E900A5C71C /* edit@2x.png */; };
 		7AC30EEF197A53E900A5C71C /* editSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AC30EED197A53E900A5C71C /* editSelected@2x.png */; };
@@ -64,6 +63,9 @@
 		7AC30F5C197A887500A5C71C /* travelBrief@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AC30F47197A887500A5C71C /* travelBrief@2x.png */; };
 		7AC30F5D197A887500A5C71C /* travelCollect@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AC30F48197A887500A5C71C /* travelCollect@2x.png */; };
 		7AC30F5E197A887500A5C71C /* travelDetail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AC30F49197A887500A5C71C /* travelDetail@2x.png */; };
+		7AC30F62197A8AF900A5C71C /* ONERecommendationImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AC30F60197A8AF900A5C71C /* ONERecommendationImageViewController.m */; };
+		7AC30F63197A8AF900A5C71C /* ONERecommendationImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7AC30F61197A8AF900A5C71C /* ONERecommendationImageViewController.xib */; };
+		7AC30F65197A8BB200A5C71C /* aboutUs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AC30F64197A8BB200A5C71C /* aboutUs@2x.png */; };
 		7AC572721977895C00DDD900 /* ONELogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AC572711977895C00DDD900 /* ONELogger.m */; };
 		7AC7AE0E197A05A000BA283A /* ONESettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AC7AE0D197A05A000BA283A /* ONESettingViewController.m */; };
 		7AC7AE12197A0A7D00BA283A /* ONEAboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AC7AE10197A0A7D00BA283A /* ONEAboutUsViewController.m */; };
@@ -125,7 +127,6 @@
 		7AC30EE0197A4A9500A5C71C /* collectDetail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "collectDetail@2x.png"; sourceTree = "<group>"; };
 		7AC30EE4197A4B1F00A5C71C /* shareDetail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shareDetail@2x.png"; sourceTree = "<group>"; };
 		7AC30EE5197A4B1F00A5C71C /* shareDetailSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shareDetailSelected@2x.png"; sourceTree = "<group>"; };
-		7AC30EE8197A529900A5C71C /* onelifeAbout@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "onelifeAbout@2x.png"; sourceTree = "<group>"; };
 		7AC30EE9197A529900A5C71C /* onelifeLeft@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "onelifeLeft@2x.png"; sourceTree = "<group>"; };
 		7AC30EEC197A53E900A5C71C /* edit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "edit@2x.png"; sourceTree = "<group>"; };
 		7AC30EED197A53E900A5C71C /* editSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "editSelected@2x.png"; sourceTree = "<group>"; };
@@ -163,6 +164,10 @@
 		7AC30F47197A887500A5C71C /* travelBrief@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "travelBrief@2x.png"; sourceTree = "<group>"; };
 		7AC30F48197A887500A5C71C /* travelCollect@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "travelCollect@2x.png"; sourceTree = "<group>"; };
 		7AC30F49197A887500A5C71C /* travelDetail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "travelDetail@2x.png"; sourceTree = "<group>"; };
+		7AC30F5F197A8AF900A5C71C /* ONERecommendationImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONERecommendationImageViewController.h; sourceTree = "<group>"; };
+		7AC30F60197A8AF900A5C71C /* ONERecommendationImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONERecommendationImageViewController.m; sourceTree = "<group>"; };
+		7AC30F61197A8AF900A5C71C /* ONERecommendationImageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ONERecommendationImageViewController.xib; sourceTree = "<group>"; };
+		7AC30F64197A8BB200A5C71C /* aboutUs@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "aboutUs@2x.png"; sourceTree = "<group>"; };
 		7AC572701977895C00DDD900 /* ONELogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONELogger.h; sourceTree = "<group>"; };
 		7AC572711977895C00DDD900 /* ONELogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONELogger.m; sourceTree = "<group>"; };
 		7AC7AE0C197A05A000BA283A /* ONESettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONESettingViewController.h; sourceTree = "<group>"; };
@@ -262,6 +267,9 @@
 				7AC7AE0F197A0A7D00BA283A /* ONEAboutUsViewController.h */,
 				7AC7AE10197A0A7D00BA283A /* ONEAboutUsViewController.m */,
 				7AC7AE11197A0A7D00BA283A /* ONEAboutUsViewController.xib */,
+				7AC30F5F197A8AF900A5C71C /* ONERecommendationImageViewController.h */,
+				7AC30F60197A8AF900A5C71C /* ONERecommendationImageViewController.m */,
+				7AC30F61197A8AF900A5C71C /* ONERecommendationImageViewController.xib */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -284,7 +292,6 @@
 		7AC30EBD197A350B00A5C71C /* image */ = {
 			isa = PBXGroup;
 			children = (
-				7AC30F34197A887500A5C71C /* types */,
 				7AC30F00197A647000A5C71C /* arrowRightGrey@2x.png */,
 				7AC30F01197A647000A5C71C /* arrowRightWhite@2x.png */,
 				7AC30ED8197A40AF00A5C71C /* close@2x.png */,
@@ -293,6 +300,7 @@
 				7AC30EE0197A4A9500A5C71C /* collectDetail@2x.png */,
 				7AC30F04197A678C00A5C71C /* collectDetailSelected@2x.png */,
 				7AC30EC3197A375400A5C71C /* collectSelected@2x.png */,
+				7AC30F64197A8BB200A5C71C /* aboutUs@2x.png */,
 				7AC30EF6197A5AC400A5C71C /* complete@2x.png */,
 				7AC30EF7197A5AC400A5C71C /* completeSelected@2x.png */,
 				7AC30EEC197A53E900A5C71C /* edit@2x.png */,
@@ -301,7 +309,6 @@
 				7AC30EF0197A577300A5C71C /* info@2x.png */,
 				7AC30EF3197A57B900A5C71C /* like@2x.png */,
 				7AC30EFE197A605B00A5C71C /* loading.png */,
-				7AC30EE8197A529900A5C71C /* onelifeAbout@2x.png */,
 				7AC30EE9197A529900A5C71C /* onelifeLeft@2x.png */,
 				7AC30EFA197A5B2900A5C71C /* returnGrey@2x.png */,
 				7AC30EFB197A5B2900A5C71C /* returnGreySelected@2x.png */,
@@ -315,6 +322,7 @@
 				7AC30ECB197A3B0D00A5C71C /* shareSelected@2x.png */,
 				7AC30EC6197A3AAE00A5C71C /* viewCollection@2x.png */,
 				7AC30F06197A6D7E00A5C71C /* viewCollectionSelected@2x.png */,
+				7AC30F34197A887500A5C71C /* types */,
 			);
 			path = image;
 			sourceTree = "<group>";
@@ -498,7 +506,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7AC30EEA197A529900A5C71C /* onelifeAbout@2x.png in Resources */,
 				7AC30F4E197A887500A5C71C /* foodCollect@2x.png in Resources */,
 				7AC30F54197A887500A5C71C /* houseCollect@2x.png in Resources */,
 				7AC30EE6197A4B1F00A5C71C /* shareDetail@2x.png in Resources */,
@@ -532,6 +539,7 @@
 				7AC30F5E197A887500A5C71C /* travelDetail@2x.png in Resources */,
 				7AC30EEE197A53E900A5C71C /* edit@2x.png in Resources */,
 				7AC30F5C197A887500A5C71C /* travelBrief@2x.png in Resources */,
+				7AC30F63197A8AF900A5C71C /* ONERecommendationImageViewController.xib in Resources */,
 				7AC30F5B197A887500A5C71C /* sportDetail@2x.png in Resources */,
 				7AC30F53197A887500A5C71C /* houseBrief@2x.png in Resources */,
 				7AC30EF1197A577300A5C71C /* info@2x.png in Resources */,
@@ -546,6 +554,7 @@
 				7AC30F55197A887500A5C71C /* houseDetail@2x.png in Resources */,
 				7AC30EFC197A5B2900A5C71C /* returnGrey@2x.png in Resources */,
 				7AC30ECD197A3B0D00A5C71C /* shareSelected@2x.png in Resources */,
+				7AC30F65197A8BB200A5C71C /* aboutUs@2x.png in Resources */,
 				7AC30F09197A6EA000A5C71C /* settingSelected@2x.png in Resources */,
 				7AC30F59197A887500A5C71C /* sportBrief.png in Resources */,
 				7AF27FC81972873D00BBC0AC /* ONERecommendationBriefViewController.xib in Resources */,
@@ -583,6 +592,7 @@
 				7AFDDEC2197190C40031F293 /* ONEAppDelegate.m in Sources */,
 				7AC7AE16197A132800BA283A /* ONEResourceManager.m in Sources */,
 				7AF27FCC197287EA00BBC0AC /* ONERecommendationDetailViewController.m in Sources */,
+				7AC30F62197A8AF900A5C71C /* ONERecommendationImageViewController.m in Sources */,
 				7A59E84519729F6600E637D4 /* ONERecommendation.m in Sources */,
 				7AB6AABC1978BA06002A8992 /* ONERecommendationCollectionViewController.m in Sources */,
 				7A937B45197678E40087D4F2 /* ONEDateHelper.m in Sources */,
