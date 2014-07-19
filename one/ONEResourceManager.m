@@ -63,15 +63,28 @@ static ONEResourceManager *sharedSingleton;
 
 - (void)initTypeImages
 {
-    _briefTypeImages = [NSArray arrayWithObjects:
-                        [NSNull null],
-                        [UIImage imageNamed:@"foodBrief"],
-                        [UIImage imageNamed:@"foodBrief"],
-                        [UIImage imageNamed:@"foodBrief"],
-                        [UIImage imageNamed:@"foodBrief"],
-                        nil];
-    _detailTypeImages = [NSArray arrayWithArray:_briefTypeImages];
-    _collectTypeImages = [NSArray arrayWithArray:_briefTypeImages];
+    NSArray *types = @[@"food", @"fun", @"house", @"shopping", @"travel", @"sport", @"beauty"];
+    
+    NSMutableArray *briefTmp = [NSMutableArray arrayWithCapacity:(types.count + 1)];
+    NSMutableArray *detailTmp = [NSMutableArray arrayWithCapacity:(types.count + 1)];
+    NSMutableArray *collectTmp = [NSMutableArray arrayWithCapacity:(types.count + 1)];
+    
+    briefTmp[0] = [NSNull null];
+    detailTmp[0] = [NSNull null];
+    collectTmp[0] = [NSNull null];
+    
+    NSString *briefSuffix = @"Brief";
+    NSString *detailSuffix = @"Detail";
+    NSString *collectSuffix = @"Collect";
+    
+    for (NSString *type in types) {
+        [briefTmp addObject:[UIImage imageNamed:[type stringByAppendingString:briefSuffix]]];
+        [detailTmp addObject:[UIImage imageNamed:[type stringByAppendingString:detailSuffix]]];
+        [collectTmp addObject:[UIImage imageNamed:[type stringByAppendingString:collectSuffix]]];
+    }
+    _briefTypeImages = [NSArray arrayWithArray:briefTmp];
+    _detailTypeImages = [NSArray arrayWithArray:detailTmp];
+    _collectTypeImages = [NSArray arrayWithArray:collectTmp];
 }
 
 - (UIImage *)briefTypeImage:(NSUInteger)type

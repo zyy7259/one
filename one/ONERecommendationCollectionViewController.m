@@ -79,7 +79,7 @@
     ONERecommendation *recommendation = self.recommendationCollection[indexPath.row];
     cell.textLabel.text = recommendation.title;
     cell.detailTextLabel.text = recommendation.intro;
-    cell.imageView.image = [[ONEResourceManager defaultManager] briefTypeImage:recommendation.type];
+    cell.imageView.image = [[ONEResourceManager defaultManager] collectTypeImage:recommendation.type];
     cell.accessoryView = [[UIImageView alloc] initWithImage:[ONEResourceManager defaultManager].arrowRightGreyImage];
 //    cell.editing = YES;
     

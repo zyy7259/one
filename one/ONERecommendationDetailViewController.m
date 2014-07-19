@@ -50,7 +50,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    self.typeImageView.image = [[ONEResourceManager defaultManager] briefTypeImage:self.recommendation.type];
+    self.typeImageView.image = [[ONEResourceManager defaultManager] detailTypeImage:self.recommendation.type];
     self.titleLabel.text = self.recommendation.title;
     self.introLabel.text = self.recommendation.intro;
     self.likesLabel.text = [@(self.recommendation.likes) stringValue];
