@@ -13,11 +13,12 @@
 
 @interface ONERecommendationBriefViewController : UIViewController
 
-@property (nonatomic) ONERecommendation *recommendation;
 @property id<ONERecommendationBriefViewControllerDelegate> delegate;
 
-- (id)initWithRecommendation:(ONERecommendation *)recommendation;
-- (void)updateRecommendationImage;
+@property (nonatomic) ONERecommendation *recommendation;
+
++ (id)instanceWithDateComponents:(NSDateComponents *)dateComponents;
+- (id)initWithDateComponents:(NSDateComponents *)dateComponents;
 - (void)shadowIntroView;
 - (void)deshadowIntroView;
 

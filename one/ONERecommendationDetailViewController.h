@@ -23,4 +23,8 @@
 
 - (void)ONERecommendationDetailViewControllerDidFinishDisplay:(ONERecommendationDetailViewController *)recommendationDetailController;
 
+@optional
+- (void)ONERecommendationDetailViewControllerDidCollectRecommendation:(ONERecommendation *)recommendation;
+- (void)ONERecommendationDetailViewControllerDidDecollectRecommendation:(ONERecommendation *)recommendation;
+
 @end

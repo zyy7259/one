@@ -106,16 +106,6 @@
     return NO;
 }
 
-- (void)updateCollected:(BOOL)collected
-{
-    self.collected = collected;
-    if (self.collected) {
-        [self.delegate ONERecommendationDidCollect:self];
-    } else {
-        [self.delegate ONERecommendationDidDecollect:self];
-    }
-}
-
 - (NSUInteger)hash
 {
     return [[NSString stringWithFormat:@"%@%@%@", @(self.year), @(self.month), @(self.day)] hash];

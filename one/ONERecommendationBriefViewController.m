@@ -8,9 +8,9 @@
 
 #import "ONERecommendationBriefViewController.h"
 #import "ONERecommendation.h"
+#import "ONERecommendationManager.h"
 #import "ONEDateHelper.h"
 #import "ONEResourceManager.h"
-#import "JCRBlurView.h"
 
 @interface ONERecommendationBriefViewController ()
 
@@ -26,9 +26,25 @@
 @property (weak, nonatomic) IBOutlet UILabel *briefDetailLabel;
 @property (weak, nonatomic) IBOutlet UIView *introView;
 
+@property ONERecommendationManager *recommendationManager;
+@property NSDateComponents *dateComponents;
+
 @end
 
 @implementation ONERecommendationBriefViewController
+
++ (id)instanceWithDateComponents:(NSDateComponents *)dateComponents
+{
+    return [[self alloc] initWithDateComponents:dateComponents];
+}
+
+- (id)initWithDateComponents:(NSDateComponents *)dateComponents
+{
+    self = [self initWithNibName:NSStringFromClass([ONERecommendationBriefViewController class]) bundle:nil];
+    self.dateComponents = dateComponents;
+    
+    return self;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -39,42 +55,36 @@
     return self;
 }
 
-- (id)initWithRecommendation:(ONERecommendation *)recommendation
-{
-    self = [self initWithNibName:NSStringFromClass([ONERecommendationBriefViewController class]) bundle:nil];
-    if (self) {
-        self.recommendation = recommendation;
-    }
-    return self;
-}
-
-- (void)setRecommendation:(ONERecommendation *)recommendation
-{
-    _recommendation = recommendation;
-    
-    // 如果还没有加载，直接返回
-    if (!self.isViewLoaded) {
-        return;
-    }
-    if (recommendation == nil) {
-        return;
-    }
-    [self updateRecommendation];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    [self updateRecommendation];
+    self.recommendationManager = [ONERecommendationManager sharedManager];
+    [self loadRecommendation];
 }
 
-- (void)updateRecommendation
+- (void)loadRecommendation
 {
-    if (self.recommendation == nil) {
+    ONERecommendation *r = [self.recommendationManager getRecommendationWithDateComponents:self.dateComponents dataCompletionHandler:^(ONERecommendation *r) {
+        self.recommendation = r;
+    } imageCompletionHandler:^(NSURL *location) {
+        if (location != nil) {
+            [self updateRecommendationImage];
+        }
+    }];
+    self.recommendation = r;
+}
+
+- (void)setRecommendation:(ONERecommendation *)recommendation
+{
+    _recommendation = recommendation;
+
+    // 如果还没有加载或者_recommendation为空，直接返回
+    if (_recommendation == nil) {
         return;
     }
+    
     [self updateRecommendationImage];
     self.dayLabel.text = [@(self.recommendation.day) stringValue];
     self.monthLabel.text = [[ONEDateHelper sharedDateHelper] briefStringOfMonth:self.recommendation.month];
@@ -83,6 +93,7 @@
     self.cityLabel.text = self.recommendation.city;
     self.titleLabel.text = self.recommendation.title;
     self.introLabel.text = self.recommendation.intro;
+    self.likesLabel.text = [@(self.recommendation.likes) stringValue];
     
     NSString *labelText = self.recommendation.briefDetail;
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:labelText];
@@ -91,8 +102,6 @@
     [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [labelText length])];
     self.briefDetailLabel.attributedText = attributedString;
     [self.briefDetailLabel sizeToFit];
-    
-    self.likesLabel.text = [@(self.recommendation.likes) stringValue];
 }
 
 - (void)updateRecommendationImage

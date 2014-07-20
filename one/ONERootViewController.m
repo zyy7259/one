@@ -15,7 +15,7 @@
 #import "ONEDateHelper.h"
 #import "ONEAnimationHelper.h"
 
-@interface ONERootViewController () <ONERecommendationBriefViewControllerDelegate, ONERecommendationDetailDelegate, ONERecommendationDelegate, ONERecommendationCollectionDelegate>
+@interface ONERootViewController () <ONERecommendationBriefViewControllerDelegate, ONERecommendationDetailDelegate, ONERecommendationCollectionDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *mainScrollView;
 @property (weak, nonatomic) IBOutlet UIScrollView *recommendationsScrollView;
@@ -33,7 +33,6 @@
 @property ONEDateHelper *dateHelper;
 @property CGFloat startPositionOfMainScrollView;
 @property NSMutableSet *recommendationCollection;
-@property NSMutableDictionary *recommendationCollectFlag;
 
 @end
 
@@ -53,6 +52,8 @@
     return UIStatusBarStyleLightContent;
 }
 
+#pragma mark 初始化
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -68,10 +69,10 @@
     self.startPositionOfMainScrollView = 0;
     
     self.recommendationCollection = [NSMutableSet set];
-    self.recommendationCollectFlag = [NSMutableDictionary dictionary];
 
     self.recommendationsScrollView.delegate = self;
     self.mainScrollView.delegate = self;
+    
     [self updateScrollViewContentSize];
     
     // load the visible pages
@@ -84,10 +85,8 @@
     
     // 读取存储在本地的收藏列表
     self.recommendationCollection = [NSMutableSet setWithArray:[self.recommendationManager readRecommendationCollectionFromFile]];
-    // 更新收藏按钮的状态
-    [self updateCollectButtonState];
     
-//    [self updateThemeColor];
+    [self updateViewAppearance];
 }
 
 - (void)updateScrollViewContentSize
@@ -104,60 +103,32 @@
 
 - (void)loadPage:(NSUInteger)page
 {
-    // load the corresponding recommendation, which will be used to init the viewControll
-    // then add the controller's view to the scroll view
-    
     ONERecommendationBriefViewController *viewController = nil;
     
-    // if the target page not loaded, load it
+    // 如果page所代表的页面没有加载，加载它
     if (page == self.viewControllers.count) {
         
-        // first check if need to update the scroll view's content size
+        // 如果capacity不够了，更新它和scrollView的contentSize
         if (page == self.capacity) {
-            // update capacity and scroll view
             self.capacity += 1;
             [self updateScrollViewContentSize];
         }
         
-        // then load the corresponding Recommendation
-        NSDateComponents *targetDateComponents = [self.dateHelper dateComponentsBeforeNDays:page];
-        ONERecommendation *recommendation = [self.recommendationManager getRecommendationWithDateComponents:targetDateComponents dataCompletionHandler:^(ONERecommendation *r) {
-            // update r's delegate; save r; use r to update the corresponding view controller
-            r.delegate = self;
-            self.recommendations[page] = r;
-            ONERecommendationBriefViewController *viewController = self.viewControllers[page];
-            viewController.recommendation = r;
-        } imageCompletionHandler:^(NSURL *location) {
-            // 图片下载完成之后，更新对应的view controller
-            if (location != nil) {
-                // TODO 或者总是更新，由vc判断是否为合法图片地址，如果不合法则显示loading
-                ONERecommendationBriefViewController *vc = self.viewControllers[page];
-                [vc updateRecommendationImage];
-            }
-        }];
-        // at this time, the recommendation may be nil
-        if (recommendation == nil) {
-            [self.recommendations addObject:[NSNull null]];
-        } else {
-            recommendation.delegate = self;
-            [self.recommendations addObject:recommendation];
-        }
-        
         // then create the viewController
-        viewController = [[ONERecommendationBriefViewController alloc] initWithRecommendation:recommendation];
+        viewController = [ONERecommendationBriefViewController instanceWithDateComponents:[self.dateHelper dateComponentsBeforeNDays:page]];
         viewController.delegate = self;
         [self.viewControllers addObject:viewController];
     } else {
         viewController = self.viewControllers[page];
     }
     
-    // In the end, add the controller's view to the scroll view
+    // 如果viewController的view没有在view tree上，把它加载到scrollView的view tree上
     if (viewController.view.superview == nil) {
         CGRect frame = self.recommendationsScrollView.frame;
-        
-        // leave out a margin
+        // 页面留白
         NSUInteger margin = 0;
-        NSUInteger barMargin = 0;  // 64 for views embedded in navagation
+        // 如果使用navigationController，上方多空64
+        NSUInteger barMargin = 0;
         frame.origin.x = CGRectGetWidth(frame) * page + margin;
         frame.origin.y = 0 + margin;
         frame.size.width -= 2 * margin;
@@ -169,6 +140,30 @@
         [viewController didMoveToParentViewController:self];
     }
 }
+
+- (void)updateViewAppearance
+{
+    // 更新主题颜色
+    [self updateThemeColor];
+    // 更新收藏状态
+    [self syncCollectButtonAndCorrespondingRecommendationState];
+}
+
+#pragma mark 主题颜色
+
+// 更换主题颜色
+- (void)updateThemeColor
+{
+    [self updateThemeColorWithPage:self.currentPage];
+}
+// 更换到指定页码的主题颜色
+- (void)updateThemeColorWithPage:(NSUInteger)page
+{
+    //    ONERecommendation *recommendation = self.recommendations[page];
+    //    self.view.backgroundColor = recommendation.themeColor;
+}
+
+#pragma mark 左滑、右滑、上滑、下滑
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
@@ -195,9 +190,12 @@
     }
 }
 
+# pragma mark 左右滑动，切换页面和主题颜色
+
+// 左右滑动进行中，可能需要提前切换主题颜色
 - (void)recommendationsScrollViewDidScroll
 {
-    // update theme color when more than 30% of the previous/next page is visible
+    // 当前/后页超过30%的内容被显示时，切换主题颜色
     NSInteger startPosition = self.currentPage * self.pageWidth;
     NSInteger currentPosition = self.recommendationsScrollView.contentOffset.x;
     if (abs((int)(startPosition - currentPosition)) >= self.pageWidth / 2) {
@@ -206,20 +204,24 @@
     }
 }
 
+// 左右滑动结束后，可能需要切换页面
 - (void)recommendationsScrollViewDidEndScrolling
 {
-    // switch page when more than 50% of the previous/next page is visible
+    // 停止滑动后，如果前/后页超过50%的内容被显示，切换页面
     NSUInteger page = floor((self.recommendationsScrollView.contentOffset.x - self.pageWidth / 2) / self.pageWidth) + 1;
     self.currentPage = page;
     
     // 切换页面之后，更新页面状态
-    [self updateThemeColor];
-    [self updateCollectButtonState];
+    [self updateViewAppearance];
     
+    // 切换页面之后，预加载可能会显示的页面
     [self loadPage:page];
     [self loadPage:page + 1];
 }
 
+# pragma mark 上下滑动，显示/隐藏菜单
+
+// 上下滑动结束后，可能需要显示/隐藏菜单
 - (void)mainScrollViewDidEndScrolling
 {
     CGFloat startPosition = self.startPositionOfMainScrollView;
@@ -253,113 +255,140 @@
     self.startPositionOfMainScrollView = startPosition;
 }
 
-// change the current theme color
-- (void)updateThemeColor
-{
-    [self updateThemeColorWithPage:self.currentPage];
-}
+#pragma mark - 简单页、详情页、图片页和菜单之间的切换
 
-- (void)updateThemeColorWithPage:(NSUInteger)page
-{
-    //    ONERecommendation *recommendation = self.recommendations[page];
-    //    self.view.backgroundColor = recommendation.themeColor;
-}
-
-// tap gesture recognizer
-
+// 简单页被点击了，切换到对应的详情页面
 - (void)ONERecommendationBriefViewIntroTapped
 {
-    if (self.mainScrollView.contentOffset.y > 0) {
+    // 如果菜单显示中，隐藏之；否则加载recommendation的详情页
+    if ([self pullUpMenuShown]) {
         [self hidePullUpMenu];
     } else {
-        ONERecommendationBriefViewController *briefController = self.viewControllers[self.currentPage];
-        [briefController shadowIntroView];
-        
-        ONERecommendationDetailViewController *detailController = [[ONERecommendationDetailViewController alloc] initWithRecommendation:self.recommendations[self.currentPage]];
-        detailController.delegate = self;
-        
-        detailController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-        [self presentViewController:detailController animated:YES completion:nil];
+        // 首先改变当前页面状态表明被用户点击到了
+        ONERecommendationBriefViewController *briefVc = self.viewControllers[self.currentPage];
+        [briefVc shadowIntroView];
+        // 初始化详情页
+        ONERecommendationDetailViewController *detailVC = [[ONERecommendationDetailViewController alloc] initWithRecommendation:briefVc.recommendation];
+        detailVC.delegate = self;
+        // 使用动画切换到详情页
+        detailVC.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        [self presentViewController:detailVC animated:YES completion:nil];
         // TODO 自定义动画
         //        [[ONEAnimationHelper sharedAnimationHelper] pushViewController:detailController toViewController:self];
     }
 }
 
-- (void)ONERecommendationBriefViewImageTapped
-{
-    if (self.mainScrollView.contentOffset.y > 0) {
-        [self hidePullUpMenu];
-    } else {
-        // TODO load initial image
-    }
-}
-
+// 详情页想要关闭时，此方法来执行具体的关闭操作，切换回简单页
 - (void)ONERecommendationDetailViewControllerDidFinishDisplay:(ONERecommendationDetailViewController *)recommendationDetailController
 {
+    // 首先恢复简单页，取消用户点击状态
     ONERecommendationBriefViewController *vc = self.viewControllers[self.currentPage];
     [vc deshadowIntroView];
+    // 然后切换回简单页
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+// 图片被点击了，切换到完整图片页面
+- (void)ONERecommendationBriefViewImageTapped
+{
+    // 如果菜单显示中，隐藏之；否则加载完整的图片
+    if ([self pullUpMenuShown]) {
+        [self hidePullUpMenu];
+    } else {
+        // TODO load whole image
+    }
+}
+
+// 判断菜单是否显示
+- (BOOL)pullUpMenuShown
+{
+    return self.mainScrollView.contentOffset.y > 0;
+}
+
+// 显示菜单
 - (void)showPullUpMenu
 {
+    // 菜单显示时，不能左右滑动
     [self.mainScrollView setContentOffset:CGPointMake(0, CGRectGetHeight(self.pullUpMenuView.frame)) animated:YES];
     self.recommendationsScrollView.scrollEnabled = NO;
 }
 
+// 隐藏菜单
 - (void)hidePullUpMenu
 {
+    // 菜单隐藏后，可以左右滑动
     [self.mainScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
     self.recommendationsScrollView.scrollEnabled = YES;
 }
 
-// collect
+#pragma mark 收藏
 
-- (void)updateCollectButtonState
+// 更新collectButton和对应的Recommendation的收藏状态
+- (void)syncCollectButtonAndCorrespondingRecommendationState
 {
-    ONERecommendation *recommendation = self.recommendations[self.currentPage];
-    self.collectButton.selected = [self.recommendationCollection containsObject:recommendation];
-    if (recommendation != nil && (NSNull *)recommendation != [NSNull null] && recommendation.collected != self.collectButton.selected) {
-        recommendation.collected = self.collectButton.selected;
+    // bVC的r是从服务器或者本地读取的，不包含是否被选中的信息，只能从收藏列表来判断是否被收藏
+    ONERecommendationBriefViewController *bVC = self.viewControllers[self.currentPage];
+    ONERecommendation *r =  bVC.recommendation;
+    self.collectButton.selected = [self.recommendationCollection containsObject:r];
+    // 然后更新r的状态，用于详情页同步按钮状态
+    if (r != nil) {
+        r.collected = self.collectButton.selected;
     }
 }
 
+// 点击收藏/取消收藏按钮，首先更新collectButton状态，然后更新当前recommendation的状态，然后将r加入收藏列表或者从收藏列表删除
 - (void)collectButtonTapped
 {
     self.collectButton.selected = !self.collectButton.selected;
-    ONERecommendation *recommendation = self.recommendations[self.currentPage];
-    [recommendation updateCollected:self.collectButton.selected];
+    ONERecommendationBriefViewController *bVC = self.viewControllers[self.currentPage];
+    ONERecommendation *r = bVC.recommendation;
+    r.collected = self.collectButton.selected;
+    if (r.collected) {
+        [self addRecommendationToCollection:r];
+    } else {
+        [self removeRecommendationFromCollection:r];
+    }
 }
 
-- (void)ONERecommendationDidCollect:(ONERecommendation *)recommendation
+// 详情页点击了收藏按钮，首先更新collectButton的状态，然后将recommendation加入收藏列表
+- (void)ONERecommendationDetailViewControllerDidCollectRecommendation:(ONERecommendation *)recommendation
 {
     self.collectButton.selected = YES;
-    [self.recommendationCollection addObject:recommendation];
-    [self saveRecommendationCollection];
+    [self addRecommendationToCollection:recommendation];
 }
 
-- (void)ONERecommendationDidDecollect:(ONERecommendation *)recommendation
+// 详情页点击了取消收藏按钮，首先更新collectButton的状态，然后将recommendation从收藏列表删除
+- (void)ONERecommendationDetailViewControllerDidDecollectRecommendation:(ONERecommendation *)recommendation
 {
     self.collectButton.selected = NO;
-    [self.recommendationCollection removeObject:recommendation];
-    [self saveRecommendationCollection];
+    [self removeRecommendationFromCollection:recommendation];
 }
 
+// 收藏列表页点击了删除收藏按钮，将recommendation从收藏列表删除
 - (void)ONERecommendationCollectionViewControllerDidDeleteRecommendation:(ONERecommendation *)recommendation
 {
-    [self.recommendationCollection removeObject:recommendation];
-    [self saveRecommendationCollection];
+    [self removeRecommendationFromCollection:recommendation];
 }
 
-- (void)saveRecommendationCollection
+// 将recommendation加入收藏列表，并将收藏列表写入本地文件
+- (void)addRecommendationToCollection:(ONERecommendation *)recommendation
+{
+    // TODO 将收藏列表用 Array 来实现，加入收藏时要先判断是否已经存在
+    [self.recommendationCollection addObject:recommendation];
+    [self saveRecommendationCollectionToLocal];
+}
+
+// 将recommendation从收藏列表删除，并将收藏列表写入本地文件
+- (void)removeRecommendationFromCollection:(ONERecommendation *)recommendation
+{
+    [self.recommendationCollection removeObject:recommendation];
+    [self saveRecommendationCollectionToLocal];
+}
+
+// 将收藏列表写入本地文件
+- (void)saveRecommendationCollectionToLocal
 {
     [self.recommendationManager writeRecommendationCollectionToFile:self.recommendationCollection.allObjects];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Navigation
@@ -369,28 +398,48 @@
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-    UINavigationController *navigationController = [segue destinationViewController];
-    UIViewController *viewController = navigationController.viewControllers[0];
     
-    if ([viewController isKindOfClass:[ONERecommendationCollectionViewController class]]) {
-        ONERecommendationCollectionViewController *collectionController = (ONERecommendationCollectionViewController *)viewController;
-        collectionController.delegate = self;
-        collectionController.recommendationCollection = [NSMutableArray arrayWithArray:self.recommendationCollection.allObjects];
+    UIViewController *vc = segue.destinationViewController;
+    
+    if ([vc isKindOfClass:[UINavigationController class]]) {
+        
+        UINavigationController *navigationController = (UINavigationController *)vc;
+        UIViewController *viewController = navigationController.viewControllers[0];
+        
+        // 如果是切换到收藏列表页面，传递收藏列表数据
+        if ([viewController isKindOfClass:[ONERecommendationCollectionViewController class]]) {
+            ONERecommendationCollectionViewController *collectionController = (ONERecommendationCollectionViewController *)viewController;
+            collectionController.delegate = self;
+            collectionController.recommendationCollection = [NSMutableArray arrayWithArray:self.recommendationCollection.allObjects];
+        }
     }
+    
 }
 
+// 从收藏列表页面返回，读取并更新收藏列表数据
 - (void)unwindFromRecommendationCollection:(UIStoryboardSegue *)sender
 {
     ONERecommendationCollectionViewController *collectionController = sender.sourceViewController;
+    // 从收藏列表回来之后，首先更新收藏列表数据
     self.recommendationCollection = [NSMutableSet setWithArray:collectionController.recommendationCollection];
-    // 从收藏列表回来之后，当前项的收藏状态可能发生改变，更新收藏按钮状态
-    [self updateCollectButtonState];
+    // 隐藏菜单
     [self hidePullUpMenu];
+    // 当前项的收藏状态可能发生改变，更新收藏按钮状态
+    [self syncCollectButtonAndCorrespondingRecommendationState];
 }
 
+// 从设置页面返回，隐藏菜单
 - (void)unwindFromSetting:(UIStoryboardSegue *)sender
 {
     [self hidePullUpMenu];
+}
+
+# pragma mark 内存不足
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 @end

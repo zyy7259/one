@@ -29,6 +29,11 @@
 
 @implementation ONERecommendationDetailViewController
 
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -36,11 +41,6 @@
         // Custom initialization
     }
     return self;
-}
-
-- (UIStatusBarStyle)preferredStatusBarStyle
-{
-    return UIStatusBarStyleLightContent;
 }
 
 - (id)initWithRecommendation:(ONERecommendation *)recommendation
@@ -101,11 +101,20 @@
     [self.delegate ONERecommendationDetailViewControllerDidFinishDisplay:self];
 }
 
-// collect
+# pragma mark 收藏/取消收藏
+
 - (void)collectButtonTapped
 {
+    // 首先更新collectButton的状态
     self.collectButton.selected = !self.collectButton.selected;
-    [self.recommendation updateCollected:self.collectButton.selected];
+    // 然后更新recommendation的状态
+    self.recommendation.collected = self.collectButton.selected;
+    // 然后根据状态来调用delegate的相应方法
+    if (self.recommendation.collected) {
+        [self.delegate ONERecommendationDetailViewControllerDidCollectRecommendation:self.recommendation];
+    } else {
+        [self.delegate ONERecommendationDetailViewControllerDidDecollectRecommendation:self.recommendation];
+    }
     return;
 }
 

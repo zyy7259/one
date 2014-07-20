@@ -109,14 +109,19 @@
     cell.backgroundColor = [UIColor whiteColor];
 }
 
+// 点击cell的编辑按钮
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // 如果是删除按钮
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // tell delegate about the deletion
-        [self.delegate ONERecommendationCollectionViewControllerDidDeleteRecommendation:self.recommendationCollection[indexPath.row]];
-        // delete the data
+        // 首先更新recommendation的状态
+        ONERecommendation *r = self.recommendationCollection[indexPath.row];
+        r.collected = NO;
+        // 然后通知delegate，r被取消收藏了
+        [self.delegate ONERecommendationCollectionViewControllerDidDeleteRecommendation:r];
+        // 将r从数据源删除
         [self.recommendationCollection removeObjectAtIndex:indexPath.row];
-        // update the table view
+        // 更新tableView
         [self.collectionTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
 }
