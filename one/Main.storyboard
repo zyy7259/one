@@ -257,6 +257,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="qTa-Zd-jaZ" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="TGF-Iv-A4S">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
