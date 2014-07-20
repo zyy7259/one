@@ -38,6 +38,11 @@
     return self;
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
+
 - (id)initWithRecommendation:(ONERecommendation *)recommendation
 {
     self = [self initWithNibName:NSStringFromClass([ONERecommendationDetailViewController class]) bundle:nil];
