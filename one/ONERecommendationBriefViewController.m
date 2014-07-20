@@ -24,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *introLabel;
 @property (weak, nonatomic) IBOutlet UILabel *briefDetailLabel;
+@property (weak, nonatomic) IBOutlet UIView *introView;
 
 @end
 
@@ -101,14 +102,25 @@
     }
 }
 
-- (IBAction)introViewTapped:(UITapGestureRecognizer *)sender
-{
-    [self.delegate ONERecommendationBriefViewIntroTapped];
-}
-
 - (IBAction)imageTapped:(UITapGestureRecognizer *)sender
 {
     [self.delegate ONERecommendationBriefViewImageTapped];
+}
+
+- (IBAction)introViewTapped:(UITapGestureRecognizer *)sender
+{
+    [self shadowIntroView];
+    [self.delegate ONERecommendationBriefViewIntroTapped];
+}
+
+- (void)shadowIntroView
+{
+    self.introView.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.2];
+}
+
+- (void)deshadowIntroView
+{
+    self.introView.backgroundColor = [UIColor clearColor];
 }
 
 - (void)didReceiveMemoryWarning

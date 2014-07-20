@@ -75,6 +75,7 @@
     NSInteger row = indexPath.row;
     cell.imageView.image = self.cellInfos[row][@"image"];
     cell.textLabel.text = self.cellInfos[row][@"title"];
+    cell.accessoryView = [[UIImageView alloc] initWithImage:[ONEResourceManager sharedManager].arrowRightGreyImage];
     
     return cell;
 }
@@ -84,14 +85,29 @@
     switch (indexPath.row) {
         case 0:
         {
+            [tableView deselectRowAtIndexPath:indexPath animated:NO];
+            
+            // 给当前选中的cell加一个背景色
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            cell.backgroundColor = [UIColor colorWithRed:223.0/255.0 green:223.0/255.0 blue:223.0/255.0 alpha:1.0];
+            
+            // 切换界面
             ONEAboutUsViewController *aboutUsController = [[ONEAboutUsViewController alloc] initWithNibName:NSStringFromClass([ONEAboutUsViewController class]) bundle:nil];
             [self.navigationController pushViewController:aboutUsController animated:YES];
+            
+            // 界面切换大概结束后回复cell的背景色
+            [self performSelector:@selector(resetCellBackgroundColor:) withObject:cell afterDelay:0.4];
         }
             break;
             
         default:
             break;
     }
+}
+
+- (void)resetCellBackgroundColor:(UITableViewCell *)cell
+{
+    cell.backgroundColor = [UIColor whiteColor];
 }
 
 /*

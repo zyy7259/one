@@ -87,10 +87,26 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    
+    // 给当前选中的cell加一个背景色
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.backgroundColor = [UIColor colorWithRed:223.0/255.0 green:223.0/255.0 blue:223.0/255.0 alpha:1.0];
+    
+    // 切换界面
     ONERecommendation *recommendation = self.recommendationCollection[indexPath.row];
     ONERecommendationDetailViewController *detailController = [[ONERecommendationDetailViewController alloc] initWithRecommendation:recommendation];
     detailController.delegate = self;
+    detailController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentViewController:detailController animated:YES completion:nil];
+    
+    // 界面切换大概结束后回复cell的背景色
+    [self performSelector:@selector(resetCellBackgroundColor:) withObject:cell afterDelay:0.4];
+}
+
+- (void)resetCellBackgroundColor:(UITableViewCell *)cell
+{
+    cell.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath

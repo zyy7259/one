@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *introLabel;
 @property (weak, nonatomic) IBOutlet UILabel *likesLabel;
+@property (weak, nonatomic) IBOutlet UIScrollView *detailScrollView;
 @property (weak, nonatomic) IBOutlet UILabel *detailLabel;
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
 @property (weak, nonatomic) IBOutlet UIButton *collectButton;
@@ -53,6 +54,20 @@
     self.typeImageView.image = [[ONEResourceManager sharedManager] detailTypeImage:self.recommendation.type];
     self.titleLabel.text = self.recommendation.title;
     self.introLabel.text = self.recommendation.intro;
+    
+    NSString *labelText = self.recommendation.detail;
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:labelText];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setLineSpacing:17];
+    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [labelText length])];
+    self.detailLabel.attributedText = attributedString;
+    [self.detailLabel sizeToFit];
+    
+    self.detailScrollView.contentSize = CGSizeMake(CGRectGetWidth(self.detailScrollView.frame), CGRectGetHeight(self.detailLabel.frame));
+//    NSLog(@"%@", NSStringFromCGRect(self.detailLabel.frame));
+//    NSLog(@"%@", NSStringFromCGRect(self.detailScrollView.frame));
+//    NSLog(@"%@", NSStringFromCGSize(self.detailScrollView.contentSize));
+    
     self.likesLabel.text = [@(self.recommendation.likes) stringValue];
 
     if ([[NSFileManager defaultManager] fileExistsAtPath:self.recommendation.blurredImageUrl]) {

@@ -18,6 +18,8 @@
 
 - (id)initWithRecommendation:(ONERecommendation *)recommendation;
 - (void)updateRecommendationImage;
+- (void)shadowIntroView;
+- (void)deshadowIntroView;
 
 @end
 

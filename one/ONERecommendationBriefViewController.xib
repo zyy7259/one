@@ -10,6 +10,7 @@
                 <outlet property="cityLabel" destination="19l-mi-28D" id="jwH-cN-dqs"/>
                 <outlet property="dayLabel" destination="wya-i0-888" id="6uD-ez-1rm"/>
                 <outlet property="introLabel" destination="seV-BA-oo1" id="uf1-OO-t79"/>
+                <outlet property="introView" destination="OsG-xf-CyB" id="dUO-6F-Fti"/>
                 <outlet property="likesLabel" destination="E8r-BD-6GM" id="hPr-vE-sRQ"/>
                 <outlet property="monthLabel" destination="hpO-Re-uoQ" id="da3-xe-eme"/>
                 <outlet property="thingImageView" destination="rJq-uF-0cF" id="H4K-xr-7jk"/>
@@ -68,42 +69,52 @@
                     <rect key="frame" x="0.0" y="338" width="320" height="230"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowRightWhite.png" id="0zn-mV-WJf">
-                            <rect key="frame" x="285" y="40" width="9" height="17"/>
+                        <view contentMode="scaleToFill" id="OsG-xf-CyB">
+                            <rect key="frame" x="0.0" y="-1" width="320" height="94"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </imageView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ech-0D-YHU">
-                            <rect key="frame" x="13" y="24" width="280" height="21"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <attributedString key="attributedText">
-                                <fragment content="Title">
-                                    <attributes>
-                                        <color key="NSColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <font key="NSFont" size="24" name="HelveticaNeue-Thin"/>
-                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
-                                    </attributes>
-                                </fragment>
-                            </attributedString>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="seV-BA-oo1">
-                            <rect key="frame" x="13" y="54" width="280" height="21"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <attributedString key="attributedText">
-                                <fragment content="Intro">
-                                    <attributes>
-                                        <color key="NSColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <font key="NSFont" size="14" name="HelveticaNeue"/>
-                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
-                                    </attributes>
-                                </fragment>
-                            </attributedString>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <view contentMode="scaleToFill" id="zTC-Ps-AOp">
-                            <rect key="frame" x="13" y="92" width="295" height="1"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="1" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            <subviews>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ech-0D-YHU">
+                                    <rect key="frame" x="13" y="24" width="280" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <attributedString key="attributedText">
+                                        <fragment content="Title">
+                                            <attributes>
+                                                <color key="NSColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <font key="NSFont" size="24" name="HelveticaNeue-Thin"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="seV-BA-oo1">
+                                    <rect key="frame" x="13" y="54" width="280" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <attributedString key="attributedText">
+                                        <fragment content="Intro">
+                                            <attributes>
+                                                <color key="NSColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <font key="NSFont" size="14" name="HelveticaNeue"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowRightWhite.png" id="0zn-mV-WJf">
+                                    <rect key="frame" x="285" y="40" width="9" height="17"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                                <view contentMode="scaleToFill" id="zTC-Ps-AOp">
+                                    <rect key="frame" x="13" y="92" width="295" height="1"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <outletCollection property="gestureRecognizers" destination="6j0-v1-Ecp" appends="YES" id="sBD-2O-s4l"/>
+                            </connections>
                         </view>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="KQJ-er-AvJ">
                             <rect key="frame" x="13" y="114" width="295" height="68"/>
@@ -122,9 +133,6 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     <gestureRecognizers/>
-                    <connections>
-                        <outletCollection property="gestureRecognizers" destination="6j0-v1-Ecp" appends="YES" id="3X6-Ht-Nh0"/>
-                    </connections>
                 </view>
                 <view hidden="YES" contentMode="scaleToFill" id="ZAW-5h-fm5">
                     <rect key="frame" x="250" y="20" width="60" height="24"/>
@@ -156,14 +164,14 @@
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
-        <tapGestureRecognizer id="6j0-v1-Ecp">
-            <connections>
-                <action selector="introViewTapped:" destination="-1" id="8xq-te-P3B"/>
-            </connections>
-        </tapGestureRecognizer>
         <tapGestureRecognizer id="c1v-Ub-oXm">
             <connections>
                 <action selector="imageTapped:" destination="-1" id="4Zs-SF-oMg"/>
+            </connections>
+        </tapGestureRecognizer>
+        <tapGestureRecognizer id="6j0-v1-Ecp">
+            <connections>
+                <action selector="introViewTapped:" destination="-1" id="8xq-te-P3B"/>
             </connections>
         </tapGestureRecognizer>
     </objects>

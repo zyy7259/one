@@ -13,6 +13,7 @@
 #import "ONERecommendationDetailViewController.h"
 #import "ONERecommendationCollectionViewController.h"
 #import "ONEDateHelper.h"
+#import "ONEAnimationHelper.h"
 
 @interface ONERootViewController () <ONERecommendationBriefViewControllerDelegate, ONERecommendationDetailDelegate, ONERecommendationDelegate, ONERecommendationCollectionDelegate>
 
@@ -268,6 +269,21 @@
     } else {
         ONERecommendationDetailViewController *detailController = [[ONERecommendationDetailViewController alloc] initWithRecommendation:self.recommendations[self.currentPage]];
         detailController.delegate = self;
+        
+        // version 3
+//        [[ONEAnimationHelper sharedAnimationHelper] pushViewController:detailController toViewController:self];
+        
+        // version 2
+//        CATransition *transition = [CATransition animation];
+//        transition.duration = 0.3;
+//        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+//        transition.type = kCATransitionPush;
+//        transition.subtype = kCATransitionFromRight;
+//        [self.view.window.layer addAnimation:transition forKey:nil];
+//        [self presentViewController:detailController animated:NO completion:nil];
+        
+        // version 1
+        detailController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         [self presentViewController:detailController animated:YES completion:nil];
     }
 }
@@ -283,6 +299,8 @@
 
 - (void)ONERecommendationDetailViewControllerDidFinishDisplay:(ONERecommendationDetailViewController *)recommendationDetailController
 {
+    ONERecommendationBriefViewController *vc = self.viewControllers[self.currentPage];
+    [vc deshadowIntroView];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
