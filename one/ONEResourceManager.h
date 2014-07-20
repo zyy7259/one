@@ -10,8 +10,8 @@
 
 @interface ONEResourceManager : NSObject
 
-@property UIImage *returnGreyImage;
-@property UIImage *returnGreySelectedImage;
+@property UIImage *returnGrayImage;
+@property UIImage *returnGraySelectedImage;
 @property UIImage *editImage;
 @property UIImage *editSelectedImage;
 @property UIImage *completeImage;

@@ -13,13 +13,14 @@
 @interface ONERecommendationDetailViewController ()
 
 @property ONERecommendation *recommendation;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIButton *dismissButton;
 @property (weak, nonatomic) IBOutlet UIImageView *thingImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *typeImageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *introLabel;
 @property (weak, nonatomic) IBOutlet UILabel *likesLabel;
-@property (weak, nonatomic) IBOutlet UIScrollView *detailScrollView;
+@property (weak, nonatomic) IBOutlet UIView *detailPanel;
 @property (weak, nonatomic) IBOutlet UILabel *detailLabel;
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
 @property (weak, nonatomic) IBOutlet UIButton *collectButton;
@@ -54,20 +55,7 @@
     self.typeImageView.image = [[ONEResourceManager sharedManager] detailTypeImage:self.recommendation.type];
     self.titleLabel.text = self.recommendation.title;
     self.introLabel.text = self.recommendation.intro;
-    
-    NSString *labelText = self.recommendation.detail;
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:labelText];
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    [paragraphStyle setLineSpacing:17];
-    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [labelText length])];
-    self.detailLabel.attributedText = attributedString;
-    [self.detailLabel sizeToFit];
-    
-    self.detailScrollView.contentSize = CGSizeMake(CGRectGetWidth(self.detailScrollView.frame), CGRectGetHeight(self.detailLabel.frame));
-//    NSLog(@"%@", NSStringFromCGRect(self.detailLabel.frame));
-//    NSLog(@"%@", NSStringFromCGRect(self.detailScrollView.frame));
-//    NSLog(@"%@", NSStringFromCGSize(self.detailScrollView.contentSize));
-    
+    [self updateDetailScrollViewAndLabel];
     self.likesLabel.text = [@(self.recommendation.likes) stringValue];
 
     if ([[NSFileManager defaultManager] fileExistsAtPath:self.recommendation.blurredImageUrl]) {
@@ -78,6 +66,29 @@
     [self.collectButton addTarget:self action:@selector(collectButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     
     self.collectButton.selected = self.recommendation.collected;
+}
+
+- (void)updateDetailScrollViewAndLabel
+{
+    // 设置detailLabel要显示的文字
+    NSString *labelText = self.recommendation.detail;
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:labelText];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setLineSpacing:17];
+    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [labelText length])];
+    self.detailLabel.attributedText = attributedString;
+    
+    CGSize maxSize = CGSizeMake(self.detailLabel.frame.size.width, MAXFLOAT);
+    CGRect labelRect = [self.detailLabel.text boundingRectWithSize:maxSize
+                                                           options:NSStringDrawingUsesLineFragmentOrigin
+                                                        attributes:@{NSFontAttributeName: self.detailLabel.font,
+                                                                     NSParagraphStyleAttributeName: paragraphStyle}
+                                                           context:nil];
+    self.detailLabel.frame = CGRectMake(self.detailLabel.frame.origin.x,
+                                        self.detailLabel.frame.origin.y,
+                                        ceil(labelRect.size.width),
+                                        ceil(labelRect.size.height));
+    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.scrollView.frame), CGRectGetHeight(self.detailLabel.frame) + self.detailPanel.frame.origin.y + 31);
 }
 
 - (void)dismiss

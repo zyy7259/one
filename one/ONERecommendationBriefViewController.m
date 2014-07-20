@@ -109,7 +109,6 @@
 
 - (IBAction)introViewTapped:(UITapGestureRecognizer *)sender
 {
-    [self shadowIntroView];
     [self.delegate ONERecommendationBriefViewIntroTapped];
 }
 

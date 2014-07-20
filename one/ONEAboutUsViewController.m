@@ -36,9 +36,9 @@
 {
     ONEResourceManager *resourceManager = [ONEResourceManager sharedManager];
     UIButton *returnButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [returnButton setImage:resourceManager.returnGreyImage forState:UIControlStateNormal];
-    [returnButton setImage:resourceManager.returnGreySelectedImage forState:UIControlStateSelected];
-    [returnButton setImage:resourceManager.returnGreySelectedImage forState:UIControlStateHighlighted];
+    [returnButton setImage:resourceManager.returnGrayImage forState:UIControlStateNormal];
+    [returnButton setImage:resourceManager.returnGraySelectedImage forState:UIControlStateSelected];
+    [returnButton setImage:resourceManager.returnGraySelectedImage forState:UIControlStateHighlighted];
     returnButton.frame = CGRectMake(0, 0, 23, 23);
     [returnButton addTarget:self action:@selector(leftBarButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:returnButton];;
