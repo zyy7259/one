@@ -163,6 +163,7 @@
                             </button>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="collectionTableView" destination="3Hy-uU-564" id="jsi-MH-sow"/>
                     </connections>
