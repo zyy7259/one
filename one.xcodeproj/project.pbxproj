@@ -23,6 +23,10 @@
 		7AB3BACD197CC06B009457E4 /* yixinFriends@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB3BAC5197CC06B009457E4 /* yixinFriends@2x.png */; };
 		7AB3BACE197CC06B009457E4 /* yixinFriendsSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB3BAC6197CC06B009457E4 /* yixinFriendsSelected@2x.png */; };
 		7AB3BACF197CC06B009457E4 /* yixinSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB3BAC7197CC06B009457E4 /* yixinSelected@2x.png */; };
+		7AB3BAD4197D45EF009457E4 /* collectFloat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB3BAD0197D45EF009457E4 /* collectFloat@2x.png */; };
+		7AB3BAD5197D45EF009457E4 /* collectFloatSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB3BAD1197D45EF009457E4 /* collectFloatSelected@2x.png */; };
+		7AB3BAD6197D45EF009457E4 /* shareFloat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB3BAD2197D45EF009457E4 /* shareFloat@2x.png */; };
+		7AB3BAD7197D45EF009457E4 /* shareFloatSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB3BAD3197D45EF009457E4 /* shareFloatSelected@2x.png */; };
 		7AB6AABC1978BA06002A8992 /* ONERecommendationCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB6AABA1978BA06002A8992 /* ONERecommendationCollectionViewController.m */; };
 		7AB6AAC319794F56002A8992 /* JCRBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB6AAC219794F56002A8992 /* JCRBlurView.m */; };
 		7AB703B9197B92EB008DE376 /* ONEAnimationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB703B8197B92EB008DE376 /* ONEAnimationHelper.m */; };
@@ -139,6 +143,10 @@
 		7AB3BAC5197CC06B009457E4 /* yixinFriends@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yixinFriends@2x.png"; sourceTree = "<group>"; };
 		7AB3BAC6197CC06B009457E4 /* yixinFriendsSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yixinFriendsSelected@2x.png"; sourceTree = "<group>"; };
 		7AB3BAC7197CC06B009457E4 /* yixinSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yixinSelected@2x.png"; sourceTree = "<group>"; };
+		7AB3BAD0197D45EF009457E4 /* collectFloat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "collectFloat@2x.png"; sourceTree = "<group>"; };
+		7AB3BAD1197D45EF009457E4 /* collectFloatSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "collectFloatSelected@2x.png"; sourceTree = "<group>"; };
+		7AB3BAD2197D45EF009457E4 /* shareFloat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shareFloat@2x.png"; sourceTree = "<group>"; };
+		7AB3BAD3197D45EF009457E4 /* shareFloatSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shareFloatSelected@2x.png"; sourceTree = "<group>"; };
 		7AB6AAB91978BA06002A8992 /* ONERecommendationCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONERecommendationCollectionViewController.h; sourceTree = "<group>"; };
 		7AB6AABA1978BA06002A8992 /* ONERecommendationCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONERecommendationCollectionViewController.m; sourceTree = "<group>"; };
 		7AB6AAC119794F56002A8992 /* JCRBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCRBlurView.h; sourceTree = "<group>"; };
@@ -353,7 +361,6 @@
 		7AC30EBD197A350B00A5C71C /* image */ = {
 			isa = PBXGroup;
 			children = (
-				7AB3BABF197CC06B009457E4 /* share */,
 				7AC30F64197A8BB200A5C71C /* aboutUs@2x.png */,
 				7AC30F00197A647000A5C71C /* arrowRightGrey@2x.png */,
 				7AC30F01197A647000A5C71C /* arrowRightWhite@2x.png */,
@@ -364,6 +371,8 @@
 				7AC30EC2197A375400A5C71C /* collect@2x.png */,
 				7AC30EE0197A4A9500A5C71C /* collectDetail@2x.png */,
 				7AC30F04197A678C00A5C71C /* collectDetailSelected@2x.png */,
+				7AB3BAD0197D45EF009457E4 /* collectFloat@2x.png */,
+				7AB3BAD1197D45EF009457E4 /* collectFloatSelected@2x.png */,
 				7AC30EC3197A375400A5C71C /* collectSelected@2x.png */,
 				7AC30EF6197A5AC400A5C71C /* complete@2x.png */,
 				7AC30EF7197A5AC400A5C71C /* completeSelected@2x.png */,
@@ -383,9 +392,12 @@
 				7AC30EDD197A47EA00A5C71C /* returnWhiteSelected@2x.png */,
 				7AC30EBE197A350B00A5C71C /* setting@2x.png */,
 				7AC30F08197A6EA000A5C71C /* settingSelected@2x.png */,
+				7AB3BABF197CC06B009457E4 /* share */,
 				7AC30ECA197A3B0D00A5C71C /* share@2x.png */,
 				7AC30EE4197A4B1F00A5C71C /* shareDetail@2x.png */,
 				7AC30EE5197A4B1F00A5C71C /* shareDetailSelected@2x.png */,
+				7AB3BAD2197D45EF009457E4 /* shareFloat@2x.png */,
+				7AB3BAD3197D45EF009457E4 /* shareFloatSelected@2x.png */,
 				7AC30ECB197A3B0D00A5C71C /* shareSelected@2x.png */,
 				7AC30F34197A887500A5C71C /* types */,
 				7AC30EC6197A3AAE00A5C71C /* viewCollection@2x.png */,
@@ -594,6 +606,7 @@
 				7AF27FC019727B4B00BBC0AC /* Main.storyboard in Resources */,
 				7AB3BAB9197CAADA009457E4 /* ONEShareViewController.xib in Resources */,
 				7AB3BACF197CC06B009457E4 /* yixinSelected@2x.png in Resources */,
+				7AB3BAD7197D45EF009457E4 /* shareFloatSelected@2x.png in Resources */,
 				7AB3BACE197CC06B009457E4 /* yixinFriendsSelected@2x.png in Resources */,
 				7AF27FCD197287EA00BBC0AC /* ONERecommendationDetailViewController.xib in Resources */,
 				7AB3BACD197CC06B009457E4 /* yixinFriends@2x.png in Resources */,
@@ -608,6 +621,7 @@
 				7AC30F50197A887500A5C71C /* funBrief@2x.png in Resources */,
 				7AC30F4B197A887500A5C71C /* beautyCollect@2x.png in Resources */,
 				7AB3BACC197CC06B009457E4 /* yixin@2x.png in Resources */,
+				7AB3BAD4197D45EF009457E4 /* collectFloat@2x.png in Resources */,
 				7AFDDEBC197190C40031F293 /* InfoPlist.strings in Resources */,
 				7AC30F05197A678C00A5C71C /* collectDetailSelected@2x.png in Resources */,
 				7AC30F56197A887500A5C71C /* shoppingBrief@2x.png in Resources */,
@@ -629,11 +643,13 @@
 				7AC30EE7197A4B1F00A5C71C /* shareDetailSelected@2x.png in Resources */,
 				7AC30EF4197A57B900A5C71C /* heart@2x.png in Resources */,
 				7AC30EFD197A5B2900A5C71C /* returnGraySelected@2x.png in Resources */,
+				7AB3BAD6197D45EF009457E4 /* shareFloat@2x.png in Resources */,
 				7AC30EF9197A5AC400A5C71C /* completeSelected@2x.png in Resources */,
 				7AB703BE197BC396008DE376 /* returnGrayWhiteSelected@2x.png in Resources */,
 				7AC30EDA197A40AF00A5C71C /* close@2x.png in Resources */,
 				7AB3BACA197CC06B009457E4 /* weixinFriendsSelected@2x.png in Resources */,
 				7AC30F55197A887500A5C71C /* houseDetail@2x.png in Resources */,
+				7AB3BAD5197D45EF009457E4 /* collectFloatSelected@2x.png in Resources */,
 				7AC30EFC197A5B2900A5C71C /* returnGray@2x.png in Resources */,
 				7AC30ECD197A3B0D00A5C71C /* shareSelected@2x.png in Resources */,
 				7AC30F65197A8BB200A5C71C /* aboutUs@2x.png in Resources */,

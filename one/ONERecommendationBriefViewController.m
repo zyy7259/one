@@ -67,24 +67,39 @@
 - (void)loadRecommendation
 {
     ONERecommendation *r = [self.recommendationManager getRecommendationWithDateComponents:self.dateComponents dataCompletionHandler:^(ONERecommendation *r) {
-        self.recommendation = r;
+        [self initWithServerRecommendation:r];
     } imageCompletionHandler:^(NSURL *location) {
         if (location != nil) {
             [self updateRecommendationImage];
         }
     }];
-    self.recommendation = r;
+    [self initWithLocalRecommendation:r];
 }
 
-- (void)setRecommendation:(ONERecommendation *)recommendation
+- (void)initWithLocalRecommendation:(ONERecommendation *)recommendation
 {
-    _recommendation = recommendation;
-
-    // 如果还没有加载或者_recommendation为空，直接返回
-    if (_recommendation == nil) {
+    if (recommendation == nil) {
+        // 本地无数据，即将从服务器拉取数据，显示正在加载
+        NSLog(@"loading...");
         return;
     }
-    
+    self.recommendation = recommendation;
+    [self updateRecommendation];
+}
+
+- (void)initWithServerRecommendation:(ONERecommendation *)recommendation
+{
+    if (recommendation == nil) {
+        // 服务器无数据，显示默认图片
+        NSLog(@"nil...");
+        return;
+    }
+    self.recommendation = recommendation;
+    [self updateRecommendation];
+}
+
+- (void)updateRecommendation
+{
     [self updateRecommendationImage];
     self.dayLabel.text = [@(self.recommendation.day) stringValue];
     self.monthLabel.text = [[ONEDateHelper sharedDateHelper] briefStringOfMonth:self.recommendation.month];

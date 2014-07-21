@@ -10,19 +10,35 @@
 
 @interface ONEResourceManager : NSObject
 
+// 灰色的返回按钮
 @property UIImage *returnGrayImage;
 @property UIImage *returnGraySelectedImage;
+
+// 嵌在详情页中的按钮
+@property UIImage *collectDetailImage;
+@property UIImage *collectDetailSelectedImage;
+@property UIImage *shareDetailImage;
+@property UIImage *shareDetailSelectedImage;
+// 浮动在详情页上的按钮
+@property UIImage *collectFloatImage;
+@property UIImage *collectFloatSelectedImage;
+@property UIImage *shareFloatImage;
+@property UIImage *shareFloatSelectedImage;
+
+// 编辑和完成按钮
 @property UIImage *editImage;
 @property UIImage *editSelectedImage;
 @property UIImage *completeImage;
 @property UIImage *completeSelectedImage;
 
+// 用于设置UITableViewCell的accessoryVIew
+@property UIImage *arrowRightGreyImage;
+@property UIImage *arrowRightWhiteImage;
+
+// 设置页面使用的三个图标
 @property UIImage *infoImage;
 @property UIImage *likeImage;
 @property UIImage *heartImage;
-
-@property UIImage *arrowRightGreyImage;
-@property UIImage *arrowRightWhiteImage;
 
 + (ONEResourceManager *)sharedManager;
 

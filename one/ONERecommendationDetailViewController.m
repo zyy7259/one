@@ -10,6 +10,7 @@
 #import "ONERecommendation.h"
 #import "ONEResourceManager.h"
 #import "ONEShareViewController.h"
+#import "ONEResourceManager.h"
 
 @interface ONERecommendationDetailViewController () <UIScrollViewDelegate, ONEShareDelegate>
 
@@ -23,8 +24,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *likesLabel;
 @property (weak, nonatomic) IBOutlet UIView *detailPanel;
 @property (weak, nonatomic) IBOutlet UILabel *detailLabel;
-@property (weak, nonatomic) IBOutlet UIButton *shareButton;
 @property (weak, nonatomic) IBOutlet UIButton *collectButton;
+@property (weak, nonatomic) IBOutlet UIButton *shareButton;
+@property (weak, nonatomic) IBOutlet UIButton *collectFloatButton;
+@property (weak, nonatomic) IBOutlet UIButton *shareFloatButton;
+@property ONEResourceManager *resourceManager;
 
 @end
 
@@ -68,16 +72,21 @@
         self.thingImageView.image = [UIImage imageWithContentsOfFile:self.recommendation.blurredImageUrl];
     }
     
+    self.resourceManager = [ONEResourceManager sharedManager];
+    
     [self connectButtons];
     
     self.collectButton.selected = self.recommendation.collected;
+    self.collectFloatButton.selected = self.recommendation.collected;
 }
 
 - (void)connectButtons
 {
-    [self.collectButton addTarget:self action:@selector(collectButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.collectButton addTarget:self action:@selector(collectButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self.shareButton addTarget:self action:@selector(shareButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.dismissButton addTarget:self action:@selector(dismissButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.collectFloatButton addTarget:self action:@selector(collectButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.shareFloatButton addTarget:self action:@selector(shareButtonTapped) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)updateDetailScrollViewAndLabel
@@ -114,12 +123,12 @@
 
 # pragma mark 收藏/取消收藏
 
-- (void)collectButtonTapped
+- (void)collectButtonTapped:(UIButton *)collectButton
 {
     // 首先更新collectButton的状态
-    self.collectButton.selected = !self.collectButton.selected;
+    collectButton.selected = !collectButton.selected;
     // 然后更新recommendation的状态
-    self.recommendation.collected = self.collectButton.selected;
+    self.recommendation.collected = collectButton.selected;
     // 然后根据状态来调用delegate的相应方法
     if (self.recommendation.collected) {
         [self.delegate ONERecommendationDetailViewControllerDidCollectRecommendation:self.recommendation];
@@ -167,33 +176,102 @@
 
 - (void)updateButtonPositions
 {
+    static CGFloat duration = 0.3;
     static CGFloat lastPosition = 0;
     static BOOL hasFloated = NO;
     static CGFloat threshold = 180;
     
+    static BOOL originInitialized = NO;
+    static CGRect collectButtonFrame;
+    static CGRect shareButtonFrame;
+    static CGRect collectButtonFloatFrame;
+    static CGRect shareButtonFloatFrame;
+    if (!originInitialized) {
+        originInitialized = YES;
+        // 在移除浮动按钮时，先将浮动按钮移动到这两个frame所指示的位置
+        collectButtonFrame = self.collectButton.frame;
+        collectButtonFrame.size = self.dismissButton.frame.size;
+        shareButtonFrame = self.shareButton.frame;
+        shareButtonFrame.size = self.dismissButton.frame.size;
+        // 在添加浮动按钮时，要将浮动按钮移动到这两个位置
+        collectButtonFloatFrame = self.dismissButton.frame;
+        collectButtonFloatFrame.origin.x += (self.dismissButton.frame.size.width + self.dismissButton.frame.origin.x);
+        shareButtonFloatFrame = collectButtonFloatFrame;
+        shareButtonFloatFrame.origin.x += (self.dismissButton.frame.size.width + self.dismissButton.frame.origin.x);
+    }
+    
     CGFloat startPosition = lastPosition;
     CGFloat endPosition = self.scrollView.contentOffset.y;
     
-//    NSLog(@"%@%@",
-//          NSStringFromCGPoint(self.scrollView.contentOffset),
-//          NSStringFromCGPoint([self.view convertPoint:self.shareButton.frame.origin fromView:self.shareButton.superview]));
     if (endPosition > startPosition) {
         // 向上滑
         if (!hasFloated) {
             // 如果按钮还没有悬浮，判断是否需要悬浮
             if (self.scrollView.contentOffset.y >= threshold) {
+                endPosition = self.scrollView.contentOffset.y;
                 // 将按钮浮动
                 hasFloated = YES;
-                CGPoint desiredPosition = [self.view convertPoint:self.shareButton.frame.origin fromView:self.shareButton.superview];
-//                NSLog(@"desiredPosition %@", NSStringFromCGPoint(desiredPosition));
+                // 首先获取按钮在view上的预期位置
+                CGRect collectButtonDesiredRect = [self.view convertRect:self.collectButton.frame fromView:self.scrollView];
+                collectButtonDesiredRect.size = collectButtonFloatFrame.size;
+                CGRect shareButtonDesiredRect = [self.view convertRect:self.shareButton.frame fromView:self.scrollView];
+                shareButtonDesiredRect.size = shareButtonFloatFrame.size;
+                // 然后将按钮从原来的superView上移除
+                self.collectButton.hidden = YES;
+                self.shareButton.hidden = YES;
+                // 设置浮动按钮的位置
+                self.collectFloatButton.frame = collectButtonDesiredRect;
+                self.shareFloatButton.frame = shareButtonDesiredRect;
+                // 添加并显示浮动按钮
+                [self.collectFloatButton removeFromSuperview];
+                [self.shareFloatButton removeFromSuperview];
+                [self.view addSubview:self.collectFloatButton];
+                [self.view addSubview:self.shareFloatButton];
+                self.collectFloatButton.hidden = NO;
+                self.shareFloatButton.hidden = NO;
+                
+                [UIView animateWithDuration:duration
+                                 animations:^{
+                                     self.collectFloatButton.frame = collectButtonFloatFrame;
+                                     self.shareFloatButton.frame = shareButtonFloatFrame;
+                                 }];
             }
         }
     } else {
         // 向下滑
         if (hasFloated) {
             // 如果按钮已经悬浮，判断是否需要取消悬浮
+            if (self.scrollView.contentOffset.y <= threshold) {
+                endPosition = self.scrollView.contentOffset.y;
+                // 将按钮复位
+                hasFloated = NO;
+                // 获取浮动按钮在scrollView上的预期位置
+                CGRect collectButtonDesiredRect = [self.view convertRect:self.collectFloatButton.frame toView:self.scrollView];
+                CGRect shareButtonDesiredRect = [self.view convertRect:self.shareFloatButton.frame toView:self.scrollView];
+                // 将浮动按钮转移到scrollView上
+                [self.collectFloatButton removeFromSuperview];
+                [self.shareFloatButton removeFromSuperview];
+                self.collectFloatButton.frame = collectButtonDesiredRect;
+                self.shareFloatButton.frame = shareButtonDesiredRect;
+                [self.scrollView addSubview:self.collectFloatButton];
+                [self.scrollView addSubview:self.shareFloatButton];
+                // 将浮动按钮用动画转移到目标位置
+                [UIView animateWithDuration:duration
+                                 animations:^{
+                                     self.collectFloatButton.frame = collectButtonFrame;
+                                     self.shareFloatButton.frame = shareButtonFrame;
+                                 } completion:^(BOOL finished) {
+                                     // 将浮动按钮隐藏
+                                     self.collectFloatButton.hidden = YES;
+                                     self.shareFloatButton.hidden = YES;
+                                     // 将按钮添加到scrollView上
+                                     self.collectButton.hidden = NO;
+                                     self.shareButton.hidden = NO;
+                                 }];
+            }
         }
     }
+    lastPosition = endPosition;
 }
 
 - (void)didReceiveMemoryWarning

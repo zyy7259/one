@@ -12,11 +12,20 @@
 
 - (id)initWithJSONData:(NSData *)jsonData
 {
-//    NSLog(@"DATA:\n%@\nEND DATA\n", [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]);
     NSError *error = nil;
-    NSDictionary *properties = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
+    NSDictionary *result = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
     if (error == nil) {
-        return [self initWithProperties:properties];
+        if ([result[@"code"] intValue] == 200) {
+            NSDictionary *properties = result[@"data"];
+            if (properties.count == 0) {
+                return nil;
+            } else {
+                return [self initWithProperties:properties];
+            }
+        } else {
+            NSLog(@"data error");
+            return nil;
+        }
     } else {
         NSLog(@"error:\n%@", error);
         return nil;

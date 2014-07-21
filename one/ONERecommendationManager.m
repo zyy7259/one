@@ -16,6 +16,7 @@
 @property NSString *urlBase;
 @property NSString *cacheDir;
 @property NSString *collectionFileName;
+@property BOOL debug;
 
 @end
 
@@ -42,7 +43,13 @@ static ONERecommendationManager *sharedSingleton;
     self = [super init];
     
     self.sessionDelegate = [ONESessionDelegate new];
-    self.urlBase = @"http://localhost:3000/";
+    
+    self.debug = YES;
+    if (self.debug) {
+        self.urlBase = @"http://localhost:3000";
+    } else {
+        self.urlBase = @"http://223.252.196.235/OneLife";
+    }
     
     self.cacheDir = [[NSHomeDirectory()
                            stringByAppendingPathComponent:@"Library"]
@@ -81,12 +88,16 @@ static ONERecommendationManager *sharedSingleton;
 {
     ONERecommendation *recommendation = nil;
     
-    NSString *url = [NSString stringWithFormat:@"%@recommendation?year=%d&month=%d&day=%d", self.urlBase, dateComponents.year, dateComponents.month, dateComponents.day];
+    NSString *url = [NSString stringWithFormat:@"%@/today?year=%d&month=%d&day=%d", self.urlBase, dateComponents.year, dateComponents.month, dateComponents.day];
     
     [self.sessionDelegate startDataTaskWithUrl:url completionHandler:^(NSData *data, NSError *error) {
         if (error == nil) {
             // 如果服务器返回成功，用返回的数据来拼装出推荐内容
             ONERecommendation *recommendation = [[ONERecommendation alloc] initWithJSONData:data];
+            if (recommendation == nil) {
+                dataHandler(nil);
+                return;
+            }
             
             // 设置推荐内容的日期属性，日期属性被用于把推荐内容保存到本地文件
             recommendation.year = dateComponents.year;
@@ -94,8 +105,9 @@ static ONERecommendationManager *sharedSingleton;
             recommendation.day = dateComponents.day;
             recommendation.weekday = dateComponents.weekday;
             
-            // TODO in production, splice the imageUrl.
-//            recommendation.blurredImageUrl = [self.urlBase stringByAppendingString:recommendation.blurredImageUrl];
+            if (!self.debug) {
+                recommendation.blurredImageUrl = [self.urlBase stringByAppendingString:recommendation.blurredImageUrl];
+            }
             
             // 下载推荐内容的图片
             [self downloadRecommendationImage:recommendation imageCompletionHandler:imageHandler];
@@ -107,6 +119,7 @@ static ONERecommendationManager *sharedSingleton;
             dataHandler(recommendation);
         } else {
             NSLog(@"ERROR - getRecomendationFromServerOfYear: %@", error);
+            dataHandler(nil);
         }
     }];
     
@@ -181,7 +194,7 @@ static ONERecommendationManager *sharedSingleton;
     NSString *filePath = [self.cacheDir stringByAppendingPathComponent:fileName];
     NSDictionary *properties = [NSDictionary dictionaryWithContentsOfFile:filePath];
     
-    NSString *info = [NSString stringWithFormat:@"%@ read recommendation data from file %@", (properties != nil ? @"success" : @"fail"), filePath];
+    NSString *info = [NSString stringWithFormat:@"%@ read recommendation data from file %@", (properties != nil ? @"success" : @"fail"), fileName];
     [ONELogger logTitle:info content:nil];
     
     ONERecommendation *recommendation = nil;

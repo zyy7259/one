@@ -48,17 +48,28 @@ static ONEResourceManager *sharedSingleton;
 {
     self.returnGrayImage = [UIImage imageNamed:@"returnGray"];
     self.returnGraySelectedImage = [UIImage imageNamed:@"returnGraySelected"];
+    
+    self.collectDetailImage = [UIImage imageNamed:@"collectDetail"];
+    self.collectDetailSelectedImage = [UIImage imageNamed:@"collectDetailSelected"];
+    self.shareDetailImage = [UIImage imageNamed:@"shareDetail"];
+    self.shareDetailSelectedImage = [UIImage imageNamed:@"shareDetailSelected"];
+    
+    self.collectFloatImage = [UIImage imageNamed:@"collectFloat"];
+    self.collectFloatSelectedImage = [UIImage imageNamed:@"collectFloatSelected"];
+    self.shareFloatImage = [UIImage imageNamed:@"shareFloat"];
+    self.shareFloatSelectedImage = [UIImage imageNamed:@"shareFloatSelected"];
+    
     self.editImage = [UIImage imageNamed:@"edit"];
     self.editSelectedImage = [UIImage imageNamed:@"editSelected"];
     self.completeImage = [UIImage imageNamed:@"complete"];
     self.completeSelectedImage = [UIImage imageNamed:@"completeSelected"];
     
+    self.arrowRightGreyImage = [UIImage imageNamed:@"arrowRightGrey"];
+    self.arrowRightWhiteImage = [UIImage imageNamed:@"arrowRightWhite"];
+    
     self.infoImage = [UIImage imageNamed:@"info"];
     self.likeImage = [UIImage imageNamed:@"like"];
     self.heartImage = [UIImage imageNamed:@"heart"];
-    
-    self.arrowRightGreyImage = [UIImage imageNamed:@"arrowRightGrey"];
-    self.arrowRightWhiteImage = [UIImage imageNamed:@"arrowRightWhite"];
 }
 
 - (void)initTypeImages
