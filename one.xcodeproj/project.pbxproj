@@ -33,6 +33,8 @@
 		7AB703B9197B92EB008DE376 /* ONEAnimationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB703B8197B92EB008DE376 /* ONEAnimationHelper.m */; };
 		7AB703BD197BC396008DE376 /* returnGrayWhite@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB703BB197BC396008DE376 /* returnGrayWhite@2x.png */; };
 		7AB703BE197BC396008DE376 /* returnGrayWhiteSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB703BC197BC396008DE376 /* returnGrayWhiteSelected@2x.png */; };
+		7AB77FDD197D6DDE0004FFDF /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB77FDA197D6DDE0004FFDF /* FLAnimatedImage.m */; };
+		7AB77FDE197D6DDE0004FFDF /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB77FDC197D6DDE0004FFDF /* FLAnimatedImageView.m */; };
 		7AC30EC0197A350B00A5C71C /* setting@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AC30EBE197A350B00A5C71C /* setting@2x.png */; };
 		7AC30EC4197A375400A5C71C /* collect@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AC30EC2197A375400A5C71C /* collect@2x.png */; };
 		7AC30EC5197A375400A5C71C /* collectSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AC30EC3197A375400A5C71C /* collectSelected@2x.png */; };
@@ -153,6 +155,10 @@
 		7AB703B8197B92EB008DE376 /* ONEAnimationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONEAnimationHelper.m; sourceTree = "<group>"; };
 		7AB703BB197BC396008DE376 /* returnGrayWhite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "returnGrayWhite@2x.png"; sourceTree = "<group>"; };
 		7AB703BC197BC396008DE376 /* returnGrayWhiteSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "returnGrayWhiteSelected@2x.png"; sourceTree = "<group>"; };
+		7AB77FD9197D6DDE0004FFDF /* FLAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImage.h; sourceTree = "<group>"; };
+		7AB77FDA197D6DDE0004FFDF /* FLAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImage.m; sourceTree = "<group>"; };
+		7AB77FDB197D6DDE0004FFDF /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImageView.h; sourceTree = "<group>"; };
+		7AB77FDC197D6DDE0004FFDF /* FLAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImageView.m; sourceTree = "<group>"; };
 		7AC30EBE197A350B00A5C71C /* setting@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "setting@2x.png"; sourceTree = "<group>"; };
 		7AC30EC2197A375400A5C71C /* collect@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "collect@2x.png"; sourceTree = "<group>"; };
 		7AC30EC3197A375400A5C71C /* collectSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "collectSelected@2x.png"; sourceTree = "<group>"; };
@@ -267,6 +273,7 @@
 		7A8196DC1973D24E0032B38F /* view */ = {
 			isa = PBXGroup;
 			children = (
+				7AB77FD8197D6DDE0004FFDF /* FLAnimatedImage */,
 				7AB6AAC119794F56002A8992 /* JCRBlurView.h */,
 				7AB6AAC219794F56002A8992 /* JCRBlurView.m */,
 				7AF27FBF19727B4B00BBC0AC /* Main.storyboard */,
@@ -350,6 +357,17 @@
 				7AB703B8197B92EB008DE376 /* ONEAnimationHelper.m */,
 			);
 			name = animation;
+			sourceTree = "<group>";
+		};
+		7AB77FD8197D6DDE0004FFDF /* FLAnimatedImage */ = {
+			isa = PBXGroup;
+			children = (
+				7AB77FD9197D6DDE0004FFDF /* FLAnimatedImage.h */,
+				7AB77FDA197D6DDE0004FFDF /* FLAnimatedImage.m */,
+				7AB77FDB197D6DDE0004FFDF /* FLAnimatedImageView.h */,
+				7AB77FDC197D6DDE0004FFDF /* FLAnimatedImageView.m */,
+			);
+			path = FLAnimatedImage;
 			sourceTree = "<group>";
 		};
 		7AC30EBD197A350B00A5C71C /* image */ = {
@@ -675,6 +693,7 @@
 				7AF27FC71972873D00BBC0AC /* ONERecommendationBriefViewController.m in Sources */,
 				7AC7AE12197A0A7D00BA283A /* ONEAboutUsViewController.m in Sources */,
 				7AC7AE0E197A05A000BA283A /* ONESettingViewController.m in Sources */,
+				7AB77FDE197D6DDE0004FFDF /* FLAnimatedImageView.m in Sources */,
 				7AB703B9197B92EB008DE376 /* ONEAnimationHelper.m in Sources */,
 				7AFDDEC2197190C40031F293 /* ONEAppDelegate.m in Sources */,
 				7AB3BAB8197CAADA009457E4 /* ONEShareViewController.m in Sources */,
@@ -683,6 +702,7 @@
 				7AC30F62197A8AF900A5C71C /* ONERecommendationImageViewController.m in Sources */,
 				7A59E84519729F6600E637D4 /* ONERecommendation.m in Sources */,
 				7AB6AABC1978BA06002A8992 /* ONERecommendationCollectionViewController.m in Sources */,
+				7AB77FDD197D6DDE0004FFDF /* FLAnimatedImage.m in Sources */,
 				7A937B45197678E40087D4F2 /* ONEDateHelper.m in Sources */,
 				7AC572721977895C00DDD900 /* ONELogger.m in Sources */,
 				7A937B4219766E760087D4F2 /* ONERecommendationManager.m in Sources */,

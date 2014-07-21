@@ -7,6 +7,7 @@
 //
 
 #import "ONERecommendation.h"
+#import "ONELogger.h"
 
 @implementation ONERecommendation
 
@@ -15,19 +16,22 @@
     NSError *error = nil;
     NSDictionary *result = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
     if (error == nil) {
-        if ([result[@"code"] intValue] == 200) {
+        NSInteger code = [result[@"code"] intValue];
+        if (code == 200) {
             NSDictionary *properties = result[@"data"];
             if (properties.count == 0) {
+                [ONELogger logTitle:@"empty data" content:nil];
                 return nil;
             } else {
+                // 成功
                 return [self initWithProperties:properties];
             }
         } else {
-            NSLog(@"data error");
+            [ONELogger logTitle:@"server error" content:[NSString stringWithFormat:@"response code %d", code]];
             return nil;
         }
     } else {
-        NSLog(@"error:\n%@", error);
+        [ONELogger logTitle:@"server error" content:error.localizedDescription];
         return nil;
     }
 }

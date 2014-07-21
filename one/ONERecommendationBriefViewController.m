@@ -9,8 +9,11 @@
 #import "ONERecommendationBriefViewController.h"
 #import "ONERecommendation.h"
 #import "ONERecommendationManager.h"
+#import "ONELogger.h"
 #import "ONEDateHelper.h"
 #import "ONEResourceManager.h"
+#import "FLAnimatedImage.h"
+#import "FLAnimatedImageView.h"
 
 @interface ONERecommendationBriefViewController ()
 
@@ -28,6 +31,7 @@
 
 @property ONERecommendationManager *recommendationManager;
 @property NSDateComponents *dateComponents;
+@property FLAnimatedImageView *loadingImageView;
 
 @end
 
@@ -61,49 +65,66 @@
     // Do any additional setup after loading the view from its nib.
     
     self.recommendationManager = [ONERecommendationManager sharedManager];
+    [self showDate];
     [self loadRecommendation];
 }
 
+// 展示日期信息，不管是否有recommendation的数据，日期总是可以显示
+- (void)showDate
+{
+    self.dayLabel.text = [@(self.dateComponents.day) stringValue];
+    self.monthLabel.text = [[ONEDateHelper sharedDateHelper] briefStringOfMonth:self.dateComponents.month];
+    self.weekdayLabel.text = [[ONEDateHelper sharedDateHelper] stringOfWeekday:self.dateComponents.weekday];
+}
+
+# pragma mark 加载recommendation
+
+// 加载recommendation
 - (void)loadRecommendation
 {
+    // 加载loading gif
+    [self addLoadingGif];
+    
+    // 加载recommendation，首先从本地加载，如果不成功会从服务器加载；图片会额外加载
     ONERecommendation *r = [self.recommendationManager getRecommendationWithDateComponents:self.dateComponents dataCompletionHandler:^(ONERecommendation *r) {
-        [self initWithServerRecommendation:r];
+        [self showServerRecommendation:r];
     } imageCompletionHandler:^(NSURL *location) {
         if (location != nil) {
-            [self updateRecommendationImage];
+            [self showRecommendationImage];
         }
     }];
-    [self initWithLocalRecommendation:r];
+    [self showLocalRecommendation:r];
 }
 
-- (void)initWithLocalRecommendation:(ONERecommendation *)recommendation
+// 显示从本地加载的recommendation
+- (void)showLocalRecommendation:(ONERecommendation *)recommendation
 {
     if (recommendation == nil) {
-        // 本地无数据，即将从服务器拉取数据，显示正在加载
-        NSLog(@"loading...");
+        // 本地无数据，即将从服务器拉取数据
+        [ONELogger logTitle:@"loading......" content:nil];
         return;
     }
     self.recommendation = recommendation;
-    [self updateRecommendation];
+    [self showRecommendation];
 }
 
-- (void)initWithServerRecommendation:(ONERecommendation *)recommendation
+// 显示从服务器加载的recommendation
+- (void)showServerRecommendation:(ONERecommendation *)recommendation
 {
     if (recommendation == nil) {
-        // 服务器无数据，显示默认图片
-        NSLog(@"nil...");
+        // 服务器无数据，显示默认recommendation
+        [ONELogger logTitle:@"nil......" content:nil];
+        [self showDefaultRecommendation];
         return;
     }
     self.recommendation = recommendation;
-    [self updateRecommendation];
+    [self showRecommendation];
 }
 
-- (void)updateRecommendation
+// 展示recommendation
+- (void)showRecommendation
 {
-    [self updateRecommendationImage];
-    self.dayLabel.text = [@(self.recommendation.day) stringValue];
-    self.monthLabel.text = [[ONEDateHelper sharedDateHelper] briefStringOfMonth:self.recommendation.month];
-    self.weekdayLabel.text = [[ONEDateHelper sharedDateHelper] stringOfWeekday:self.recommendation.weekday];
+    [self showRecommendationImage];
     self.typeImageView.image = [[ONEResourceManager sharedManager] briefTypeImage:self.recommendation.type];
     self.cityLabel.text = self.recommendation.city;
     self.titleLabel.text = self.recommendation.title;
@@ -117,24 +138,76 @@
     [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [labelText length])];
     self.briefDetailLabel.attributedText = attributedString;
     [self.briefDetailLabel sizeToFit];
+    
+    // 移除loading gif
+    [self removeLoadingGif];
 }
 
-- (void)updateRecommendationImage
+// 展示图片
+- (void)showRecommendationImage
 {
     if ([[NSFileManager defaultManager] fileExistsAtPath:self.recommendation.blurredImageUrl]) {
         self.thingImageView.image = [UIImage imageWithContentsOfFile:self.recommendation.blurredImageUrl];
+    } else {
+        // TODO 重新拉取数据
     }
 }
 
+// 展示默认的recommendation
+- (void)showDefaultRecommendation
+{
+    self.view.backgroundColor = [UIColor colorWithRed:67.0/255.0 green:217.0/255.0 blue:213.0/255.0 alpha:1.0];
+    self.titleLabel.text = nil;
+    self.introLabel.text = nil;
+    self.briefDetailLabel.text = nil;
+    // 移除loading gif
+    [self removeLoadingGif];
+}
+
+# pragma mark Loading Gif
+
+- (void)addLoadingGif
+{
+    NSURL *url = [[NSBundle mainBundle] URLForResource:@"loading" withExtension:@"gif"];
+    NSData *data = [NSData dataWithContentsOfURL:url];
+    FLAnimatedImage *fImage = [[FLAnimatedImage alloc] initWithAnimatedGIFData:data];
+    self.loadingImageView = [FLAnimatedImageView new];
+    self.loadingImageView.frame = self.view.frame;
+    self.loadingImageView.animatedImage = fImage;
+    [self.view addSubview:self.loadingImageView];
+}
+
+- (void)removeLoadingGif
+{
+    [self.loadingImageView removeFromSuperview];
+}
+
+# pragma mark 图片被点击
+
 - (IBAction)imageTapped:(UITapGestureRecognizer *)sender
 {
-    [self.delegate ONERecommendationBriefViewImageTapped];
+    if ([self shouldInteract]) {
+        [self.delegate ONERecommendationBriefViewImageTapped];
+    }
 }
+
+# pragma mark 简介被点击
 
 - (IBAction)introViewTapped:(UITapGestureRecognizer *)sender
 {
-    [self.delegate ONERecommendationBriefViewIntroTapped];
+    if ([self shouldInteract]) {
+        [self.delegate ONERecommendationBriefViewIntroTapped];
+    }
 }
+
+# pragma mark 是否能和用户互动
+
+- (BOOL)shouldInteract
+{
+    return self.recommendation != nil;
+}
+
+# pragma mark 给用户点击的反馈
 
 - (void)shadowIntroView
 {

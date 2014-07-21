@@ -118,7 +118,7 @@ static ONERecommendationManager *sharedSingleton;
             // 处理推荐内容
             dataHandler(recommendation);
         } else {
-            NSLog(@"ERROR - getRecomendationFromServerOfYear: %@", error);
+            [ONELogger logTitle:@"ERROR - getRecomendationFromServerOfYear" content:[NSString stringWithFormat:@"%@", error]];
             dataHandler(nil);
         }
     }];
