@@ -191,6 +191,7 @@
         // 在移除浮动按钮时，先将浮动按钮移动到这两个frame所指示的位置
         collectButtonFrame = self.collectButton.frame;
         collectButtonFrame.size = self.dismissButton.frame.size;
+        collectButtonFrame.origin.x += 12;
         shareButtonFrame = self.shareButton.frame;
         shareButtonFrame.size = self.dismissButton.frame.size;
         // 在添加浮动按钮时，要将浮动按钮移动到这两个位置

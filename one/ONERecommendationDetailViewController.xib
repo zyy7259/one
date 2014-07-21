@@ -145,20 +145,20 @@
                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="g2Z-Kz-8tT">
                     <rect key="frame" x="140" y="50" width="23" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" image="collectFloat.png">
+                    <state key="normal" image="collectDetail.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
-                    <state key="selected" image="collectFloatSelected.png"/>
-                    <state key="highlighted" image="collectFloatSelected.png"/>
+                    <state key="selected" image="collectDetailSelected.png"/>
+                    <state key="highlighted" image="collectDetailSelected.png"/>
                 </button>
                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ioz-57-HM4">
                     <rect key="frame" x="180" y="50" width="23" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" image="shareFloat.png">
+                    <state key="normal" image="shareDetail.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
-                    <state key="selected" image="shareFloatSelected.png"/>
-                    <state key="highlighted" image="shareFloatSelected.png"/>
+                    <state key="selected" image="shareDetailSelected.png"/>
+                    <state key="highlighted" image="shareDetailSelected.png"/>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="K4Q-IL-e8b">
                     <rect key="frame" x="15" y="30" width="23" height="23"/>
@@ -175,15 +175,11 @@
         </view>
     </objects>
     <resources>
-        <image name="collectDetail.png" width="22" height="21"/>
-        <image name="collectDetailSelected.png" width="22" height="21"/>
-        <image name="collectFloat.png" width="23" height="23"/>
-        <image name="collectFloatSelected.png" width="23" height="23"/>
+        <image name="collectDetail.png" width="23" height="23"/>
+        <image name="collectDetailSelected.png" width="23" height="23"/>
         <image name="returnGrayWhite.png" width="23" height="23"/>
         <image name="returnGrayWhiteSelected.png" width="23" height="23"/>
-        <image name="shareDetail.png" width="21" height="21"/>
-        <image name="shareDetailSelected.png" width="21" height="21"/>
-        <image name="shareFloat.png" width="23" height="23"/>
-        <image name="shareFloatSelected.png" width="23" height="23"/>
+        <image name="shareDetail.png" width="23" height="23"/>
+        <image name="shareDetailSelected.png" width="23" height="23"/>
     </resources>
 </document>
