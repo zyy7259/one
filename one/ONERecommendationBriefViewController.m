@@ -149,7 +149,7 @@
     if ([[NSFileManager defaultManager] fileExistsAtPath:self.recommendation.blurredImageUrl]) {
         self.thingImageView.image = [UIImage imageWithContentsOfFile:self.recommendation.blurredImageUrl];
     } else {
-        // TODO 重新拉取数据
+        // TODO 重新拉取图片
     }
 }
 
