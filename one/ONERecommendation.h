@@ -12,6 +12,7 @@
 
 @property NSString *city;
 @property NSString *address;
+@property NSString *tel;
 @property NSInteger type;
 @property NSString *title;
 @property NSString *intro;

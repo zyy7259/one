@@ -15,7 +15,6 @@
 //    NSLog(@"DATA:\n%@\nEND DATA\n", [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]);
     NSError *error = nil;
     NSDictionary *properties = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
-    // must use intValue here, use (int) to convert will cause bad thing happen
     if (error == nil) {
         return [self initWithProperties:properties];
     } else {
@@ -28,8 +27,10 @@
 {
     self = [super init];
     
+    // must use intValue here, use (int) to convert will cause bad thing happen
     _city = properties[@"city"];
     _address = properties[@"address"];
+    _tel = properties[@"tel"];
     _type = [properties[@"type"] intValue];
     _title = properties[@"title"];
     _intro = properties[@"intro"];
@@ -51,6 +52,7 @@
     NSDictionary *properties = [NSDictionary dictionaryWithObjects:
                                 @[self.city,
                                   self.address,
+                                  self.tel,
                                   @(self.type),
                                   self.title,
                                   self.intro,
@@ -67,6 +69,7 @@
                                                            forKeys:
                                 @[@"city",
                                   @"address",
+                                  @"tel",
                                   @"type",
                                   @"title",
                                   @"intro",
@@ -89,6 +92,7 @@
         ONERecommendation *r = object;
         if ([self.city isEqualToString:r.city] &&
             [self.address isEqualToString:r.address] &&
+            [self.tel isEqualToString:r.tel] &&
             self.type == r.type &&
             [self.title isEqualToString:r.title] &&
             [self.intro isEqualToString:r.intro] &&
@@ -108,12 +112,12 @@
 
 - (NSUInteger)hash
 {
-    return [[NSString stringWithFormat:@"%@%@%@", @(self.year), @(self.month), @(self.day)] hash];
+    return [[self date] hash];
 }
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"city: %@\t\ttype: %@\t\ttitle: %@\nintro: %@\nblurredImageUrl: %@\nimageUrl: %@\nlikes: %@\t\t\tyear: %@\t\t\tmonth: %@\t\t\tday: %@\n", self.city, @(self.type), self.title, self.intro, self.blurredImageUrl, self.imageUrl, @(self.likes), @(self.year), @(self.month), @(self.day)];
+    return [self date];
 }
 
 - (NSString *)date
