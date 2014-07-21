@@ -9,8 +9,9 @@
 #import "ONESettingViewController.h"
 #import "ONEAboutUsViewController.h"
 #import "ONEResourceManager.h"
+#import "ONEShareViewController.h"
 
-@interface ONESettingViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface ONESettingViewController () <UITableViewDataSource, UITableViewDelegate, ONEShareDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *settingTableView;
 @property NSArray *cellInfos;
@@ -82,27 +83,29 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    // 给当前选中的cell加一个背景色，给用户的点击一个反馈
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.backgroundColor = [UIColor colorWithRed:223.0/255.0 green:223.0/255.0 blue:223.0/255.0 alpha:1.0];
+    // 不同的cell切换不同的内容
     switch (indexPath.row) {
         case 0:
         {
-            [tableView deselectRowAtIndexPath:indexPath animated:NO];
-            
-            // 给当前选中的cell加一个背景色
-            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-            cell.backgroundColor = [UIColor colorWithRed:223.0/255.0 green:223.0/255.0 blue:223.0/255.0 alpha:1.0];
-            
             // 切换界面
             ONEAboutUsViewController *aboutUsController = [[ONEAboutUsViewController alloc] initWithNibName:NSStringFromClass([ONEAboutUsViewController class]) bundle:nil];
             [self.navigationController pushViewController:aboutUsController animated:YES];
-            
-            // 界面切换大概结束后回复cell的背景色
-            [self performSelector:@selector(resetCellBackgroundColor:) withObject:cell afterDelay:0.4];
         }
             break;
-            
+        case 1:
+        {
+            [[ONEShareViewController sharedShareViewControllerWithDelegate:self] shareApp];
+        }
+            break;
         default:
             break;
     }
+    // 界面切换大概结束后恢复cell的背景色
+    [self performSelector:@selector(resetCellBackgroundColor:) withObject:cell afterDelay:0.1];
 }
 
 - (void)resetCellBackgroundColor:(UITableViewCell *)cell
@@ -111,7 +114,7 @@
 }
 
 /*
-#pragma mark - Navigation
+# pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

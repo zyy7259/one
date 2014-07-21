@@ -11,8 +11,8 @@
 		7A937B3F197622BD0087D4F2 /* ONESessionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A937B3E197622BD0087D4F2 /* ONESessionDelegate.m */; };
 		7A937B4219766E760087D4F2 /* ONERecommendationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A937B4119766E760087D4F2 /* ONERecommendationManager.m */; };
 		7A937B45197678E40087D4F2 /* ONEDateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A937B44197678E40087D4F2 /* ONEDateHelper.m */; };
-		7AB3BAB8197CAADA009457E4 /* ONERecommendationShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB3BAB6197CAADA009457E4 /* ONERecommendationShareViewController.m */; };
-		7AB3BAB9197CAADA009457E4 /* ONERecommendationShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7AB3BAB7197CAADA009457E4 /* ONERecommendationShareViewController.xib */; };
+		7AB3BAB8197CAADA009457E4 /* ONEShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB3BAB6197CAADA009457E4 /* ONEShareViewController.m */; };
+		7AB3BAB9197CAADA009457E4 /* ONEShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7AB3BAB7197CAADA009457E4 /* ONEShareViewController.xib */; };
 		7AB3BABD197CBC40009457E4 /* cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB3BABB197CBC40009457E4 /* cancel@2x.png */; };
 		7AB3BABE197CBC40009457E4 /* cancelSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB3BABC197CBC40009457E4 /* cancelSelected@2x.png */; };
 		7AB3BAC8197CC06B009457E4 /* weixin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB3BAC0197CC06B009457E4 /* weixin@2x.png */; };
@@ -126,9 +126,9 @@
 		7A937B4119766E760087D4F2 /* ONERecommendationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONERecommendationManager.m; sourceTree = "<group>"; };
 		7A937B43197678E40087D4F2 /* ONEDateHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONEDateHelper.h; sourceTree = "<group>"; };
 		7A937B44197678E40087D4F2 /* ONEDateHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONEDateHelper.m; sourceTree = "<group>"; };
-		7AB3BAB5197CAADA009457E4 /* ONERecommendationShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONERecommendationShareViewController.h; sourceTree = "<group>"; };
-		7AB3BAB6197CAADA009457E4 /* ONERecommendationShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONERecommendationShareViewController.m; sourceTree = "<group>"; };
-		7AB3BAB7197CAADA009457E4 /* ONERecommendationShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ONERecommendationShareViewController.xib; sourceTree = "<group>"; };
+		7AB3BAB5197CAADA009457E4 /* ONEShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONEShareViewController.h; sourceTree = "<group>"; };
+		7AB3BAB6197CAADA009457E4 /* ONEShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONEShareViewController.m; sourceTree = "<group>"; };
+		7AB3BAB7197CAADA009457E4 /* ONEShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ONEShareViewController.xib; sourceTree = "<group>"; };
 		7AB3BABB197CBC40009457E4 /* cancel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cancel@2x.png"; sourceTree = "<group>"; };
 		7AB3BABC197CBC40009457E4 /* cancelSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cancelSelected@2x.png"; sourceTree = "<group>"; };
 		7AB3BAC0197CC06B009457E4 /* weixin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "weixin@2x.png"; sourceTree = "<group>"; };
@@ -304,9 +304,9 @@
 				7AC30F5F197A8AF900A5C71C /* ONERecommendationImageViewController.h */,
 				7AC30F60197A8AF900A5C71C /* ONERecommendationImageViewController.m */,
 				7AC30F61197A8AF900A5C71C /* ONERecommendationImageViewController.xib */,
-				7AB3BAB5197CAADA009457E4 /* ONERecommendationShareViewController.h */,
-				7AB3BAB6197CAADA009457E4 /* ONERecommendationShareViewController.m */,
-				7AB3BAB7197CAADA009457E4 /* ONERecommendationShareViewController.xib */,
+				7AB3BAB5197CAADA009457E4 /* ONEShareViewController.h */,
+				7AB3BAB6197CAADA009457E4 /* ONEShareViewController.m */,
+				7AB3BAB7197CAADA009457E4 /* ONEShareViewController.xib */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -592,7 +592,7 @@
 				7AC30F4A197A887500A5C71C /* beautyBrief@2x.png in Resources */,
 				7AC30F58197A887500A5C71C /* shoppingDetail@2x.png in Resources */,
 				7AF27FC019727B4B00BBC0AC /* Main.storyboard in Resources */,
-				7AB3BAB9197CAADA009457E4 /* ONERecommendationShareViewController.xib in Resources */,
+				7AB3BAB9197CAADA009457E4 /* ONEShareViewController.xib in Resources */,
 				7AB3BACF197CC06B009457E4 /* yixinSelected@2x.png in Resources */,
 				7AB3BACE197CC06B009457E4 /* yixinFriendsSelected@2x.png in Resources */,
 				7AF27FCD197287EA00BBC0AC /* ONERecommendationDetailViewController.xib in Resources */,
@@ -673,7 +673,7 @@
 				7AC7AE0E197A05A000BA283A /* ONESettingViewController.m in Sources */,
 				7AB703B9197B92EB008DE376 /* ONEAnimationHelper.m in Sources */,
 				7AFDDEC2197190C40031F293 /* ONEAppDelegate.m in Sources */,
-				7AB3BAB8197CAADA009457E4 /* ONERecommendationShareViewController.m in Sources */,
+				7AB3BAB8197CAADA009457E4 /* ONEShareViewController.m in Sources */,
 				7AC7AE16197A132800BA283A /* ONEResourceManager.m in Sources */,
 				7AF27FCC197287EA00BBC0AC /* ONERecommendationDetailViewController.m in Sources */,
 				7AC30F62197A8AF900A5C71C /* ONERecommendationImageViewController.m in Sources */,

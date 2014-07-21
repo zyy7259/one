@@ -9,8 +9,9 @@
 #import "ONERecommendationDetailViewController.h"
 #import "ONERecommendation.h"
 #import "ONEResourceManager.h"
+#import "ONEShareViewController.h"
 
-@interface ONERecommendationDetailViewController ()
+@interface ONERecommendationDetailViewController () <ONEShareDelegate>
 
 @property ONERecommendation *recommendation;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -67,10 +68,16 @@
         self.thingImageView.image = [UIImage imageWithContentsOfFile:self.recommendation.blurredImageUrl];
     }
     
-    [self.dismissButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
-    [self.collectButton addTarget:self action:@selector(collectButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self connectButtons];
     
     self.collectButton.selected = self.recommendation.collected;
+}
+
+- (void)connectButtons
+{
+    [self.collectButton addTarget:self action:@selector(collectButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.shareButton addTarget:self action:@selector(shareButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.dismissButton addTarget:self action:@selector(dismissButtonTapped) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)updateDetailScrollViewAndLabel
@@ -96,11 +103,6 @@
     self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.scrollView.frame), CGRectGetHeight(self.detailLabel.frame) + self.detailPanel.frame.origin.y + 31);
 }
 
-- (void)dismiss
-{
-    [self.delegate ONERecommendationDetailViewControllerDidFinishDisplay:self];
-}
-
 # pragma mark 收藏/取消收藏
 
 - (void)collectButtonTapped
@@ -116,6 +118,20 @@
         [self.delegate ONERecommendationDetailViewControllerDidDecollectRecommendation:self.recommendation];
     }
     return;
+}
+
+# pragma mark 分享
+
+- (void)shareButtonTapped
+{
+    [[ONEShareViewController sharedShareViewControllerWithDelegate:self] shareRecommendation:self.recommendation];
+}
+
+# pragma mark 隐藏
+
+- (void)dismissButtonTapped
+{
+    [self.delegate ONERecommendationDetailViewControllerDidFinishDisplay:self];
 }
 
 - (void)didReceiveMemoryWarning
