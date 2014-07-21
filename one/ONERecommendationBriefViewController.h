@@ -9,11 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "ONERecommendation.h"
 
-@protocol ONERecommendationBriefViewControllerDelegate;
+@protocol ONERecommendationBriefDelegate;
 
 @interface ONERecommendationBriefViewController : UIViewController
 
-@property id<ONERecommendationBriefViewControllerDelegate> delegate;
+@property id<ONERecommendationBriefDelegate> delegate;
 
 @property (nonatomic) ONERecommendation *recommendation;
 
@@ -24,7 +24,7 @@
 
 @end
 
-@protocol ONERecommendationBriefViewControllerDelegate <NSObject>
+@protocol ONERecommendationBriefDelegate <NSObject>
 
 - (void)ONERecommendationBriefViewIntroTapped;
 - (void)ONERecommendationBriefViewImageTapped;

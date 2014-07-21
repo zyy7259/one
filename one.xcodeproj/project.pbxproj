@@ -11,6 +11,18 @@
 		7A937B3F197622BD0087D4F2 /* ONESessionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A937B3E197622BD0087D4F2 /* ONESessionDelegate.m */; };
 		7A937B4219766E760087D4F2 /* ONERecommendationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A937B4119766E760087D4F2 /* ONERecommendationManager.m */; };
 		7A937B45197678E40087D4F2 /* ONEDateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A937B44197678E40087D4F2 /* ONEDateHelper.m */; };
+		7AB3BAB8197CAADA009457E4 /* ONERecommendationShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB3BAB6197CAADA009457E4 /* ONERecommendationShareViewController.m */; };
+		7AB3BAB9197CAADA009457E4 /* ONERecommendationShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7AB3BAB7197CAADA009457E4 /* ONERecommendationShareViewController.xib */; };
+		7AB3BABD197CBC40009457E4 /* cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB3BABB197CBC40009457E4 /* cancel@2x.png */; };
+		7AB3BABE197CBC40009457E4 /* cancelSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB3BABC197CBC40009457E4 /* cancelSelected@2x.png */; };
+		7AB3BAC8197CC06B009457E4 /* weixin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB3BAC0197CC06B009457E4 /* weixin@2x.png */; };
+		7AB3BAC9197CC06B009457E4 /* weixinFriends@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB3BAC1197CC06B009457E4 /* weixinFriends@2x.png */; };
+		7AB3BACA197CC06B009457E4 /* weixinFriendsSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB3BAC2197CC06B009457E4 /* weixinFriendsSelected@2x.png */; };
+		7AB3BACB197CC06B009457E4 /* weixinSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB3BAC3197CC06B009457E4 /* weixinSelected@2x.png */; };
+		7AB3BACC197CC06B009457E4 /* yixin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB3BAC4197CC06B009457E4 /* yixin@2x.png */; };
+		7AB3BACD197CC06B009457E4 /* yixinFriends@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB3BAC5197CC06B009457E4 /* yixinFriends@2x.png */; };
+		7AB3BACE197CC06B009457E4 /* yixinFriendsSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB3BAC6197CC06B009457E4 /* yixinFriendsSelected@2x.png */; };
+		7AB3BACF197CC06B009457E4 /* yixinSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB3BAC7197CC06B009457E4 /* yixinSelected@2x.png */; };
 		7AB6AABC1978BA06002A8992 /* ONERecommendationCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB6AABA1978BA06002A8992 /* ONERecommendationCollectionViewController.m */; };
 		7AB6AAC319794F56002A8992 /* JCRBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB6AAC219794F56002A8992 /* JCRBlurView.m */; };
 		7AB703B9197B92EB008DE376 /* ONEAnimationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB703B8197B92EB008DE376 /* ONEAnimationHelper.m */; };
@@ -114,6 +126,19 @@
 		7A937B4119766E760087D4F2 /* ONERecommendationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONERecommendationManager.m; sourceTree = "<group>"; };
 		7A937B43197678E40087D4F2 /* ONEDateHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONEDateHelper.h; sourceTree = "<group>"; };
 		7A937B44197678E40087D4F2 /* ONEDateHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONEDateHelper.m; sourceTree = "<group>"; };
+		7AB3BAB5197CAADA009457E4 /* ONERecommendationShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONERecommendationShareViewController.h; sourceTree = "<group>"; };
+		7AB3BAB6197CAADA009457E4 /* ONERecommendationShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONERecommendationShareViewController.m; sourceTree = "<group>"; };
+		7AB3BAB7197CAADA009457E4 /* ONERecommendationShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ONERecommendationShareViewController.xib; sourceTree = "<group>"; };
+		7AB3BABB197CBC40009457E4 /* cancel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cancel@2x.png"; sourceTree = "<group>"; };
+		7AB3BABC197CBC40009457E4 /* cancelSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cancelSelected@2x.png"; sourceTree = "<group>"; };
+		7AB3BAC0197CC06B009457E4 /* weixin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "weixin@2x.png"; sourceTree = "<group>"; };
+		7AB3BAC1197CC06B009457E4 /* weixinFriends@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "weixinFriends@2x.png"; sourceTree = "<group>"; };
+		7AB3BAC2197CC06B009457E4 /* weixinFriendsSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "weixinFriendsSelected@2x.png"; sourceTree = "<group>"; };
+		7AB3BAC3197CC06B009457E4 /* weixinSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "weixinSelected@2x.png"; sourceTree = "<group>"; };
+		7AB3BAC4197CC06B009457E4 /* yixin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yixin@2x.png"; sourceTree = "<group>"; };
+		7AB3BAC5197CC06B009457E4 /* yixinFriends@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yixinFriends@2x.png"; sourceTree = "<group>"; };
+		7AB3BAC6197CC06B009457E4 /* yixinFriendsSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yixinFriendsSelected@2x.png"; sourceTree = "<group>"; };
+		7AB3BAC7197CC06B009457E4 /* yixinSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yixinSelected@2x.png"; sourceTree = "<group>"; };
 		7AB6AAB91978BA06002A8992 /* ONERecommendationCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONERecommendationCollectionViewController.h; sourceTree = "<group>"; };
 		7AB6AABA1978BA06002A8992 /* ONERecommendationCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONERecommendationCollectionViewController.m; sourceTree = "<group>"; };
 		7AB6AAC119794F56002A8992 /* JCRBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCRBlurView.h; sourceTree = "<group>"; };
@@ -279,6 +304,9 @@
 				7AC30F5F197A8AF900A5C71C /* ONERecommendationImageViewController.h */,
 				7AC30F60197A8AF900A5C71C /* ONERecommendationImageViewController.m */,
 				7AC30F61197A8AF900A5C71C /* ONERecommendationImageViewController.xib */,
+				7AB3BAB5197CAADA009457E4 /* ONERecommendationShareViewController.h */,
+				7AB3BAB6197CAADA009457E4 /* ONERecommendationShareViewController.m */,
+				7AB3BAB7197CAADA009457E4 /* ONERecommendationShareViewController.xib */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -298,6 +326,21 @@
 			name = data;
 			sourceTree = "<group>";
 		};
+		7AB3BABF197CC06B009457E4 /* share */ = {
+			isa = PBXGroup;
+			children = (
+				7AB3BAC0197CC06B009457E4 /* weixin@2x.png */,
+				7AB3BAC1197CC06B009457E4 /* weixinFriends@2x.png */,
+				7AB3BAC2197CC06B009457E4 /* weixinFriendsSelected@2x.png */,
+				7AB3BAC3197CC06B009457E4 /* weixinSelected@2x.png */,
+				7AB3BAC4197CC06B009457E4 /* yixin@2x.png */,
+				7AB3BAC5197CC06B009457E4 /* yixinFriends@2x.png */,
+				7AB3BAC6197CC06B009457E4 /* yixinFriendsSelected@2x.png */,
+				7AB3BAC7197CC06B009457E4 /* yixinSelected@2x.png */,
+			);
+			path = share;
+			sourceTree = "<group>";
+		};
 		7AB703BA197B92F4008DE376 /* animation */ = {
 			isa = PBXGroup;
 			children = (
@@ -310,9 +353,12 @@
 		7AC30EBD197A350B00A5C71C /* image */ = {
 			isa = PBXGroup;
 			children = (
+				7AB3BABF197CC06B009457E4 /* share */,
 				7AC30F64197A8BB200A5C71C /* aboutUs@2x.png */,
 				7AC30F00197A647000A5C71C /* arrowRightGrey@2x.png */,
 				7AC30F01197A647000A5C71C /* arrowRightWhite@2x.png */,
+				7AB3BABB197CBC40009457E4 /* cancel@2x.png */,
+				7AB3BABC197CBC40009457E4 /* cancelSelected@2x.png */,
 				7AC30ED8197A40AF00A5C71C /* close@2x.png */,
 				7AC30ED9197A40AF00A5C71C /* closeSelected@2x.png */,
 				7AC30EC2197A375400A5C71C /* collect@2x.png */,
@@ -529,9 +575,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				7AC30F4E197A887500A5C71C /* foodCollect@2x.png in Resources */,
+				7AB3BABE197CBC40009457E4 /* cancelSelected@2x.png in Resources */,
 				7AC30F54197A887500A5C71C /* houseCollect@2x.png in Resources */,
+				7AB3BAC8197CC06B009457E4 /* weixin@2x.png in Resources */,
 				7AC30EE6197A4B1F00A5C71C /* shareDetail@2x.png in Resources */,
 				7AC30F4F197A887500A5C71C /* foodDetail@2x.png in Resources */,
+				7AB3BAC9197CC06B009457E4 /* weixinFriends@2x.png in Resources */,
 				7AC30EC4197A375400A5C71C /* collect@2x.png in Resources */,
 				7AC30F51197A887500A5C71C /* funCollect@2x.png in Resources */,
 				7AC30EE2197A4A9500A5C71C /* collectDetail@2x.png in Resources */,
@@ -543,9 +592,14 @@
 				7AC30F4A197A887500A5C71C /* beautyBrief@2x.png in Resources */,
 				7AC30F58197A887500A5C71C /* shoppingDetail@2x.png in Resources */,
 				7AF27FC019727B4B00BBC0AC /* Main.storyboard in Resources */,
+				7AB3BAB9197CAADA009457E4 /* ONERecommendationShareViewController.xib in Resources */,
+				7AB3BACF197CC06B009457E4 /* yixinSelected@2x.png in Resources */,
+				7AB3BACE197CC06B009457E4 /* yixinFriendsSelected@2x.png in Resources */,
 				7AF27FCD197287EA00BBC0AC /* ONERecommendationDetailViewController.xib in Resources */,
+				7AB3BACD197CC06B009457E4 /* yixinFriends@2x.png in Resources */,
 				7AC30EDB197A40AF00A5C71C /* closeSelected@2x.png in Resources */,
 				7AC30F52197A887500A5C71C /* funDetail@2x.png in Resources */,
+				7AB3BABD197CBC40009457E4 /* cancel@2x.png in Resources */,
 				7AC30ECC197A3B0D00A5C71C /* share@2x.png in Resources */,
 				7AC30EFF197A605B00A5C71C /* loading.png in Resources */,
 				7AC30F02197A647000A5C71C /* arrowRightGrey@2x.png in Resources */,
@@ -553,6 +607,7 @@
 				7AC30EC5197A375400A5C71C /* collectSelected@2x.png in Resources */,
 				7AC30F50197A887500A5C71C /* funBrief@2x.png in Resources */,
 				7AC30F4B197A887500A5C71C /* beautyCollect@2x.png in Resources */,
+				7AB3BACC197CC06B009457E4 /* yixin@2x.png in Resources */,
 				7AFDDEBC197190C40031F293 /* InfoPlist.strings in Resources */,
 				7AC30F05197A678C00A5C71C /* collectDetailSelected@2x.png in Resources */,
 				7AC30F56197A887500A5C71C /* shoppingBrief@2x.png in Resources */,
@@ -562,6 +617,7 @@
 				7AC30F5E197A887500A5C71C /* travelDetail@2x.png in Resources */,
 				7AC30EEE197A53E900A5C71C /* edit@2x.png in Resources */,
 				7AC30F5C197A887500A5C71C /* travelBrief@2x.png in Resources */,
+				7AB3BACB197CC06B009457E4 /* weixinSelected@2x.png in Resources */,
 				7AC30F63197A8AF900A5C71C /* ONERecommendationImageViewController.xib in Resources */,
 				7AC30F5B197A887500A5C71C /* sportDetail@2x.png in Resources */,
 				7AC30F53197A887500A5C71C /* houseBrief@2x.png in Resources */,
@@ -576,6 +632,7 @@
 				7AC30EF9197A5AC400A5C71C /* completeSelected@2x.png in Resources */,
 				7AB703BE197BC396008DE376 /* returnGrayWhiteSelected@2x.png in Resources */,
 				7AC30EDA197A40AF00A5C71C /* close@2x.png in Resources */,
+				7AB3BACA197CC06B009457E4 /* weixinFriendsSelected@2x.png in Resources */,
 				7AC30F55197A887500A5C71C /* houseDetail@2x.png in Resources */,
 				7AC30EFC197A5B2900A5C71C /* returnGray@2x.png in Resources */,
 				7AC30ECD197A3B0D00A5C71C /* shareSelected@2x.png in Resources */,
@@ -616,6 +673,7 @@
 				7AC7AE0E197A05A000BA283A /* ONESettingViewController.m in Sources */,
 				7AB703B9197B92EB008DE376 /* ONEAnimationHelper.m in Sources */,
 				7AFDDEC2197190C40031F293 /* ONEAppDelegate.m in Sources */,
+				7AB3BAB8197CAADA009457E4 /* ONERecommendationShareViewController.m in Sources */,
 				7AC7AE16197A132800BA283A /* ONEResourceManager.m in Sources */,
 				7AF27FCC197287EA00BBC0AC /* ONERecommendationDetailViewController.m in Sources */,
 				7AC30F62197A8AF900A5C71C /* ONERecommendationImageViewController.m in Sources */,

@@ -52,4 +52,16 @@ static ONEAnimationHelper *sharedSigleton;
     
 }
 
+- (void)moveViewController:(UIViewController *)vc toFrame:(CGRect)destinationFrame completion:(animationCompletionHandlerType)handler
+{
+    [UIView animateWithDuration:.4
+                     animations:^{
+                         vc.view.frame = destinationFrame;
+                     } completion:^(BOOL finished) {
+                         if (handler != nil) {
+                             handler();
+                         }
+                     }];
+}
+
 @end

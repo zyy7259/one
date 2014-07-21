@@ -7,15 +7,16 @@
 //
 
 #import "ONERootViewController.h"
+#import "ONEDateHelper.h"
+#import "ONEAnimationHelper.h"
 #import "ONERecommendation.h"
 #import "ONERecommendationManager.h"
 #import "ONERecommendationBriefViewController.h"
 #import "ONERecommendationDetailViewController.h"
 #import "ONERecommendationCollectionViewController.h"
-#import "ONEDateHelper.h"
-#import "ONEAnimationHelper.h"
+#import "ONERecommendationShareViewController.h"
 
-@interface ONERootViewController () <ONERecommendationBriefViewControllerDelegate, ONERecommendationDetailDelegate, ONERecommendationCollectionDelegate>
+@interface ONERootViewController () <ONERecommendationBriefDelegate, ONERecommendationDetailDelegate, ONERecommendationCollectionDelegate, ONERecommendationShareDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *mainScrollView;
 @property (weak, nonatomic) IBOutlet UIScrollView *recommendationsScrollView;
@@ -33,6 +34,8 @@
 @property ONEDateHelper *dateHelper;
 @property CGFloat startPositionOfMainScrollView;
 @property NSMutableSet *recommendationCollection;
+@property ONERecommendationShareViewController *recommendationShareVC;
+@property UIView *recommendationShareCover;
 
 @end
 
@@ -99,6 +102,7 @@
 - (void)initButtons
 {
     [self.collectButton addTarget:self action:@selector(collectButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.shareButton addTarget:self action:@selector(shareButtonTapped) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)loadPage:(NSUInteger)page
@@ -389,6 +393,53 @@
 - (void)saveRecommendationCollectionToLocal
 {
     [self.recommendationManager writeRecommendationCollectionToFile:self.recommendationCollection.allObjects];
+}
+
+#pragma mark - 分享
+
+// 点击分享按钮，弹出分享界面
+- (void)shareButtonTapped
+{
+    // 采用延迟加载，当第一次点击分享按钮时，才初始化
+    if (self.recommendationShareVC == nil) {
+        ONERecommendationBriefViewController *bVC = self.viewControllers[self.currentPage];
+        ONERecommendation *r = bVC.recommendation;
+        self.recommendationShareVC = [[ONERecommendationShareViewController alloc] initWithRecommendation:r];
+        self.recommendationShareVC.delegate = self;
+        // 初始化cover
+        self.recommendationShareCover = [[UIView alloc] initWithFrame:self.view.frame];
+        self.recommendationShareCover.backgroundColor = [UIColor blackColor];
+        self.recommendationShareCover.alpha = 0.0;
+    }
+    // 加载cover
+    [self.view addSubview:self.recommendationShareCover];
+    // 设置分享界面的初始位置
+    CGRect frame =  self.recommendationShareVC.view.frame;
+    frame.origin = CGPointMake(0, CGRectGetHeight(self.view.frame));
+    //加载分享界面
+    self.recommendationShareVC.view.frame = frame;
+    [self.view addSubview:self.recommendationShareVC.view];
+    // 设置分享界面的最终位置，使用动画加载分享界面
+    frame.origin.y = 0;
+    
+    [UIView animateWithDuration:.4
+                     animations:^{
+                         self.recommendationShareVC.view.frame = frame;
+                         self.recommendationShareCover.alpha = 0.5;
+                     } completion:nil];
+}
+
+- (void)ONERecommendationShareViewControllerDidFinishDisplay:(ONERecommendationShareViewController *)recommendationShareViewController
+{
+    // 设置分享界面最终位置，使用动画隐藏分享界面
+    CGRect frame = self.recommendationShareVC.view.frame;
+    frame.origin.y = CGRectGetHeight(self.view.frame);
+    
+    [UIView animateWithDuration:.4
+                     animations:^{
+                         self.recommendationShareVC.view.frame = frame;
+                         self.recommendationShareCover.alpha = 0.0;
+                     } completion:nil];
 }
 
 #pragma mark - Navigation

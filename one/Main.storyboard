@@ -103,7 +103,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8NB-9p-jkx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="138" y="-773"/>
+            <point key="canvasLocation" x="350" y="-1285"/>
         </scene>
         <!--Recommendation Collection View Controller - 收藏-->
         <scene sceneID="eIs-BZ-jZo">
@@ -171,7 +171,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Irm-60-wbh" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="3uj-IZ-xKC" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1167" y="-773"/>
+            <point key="canvasLocation" x="1379" y="-1285"/>
         </scene>
         <!--Setting View Controller - 设置-->
         <scene sceneID="3xq-gc-PXo">
@@ -233,7 +233,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e5G-wR-RjF" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="XiO-f0-gQf" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1167" y="-1539"/>
+            <point key="canvasLocation" x="1379" y="-2051"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="cUj-ZB-AEp">
@@ -251,7 +251,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bJ7-g0-gnH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="641" y="-773"/>
+            <point key="canvasLocation" x="853" y="-1285"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="YoS-7j-Mta">
@@ -270,7 +270,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wKd-TR-zpa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="641" y="-1539"/>
+            <point key="canvasLocation" x="853" y="-2051"/>
         </scene>
     </scenes>
     <resources>
