@@ -32,7 +32,6 @@
 @property NSUInteger currentPage;
 @property NSUInteger pageWidth;
 @property ONEDateHelper *dateHelper;
-@property CGFloat startPositionOfMainScrollView;
 @property NSMutableSet *recommendationCollection;
 
 @end
@@ -67,7 +66,6 @@
     self.currentPage = 0;
     self.pageWidth = CGRectGetWidth(self.view.frame);
     self.dateHelper = [ONEDateHelper sharedDateHelper];
-    self.startPositionOfMainScrollView = 0;
     
     self.recommendationCollection = [NSMutableSet set];
 
@@ -226,7 +224,8 @@
 // 上下滑动结束后，可能需要显示/隐藏菜单
 - (void)mainScrollViewDidEndScrolling
 {
-    CGFloat startPosition = self.startPositionOfMainScrollView;
+    static CGFloat pos = 0;
+    CGFloat startPosition = pos;
     CGFloat endPosition = self.mainScrollView.contentOffset.y;
     CGFloat height = CGRectGetHeight(self.pullUpMenuView.frame);
     CGFloat threshold = height / 2;
@@ -235,26 +234,26 @@
         // 向上拉
         if (endPosition >= threshold) {
             // 拉过一半，显示菜单，同时禁止浏览其它推荐
-            startPosition = height;
+            endPosition = height;
             [self showPullUpMenu];
         } else {
             // 没有拉过一半，不显示菜单
-            startPosition = 0;
+            endPosition = 0;
             [self hidePullUpMenu];
         }
     } else {
         // 向下拉
         if (endPosition <= threshold) {
             // 拉过一半，隐藏菜单，同时可以浏览其它推荐
-            startPosition = 0;
+            endPosition = 0;
             [self hidePullUpMenu];
         } else {
             // 没有拉过一半，不隐藏菜单
-            startPosition = height;
+            endPosition = height;
             [self showPullUpMenu];
         }
     }
-    self.startPositionOfMainScrollView = startPosition;
+    pos = endPosition;
 }
 
 # pragma mark - 简单页、详情页、图片页和菜单之间的切换
