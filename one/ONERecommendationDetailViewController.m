@@ -11,7 +11,7 @@
 #import "ONEResourceManager.h"
 #import "ONEShareViewController.h"
 
-@interface ONERecommendationDetailViewController () <ONEShareDelegate>
+@interface ONERecommendationDetailViewController () <UIScrollViewDelegate, ONEShareDelegate>
 
 @property ONERecommendation *recommendation;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -96,11 +96,20 @@
                                                         attributes:@{NSFontAttributeName: self.detailLabel.font,
                                                                      NSParagraphStyleAttributeName: paragraphStyle}
                                                            context:nil];
+    
+    // 修改detailPanel的frame
+    self.detailPanel.frame = CGRectMake(self.detailPanel.frame.origin.x,
+                                        self.detailPanel.frame.origin.y,
+                                        CGRectGetWidth(self.detailPanel.frame),
+                                        ceil(labelRect.size.height));
+    // 修改detailLabel的frame
     self.detailLabel.frame = CGRectMake(self.detailLabel.frame.origin.x,
                                         self.detailLabel.frame.origin.y,
                                         ceil(labelRect.size.width),
                                         ceil(labelRect.size.height));
+    // 修改scrollView的contentSize
     self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.scrollView.frame), CGRectGetHeight(self.detailLabel.frame) + self.detailPanel.frame.origin.y + 31);
+    self.scrollView.delegate = self;
 }
 
 # pragma mark 收藏/取消收藏
@@ -132,6 +141,59 @@
 - (void)dismissButtonTapped
 {
     [self.delegate ONERecommendationDetailViewControllerDidFinishDisplay:self];
+}
+
+# pragma mark 上下滑动时，动态调整按钮位置
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self updateButtonPositions];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    [self updateButtonPositions];
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    [self updateButtonPositions];
+}
+
+- (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView
+{
+    [self updateButtonPositions];
+}
+
+- (void)updateButtonPositions
+{
+    static CGFloat lastPosition = 0;
+    static BOOL hasFloated = NO;
+    static CGFloat threshold = 180;
+    
+    CGFloat startPosition = lastPosition;
+    CGFloat endPosition = self.scrollView.contentOffset.y;
+    
+//    NSLog(@"%@%@",
+//          NSStringFromCGPoint(self.scrollView.contentOffset),
+//          NSStringFromCGPoint([self.view convertPoint:self.shareButton.frame.origin fromView:self.shareButton.superview]));
+    if (endPosition > startPosition) {
+        // 向上滑
+        if (!hasFloated) {
+            // 如果按钮还没有悬浮，判断是否需要悬浮
+            if (self.scrollView.contentOffset.y >= threshold) {
+                // 将按钮浮动
+                hasFloated = YES;
+                CGPoint desiredPosition = [self.view convertPoint:self.shareButton.frame.origin fromView:self.shareButton.superview];
+//                NSLog(@"desiredPosition %@", NSStringFromCGPoint(desiredPosition));
+            }
+        }
+    } else {
+        // 向下滑
+        if (hasFloated) {
+            // 如果按钮已经悬浮，判断是否需要取消悬浮
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning

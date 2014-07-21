@@ -224,8 +224,9 @@
 // 上下滑动结束后，可能需要显示/隐藏菜单
 - (void)mainScrollViewDidEndScrolling
 {
-    static CGFloat pos = 0;
-    CGFloat startPosition = pos;
+    static CGFloat lastPosition = 0;
+    
+    CGFloat startPosition = lastPosition;
     CGFloat endPosition = self.mainScrollView.contentOffset.y;
     CGFloat height = CGRectGetHeight(self.pullUpMenuView.frame);
     CGFloat threshold = height / 2;
@@ -253,7 +254,7 @@
             [self showPullUpMenu];
         }
     }
-    pos = endPosition;
+    lastPosition = endPosition;
 }
 
 # pragma mark - 简单页、详情页、图片页和菜单之间的切换
