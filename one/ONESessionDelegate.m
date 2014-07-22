@@ -111,7 +111,7 @@
 
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
 {
-    [ONELogger logTitle:@"finish downloading to location" content:location.path];
+//    [ONELogger logTitle:@"finish downloading to location" content:location.path];
     DownloadTaskCompletionHandlerType handler = self.completionHandlerDictionary[downloadTask];
     handler(location, nil);
 }

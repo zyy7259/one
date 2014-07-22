@@ -106,7 +106,7 @@
 {
     if (recommendation == nil) {
         // 本地无数据，即将从服务器拉取数据
-        [ONELogger logTitle:@"loading......" content:nil];
+        [ONELogger logTitle:@"loading data from server......" content:nil];
         return;
     }
     self.recommendation = recommendation;
@@ -118,7 +118,7 @@
 {
     if (recommendation == nil) {
         // 服务器无数据，显示默认recommendation
-        [ONELogger logTitle:@"nil......" content:nil];
+        [ONELogger logTitle:@"no more recommendation, bazinga......" content:nil];
         [self showDefaultRecommendation];
         return;
     }
@@ -148,8 +148,8 @@
 // 展示图片
 - (void)showRecommendationImage
 {
-    if ([[NSFileManager defaultManager] fileExistsAtPath:self.recommendation.blurredImageUrl]) {
-        self.thingImageView.image = [UIImage imageWithContentsOfFile:self.recommendation.blurredImageUrl];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:self.recommendation.blurredImageLocalLocation]) {
+        self.thingImageView.image = [UIImage imageWithContentsOfFile:self.recommendation.blurredImageLocalLocation];
         // 图片加载完成，移除loading gif
         [self removeLoadingGif];
     } else {

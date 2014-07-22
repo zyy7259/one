@@ -145,14 +145,15 @@ static ONERecommendationManager *sharedSingleton;
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSURL *cacheDirUrl = [NSURL fileURLWithPath:self.cacheDir];
         NSURL *targetFileUrl = [cacheDirUrl URLByAppendingPathComponent:[NSString stringWithFormat:@"%ld%ld%ld.jpg", (long)recommendation.year, (long)recommendation.month, (long)recommendation.day]];
-        [ONELogger logTitle:@"image new location" content:targetFileUrl.path];
+//        [ONELogger logTitle:@"image new location" content:targetFileUrl.path];
         
         [self clearFileAtUrl:targetFileUrl];
         
         if ([fileManager moveItemAtURL:location toURL:targetFileUrl error:&e]) {
             [ONELogger logTitle:@"cache image success" content:nil];
             // 记录新的图片地址后，通知handler
-            recommendation.blurredImageUrl = targetFileUrl.path;
+//            recommendation.blurredImageUrl = targetFileUrl.path;
+            recommendation.blurredImageLocalLocation = targetFileUrl.path;
             imageHandler(targetFileUrl);
         } else {
             [ONELogger logTitle:@"move image failed" content:e.localizedDescription];
