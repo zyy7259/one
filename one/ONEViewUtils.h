@@ -11,7 +11,7 @@
 @interface ONEViewUtils : NSObject
 
 + (UILabel *)deepLabelCopy:(UILabel *)label;
-+ (NSMutableAttributedString *)attributedStringWithString:(NSString *)string;
-+ (CGRect)boundingRectWithString:(NSString *)string width:(CGFloat)width font:(UIFont *)font;
++ (NSMutableAttributedString *)attributedStringWithString:(NSString *)string font:(UIFont *)font color:(UIColor *)color lineSpacing:(CGFloat)lineSpacing;
++ (CGRect)boundingRectWithString:(NSString *)string width:(CGFloat)width font:(UIFont *)font lineSpacing:(CGFloat)lineSpacing;
 
 @end

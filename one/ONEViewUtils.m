@@ -19,20 +19,23 @@
     return l;
 }
 
-+ (NSMutableAttributedString *)attributedStringWithString:(NSString *)string
++ (NSMutableAttributedString *)attributedStringWithString:(NSString *)string font:(UIFont *)font color:(UIColor *)color lineSpacing:(CGFloat)lineSpacing
 {
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:string];
+    NSRange range = NSMakeRange(0, [string length]);
+    [attributedString addAttribute:NSFontAttributeName value:font range:range];
+    [attributedString addAttribute:NSForegroundColorAttributeName value:color range:range];
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    [paragraphStyle setLineSpacing:17];
-    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [string length])];
+    [paragraphStyle setLineSpacing:lineSpacing];
+    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:range];
     return attributedString;
 }
 
-+ (CGRect)boundingRectWithString:(NSString *)string width:(CGFloat)width font:(UIFont *)font
++ (CGRect)boundingRectWithString:(NSString *)string width:(CGFloat)width font:(UIFont *)font lineSpacing:(CGFloat)lineSpacing
 {
     CGSize maxSize = CGSizeMake(width, MAXFLOAT);
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    [paragraphStyle setLineSpacing:17];
+    [paragraphStyle setLineSpacing:lineSpacing];
     return [string boundingRectWithSize:maxSize
                                 options:NSStringDrawingUsesLineFragmentOrigin
                              attributes:@{NSFontAttributeName: font,

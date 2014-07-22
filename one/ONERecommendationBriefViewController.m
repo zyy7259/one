@@ -135,7 +135,7 @@
     self.titleLabel.text = self.recommendation.title;
     self.introLabel.text = self.recommendation.intro;
     self.likesLabel.text = [@(self.recommendation.likes) stringValue];
-    self.briefDetailLabel.attributedText = [ONEViewUtils attributedStringWithString:self.recommendation.briefDetail];
+    self.briefDetailLabel.attributedText = [ONEViewUtils attributedStringWithString:self.recommendation.briefDetail font:self.briefDetailLabel.font color:self.briefDetailLabel.textColor lineSpacing:17];
     [self.briefDetailLabel sizeToFit];
 }
 

@@ -71,98 +71,11 @@
     self.titleLabel.text = self.recommendation.title;
     self.introLabel.text = self.recommendation.intro;
     self.likesLabel.text = [@(self.recommendation.likes) stringValue];
+    self.addressLabel.attributedText = [ONEViewUtils attributedStringWithString:self.recommendation.address font:self.addressLabel.font color:self.addressLabel.textColor lineSpacing:13];
+    self.telLabel.text = self.recommendation.tel;
+    [self initButtons];
     [self showDetail];
     [self showRecommendationImage];
-    [self initButtons];
-}
-
-// 展示图片
-- (void)showRecommendationImage
-{
-    NSString *filePath = self.recommendation.blurredImageLocalLocation;
-    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-        self.thingImageView.image = [UIImage imageWithContentsOfFile:filePath];
-    } else {
-        // 重新拉取图片
-    }
-}
-
-- (void)showDetail
-{
-    // 先将articleView从viewTree上移除，然后再对其进行操作
-    CGRect articleFrame = self.articleView.frame;
-    [self.articleView removeFromSuperview];
-    // 将detail以换行符为分隔符进行解析，对解析到的结果进行便利，如果是普通文字，则创建一个UILabel；如果是url，则创建一个UIImageView
-    NSArray *paraArray = [self.recommendation.detail componentsSeparatedByString:@"\n"];
-    UIFont *font = self.addressLabel.font;
-    CGFloat paraWidth = self.addressLabel.frame.size.width;
-    CGFloat imageHeight = 200;
-    CGFloat y = 0;
-    CGFloat paragraphBottomMargin = 20;
-    for (NSString *str in paraArray) {
-        NSRange urlRange = [str rangeOfString:@"http"];
-        if (urlRange.location == NSNotFound) {
-            // 普通文字
-            UILabel *label = [UILabel new];
-            label.attributedText = [ONEViewUtils attributedStringWithString:str];
-            CGRect rect = [ONEViewUtils boundingRectWithString:str width:paraWidth font:font];
-            CGFloat height = ceil(rect.size.height) + paragraphBottomMargin;
-            label.frame = CGRectMake(0, y, paraWidth, height);
-            y += height;
-        } else {
-            // url
-            NSURL *imageUrl = [NSURL URLWithString:str];
-            UIImageView *imageView = [[UIImageView alloc] initWithImage:self.resourceManager.onelifeArticleTmpImage];
-            imageView.frame = CGRectMake(0, y, paraWidth, imageHeight);
-            y += imageHeight;
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                NSData *imageData = [NSData dataWithContentsOfURL:imageUrl];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    imageView.image = [UIImage imageWithData:imageData];
-                });
-            });
-        }
-    }
-    // 最后加上页面留白
-    CGFloat articleBottomMargin = 15;
-    articleFrame.size.height = y + articleBottomMargin;
-    self.articleView.frame = articleFrame;
-    // 拼装完成之后将articleView添加上去
-    [self.scrollView addSubview:self.articleView];
-}
-
-- (void)tmp
-{
-    // 设置detailLabel要显示的文字
-    NSString *labelText = self.recommendation.detail;
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:labelText];
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    [paragraphStyle setLineSpacing:17];
-    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [labelText length])];
-    self.detailLabel.attributedText = attributedString;
-    
-    CGSize maxSize = CGSizeMake(self.detailLabel.frame.size.width, MAXFLOAT);
-    CGRect labelRect = [self.detailLabel.text boundingRectWithSize:maxSize
-                                                           options:NSStringDrawingUsesLineFragmentOrigin
-                                                        attributes:@{NSFontAttributeName: self.detailLabel.font,
-                                                                     NSParagraphStyleAttributeName: paragraphStyle}
-                                                           context:nil];
-    
-    // 设置一个margin，放置scrollView不够长
-    NSInteger margin = 60;
-    // 修改detailPanel的frame
-    self.detailPanel.frame = CGRectMake(self.detailPanel.frame.origin.x,
-                                        self.detailPanel.frame.origin.y,
-                                        CGRectGetWidth(self.detailPanel.frame),
-                                        ceil(labelRect.size.height) + margin);
-    // 修改detailLabel的frame
-    self.detailLabel.frame = CGRectMake(self.detailLabel.frame.origin.x,
-                                        self.detailLabel.frame.origin.y,
-                                        ceil(labelRect.size.width),
-                                        ceil(labelRect.size.height));
-    // 修改scrollView的contentSize
-    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.scrollView.frame), CGRectGetHeight(self.detailLabel.frame) + self.detailPanel.frame.origin.y + margin);
-    self.scrollView.delegate = self;
 }
 
 - (void)initButtons
@@ -179,6 +92,76 @@
     [self.dismissButton addTarget:self action:@selector(dismissButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.collectFloatButton addTarget:self action:@selector(collectButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self.shareFloatButton addTarget:self action:@selector(shareButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)showDetail
+{
+    // 先将articleView从viewTree上移除，然后再对其进行操作
+    CGRect articleFrame = self.articleView.frame;
+    [self.articleView removeFromSuperview];
+    // 将detail以换行符为分隔符进行解析，对解析到的结果进行便利，如果是普通文字，则创建一个UILabel；如果是url，则创建一个UIImageView
+    NSArray *paraArray = [self.recommendation.detail componentsSeparatedByString:@"\n"];
+    UIColor *textColor = self.addressLabel.textColor;
+    UIFont *font = self.addressLabel.font;
+    CGFloat paraWidth = self.addressLabel.frame.size.width;
+    CGFloat imageHeight = 200;
+    CGFloat y = 0;
+    for (NSString *str in paraArray) {
+        NSRange urlRange = [str rangeOfString:@"http"];
+        if (urlRange.location == NSNotFound) {
+            // 普通文字
+            UILabel *label = [UILabel new];
+            label.numberOfLines = 0;
+            label.attributedText = [ONEViewUtils attributedStringWithString:str font:font color:textColor lineSpacing:13];
+            CGRect rect = [ONEViewUtils boundingRectWithString:str width:paraWidth font:font lineSpacing:13];
+            CGFloat height = ceil(rect.size.height);
+            label.frame = CGRectMake(0, y, paraWidth, height);
+            y += height;
+            y += 15;
+            [self.articleView addSubview:label];
+        } else {
+            // url
+            NSURL *imageUrl = [NSURL URLWithString:str];
+            UIImageView *imageView = [[UIImageView alloc] initWithImage:self.resourceManager.onelifeArticleTmpImage];
+            imageView.frame = CGRectMake(0, y, paraWidth, imageHeight);
+            y += imageHeight;
+            y += 15;
+            [self.articleView addSubview:imageView];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                NSData *imageData = [NSData dataWithContentsOfURL:imageUrl];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    imageView.image = [UIImage imageWithData:imageData];
+                });
+            });
+        }
+    }
+    // 更新articleView的frame，加上页面留白
+    CGFloat articleBottomMargin = 15;
+    CGFloat newHeight = y + articleBottomMargin;
+    CGFloat heightDelta = newHeight - articleFrame.size.height;
+    articleFrame.size.height = newHeight;
+    self.articleView.frame = articleFrame;
+    // 更新detailPanel的frame
+    CGRect detailPanelFrame = self.detailPanel.frame;
+    detailPanelFrame.size.height += heightDelta;
+    self.detailPanel.frame = detailPanelFrame;
+    // 更新scrollView的contentSize
+    CGSize size = self.scrollView.frame.size;
+    size.height += heightDelta;
+    self.scrollView.contentSize = size;
+    // 最后将articleView添加上去
+    [self.detailPanel addSubview:self.articleView];
+}
+
+// 展示图片
+- (void)showRecommendationImage
+{
+    NSString *filePath = self.recommendation.blurredImageLocalLocation;
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+        self.thingImageView.image = [UIImage imageWithContentsOfFile:filePath];
+    } else {
+        // 重新拉取图片
+    }
 }
 
 # pragma mark 收藏/取消收藏
