@@ -24,7 +24,7 @@
                                                 <rect key="frame" x="-100" y="0.0" width="100" height="568"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="onelifeLeft.png" id="pbE-dH-gnF">
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="onelifeLogo.png" id="pbE-dH-gnF">
                                                         <rect key="frame" x="12" y="259" width="76" height="50"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     </imageView>
@@ -278,7 +278,7 @@
         <image name="closeSelected.png" width="23" height="23"/>
         <image name="collect.png" width="22" height="21"/>
         <image name="collectSelected.png" width="22" height="21"/>
-        <image name="onelifeLeft.png" width="74" height="50"/>
+        <image name="onelifeLogo.png" width="74" height="50"/>
         <image name="setting.png" width="21" height="21"/>
         <image name="settingSelected.png" width="21" height="21"/>
         <image name="share.png" width="21" height="21"/>

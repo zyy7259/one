@@ -7,6 +7,7 @@
 //
 
 #import "ONERootViewController.h"
+#import "ONEResourceManager.h"
 #import "ONEDateHelper.h"
 #import "ONEAnimationHelper.h"
 #import "ONERecommendation.h"
@@ -84,7 +85,7 @@
     
     // 读取存储在本地的收藏列表
     self.recommendationCollection = [NSMutableSet setWithArray:[self.recommendationManager readRecommendationCollectionFromFile]];
-    
+    // 读取收藏列表之后，更新页面
     [self updateViewAppearance];
 }
 
@@ -99,6 +100,14 @@
 {
     [self.collectButton addTarget:self action:@selector(collectButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.shareButton addTarget:self action:@selector(shareButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)updateViewAppearance
+{
+    // 更新主题颜色
+    [self updateThemeColor];
+    // 更新收藏状态
+    [self syncCollectButtonAndCorrespondingRecommendationState];
 }
 
 - (void)loadPage:(NSUInteger)page
@@ -141,12 +150,32 @@
     }
 }
 
-- (void)updateViewAppearance
+- (void)viewWillAppear:(BOOL)animated
 {
-    // 更新主题颜色
-    [self updateThemeColor];
-    // 更新收藏状态
-    [self syncCollectButtonAndCorrespondingRecommendationState];
+    [super viewDidAppear:animated];
+    
+    static BOOL firstTime = YES;
+    if (firstTime) {
+        firstTime = NO;
+        [self disappearLoading];
+    }
+}
+
+- (void)disappearLoading
+{
+    UIImageView *loadingView = [[UIImageView alloc] initWithImage:[ONEResourceManager sharedManager].onelifeImage];
+    CGRect frame = self.view.frame;
+    loadingView.frame = frame;
+    [self.view addSubview:loadingView];
+    
+    frame = CGRectMake(-frame.size.width/2.0, -frame.size.height/2.0, frame.size.width * 2, frame.size.height * 2);
+    [UIView animateWithDuration:0.75
+                     animations:^{
+                         loadingView.frame = frame;
+                         loadingView.alpha = 0.1;
+                     } completion:^(BOOL finished) {
+                         [loadingView removeFromSuperview];
+                     }];
 }
 
 # pragma mark 主题颜色

@@ -162,30 +162,57 @@
     [self.delegate ONERecommendationDetailViewControllerDidFinishDisplay:self];
 }
 
-# pragma mark 上下滑动时，动态调整按钮位置
+# pragma mark 上下滑动时，动态调页面
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    [self updateButtonPositions];
+    [self updateInterface];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-    [self updateButtonPositions];
+    if (!decelerate) {
+        [self updateInterface];
+    }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    [self updateButtonPositions];
+    [self updateInterface];
 }
 
-- (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView
+# pragma mark 更新页面
+
+- (void)updateInterface
 {
     [self updateButtonPositions];
+    [self updateThingImagePosition];
 }
 
-# pragma mark 动态调整按钮的位置
+// 动态调整图片位置
+- (void)updateThingImagePosition
+{
+    CGFloat offset = self.scrollView.contentOffset.y;
+    if (offset < 0) {
+        // 向下bounce，放大图片
+        CGFloat delta = -offset;
+        CGRect frame = self.view.frame;
+        CGFloat height = frame.size.height;
+        CGFloat width = frame.size.width;
+        CGFloat newHeight = height + delta;
+        CGFloat newWidth = width / height * newHeight;
+        frame = CGRectMake(-(newWidth - width)/2, -(newHeight - height)/2, newWidth, newHeight);
+        self.thingImageView.frame = frame;
+    } else {
+        // 滚动scrollView，移动图片
+        CGFloat delta = offset;
+        CGRect frame = self.view.frame;
+        frame.origin.y -= delta / 2;
+        self.thingImageView.frame = frame;
+    }
+}
 
+// 动态调整按钮的位置
 - (void)updateButtonPositions
 {
     static CGFloat duration = 0.3;
