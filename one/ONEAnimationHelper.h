@@ -14,8 +14,7 @@ typedef void (^animationCompletionHandlerType)();
 
 + (ONEAnimationHelper *)sharedAnimationHelper;
 
-- (void)pushViewController:(UIViewController *)destination toViewController:(UIViewController *)source;
-- (void)popViewContorller:(UIViewController *)destination fromViewController:(UIViewController *)source;
-- (void)moveViewController:(UIViewController *)vc toFrame:(CGRect)destinationFrame completion:(animationCompletionHandlerType)handler;
++ (void)pushViewController:(UIViewController *)destination toViewController:(UIViewController *)source;
++ (void)popViewContorller:(UIViewController *)destination fromViewController:(UIViewController *)source;
 
 @end

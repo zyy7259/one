@@ -150,6 +150,8 @@
     }
 }
 
+# pragma mark 在页面即将出现时，渐渐消失loading图片
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -305,7 +307,7 @@
         detailVC.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         [self presentViewController:detailVC animated:YES completion:nil];
         // TODO 自定义动画
-        //        [[ONEAnimationHelper sharedAnimationHelper] pushViewController:detailController toViewController:self];
+//        [ONEAnimationHelper pushViewController:detailVC toViewController:self];
     }
 }
 
@@ -317,6 +319,8 @@
     [vc deshadowIntroView];
     // 然后切换回简单页
     [self dismissViewControllerAnimated:YES completion:nil];
+    // TODO 自定义动画
+//    [ONEAnimationHelper popViewContorller:recommendationDetailController fromViewController:self];
 }
 
 // 图片被点击了，切换到完整图片页面
