@@ -221,7 +221,8 @@
     static CGFloat duration = 0.3;
     static CGFloat lastPosition = 0;
     static BOOL hasFloated = NO;
-    static CGFloat threshold = 185;
+    static CGFloat contentOffsetYThreshold = 180;
+    static CGFloat floatYPosition;
     
     static BOOL originInitialized = NO;
     static CGRect collectButtonFrame;
@@ -230,6 +231,8 @@
     static CGRect shareButtonFloatFrame;
     if (!originInitialized) {
         originInitialized = YES;
+        CGRect dismissButtonFrame = self.dismissButton.frame;
+        floatYPosition = dismissButtonFrame.origin.y + CGRectGetHeight(dismissButtonFrame);
         // 在移除浮动按钮时，先将浮动按钮移动到这两个frame所指示的位置
         collectButtonFrame = self.collectButton.frame;
         collectButtonFrame.size = self.dismissButton.frame.size;
@@ -249,7 +252,7 @@
         // 向上滑
         if (!hasFloated) {
             // 如果按钮还没有悬浮，判断是否需要悬浮
-            if (self.scrollView.contentOffset.y >= threshold) {
+            if (self.scrollView.contentOffset.y >= contentOffsetYThreshold) {
                 endPosition = self.scrollView.contentOffset.y;
                 // 将按钮浮动
                 hasFloated = YES;
@@ -261,9 +264,11 @@
                 } else {
                     collectButtonDesiredRect.origin.x += 8;
                 }
+                collectButtonDesiredRect.origin.y = floatYPosition;
                 collectButtonDesiredRect.size = collectButtonFloatFrame.size;
                 CGRect shareButtonDesiredRect = [self.view convertRect:self.shareButton.frame fromView:self.scrollView];
                 shareButtonDesiredRect.size = shareButtonFloatFrame.size;
+                shareButtonDesiredRect.origin.y = floatYPosition;
                 // 然后将按钮从原来的superView上移除
                 self.collectButton.hidden = YES;
                 self.shareButton.hidden = YES;
@@ -289,7 +294,7 @@
         // 向下滑
         if (hasFloated) {
             // 如果按钮已经悬浮，判断是否需要取消悬浮
-            if (self.scrollView.contentOffset.y <= threshold) {
+            if (self.scrollView.contentOffset.y <= contentOffsetYThreshold) {
                 endPosition = self.scrollView.contentOffset.y;
                 // 将按钮复位
                 hasFloated = NO;
