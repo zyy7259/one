@@ -7,12 +7,33 @@
 //
 
 #import "ONERecommendationImageViewController.h"
+#import "ONERecommendation.h"
+#import "ONERecommendationManager.h"
+#import "ONEStringUtils.h"
+#import "FLAnimatedImage.h"
+#import "FLAnimatedImageView.h"
 
 @interface ONERecommendationImageViewController ()
+
+@property (weak, nonatomic) IBOutlet UIImageView *thingImageView;
+@property ONERecommendation *recommendation;
+@property ONERecommendationManager *recommendationManager;
+@property FLAnimatedImageView *loadingImageView;
 
 @end
 
 @implementation ONERecommendationImageViewController
+
++ (id)instanceWithRecommendation:(ONERecommendation *)recommendation
+{
+    return [[self alloc] initWithRecommendation:recommendation];
+}
+
+- (id)initWithRecommendation:(ONERecommendation *)recommendation
+{
+    _recommendation = recommendation;
+    return [self initWithNibName:NSStringFromClass([ONERecommendationImageViewController class]) bundle:nil];
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,6 +48,64 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.recommendationManager = [ONERecommendationManager sharedManager];
+    [self loadRecommendationImage];
+}
+
+// 加载要显示的图片
+- (void)loadRecommendationImage
+{
+    // 如果没有加载图片，加载之
+    if ([ONEStringUtils isEmptyString:self.recommendation.imageLocalLocation]) {
+        // 加载loading gif
+        [self addLoadingGif];
+        //    return;
+        [self.recommendationManager downloadRecommendationImage:self.recommendation imageUrl:self.recommendation.imageUrl namePostfix:nil imageCompletionHandler:^(NSURL *location) {
+            if (location != nil) {
+                // 记录图片地址后加载图片
+                self.recommendation.imageLocalLocation = location.path;
+                [self showRecommendationImage];
+            }
+        }];
+    } else {
+        [self showRecommendationImage];
+    }
+}
+
+- (void)showRecommendationImage
+{
+    NSString *filePath = self.recommendation.imageLocalLocation;
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+        self.thingImageView.image = [UIImage imageWithContentsOfFile:filePath];
+        // 图片加载完成，移除loading gif
+        [self removeLoadingGif];
+    } else {
+        // TODO 重新拉取图片
+    }
+}
+
+- (IBAction)imageTapped:(UIGestureRecognizer *)sender
+{
+    NSLog(@"image tapped");
+    [self.delegate ONERecommendationImageViewControllerDidFinishDisplay:self];
+}
+
+# pragma mark Loading Gif
+
+- (void)addLoadingGif
+{
+    NSURL *url = [[NSBundle mainBundle] URLForResource:@"loadingGray" withExtension:@"gif"];
+    NSData *data = [NSData dataWithContentsOfURL:url];
+    FLAnimatedImage *fImage = [[FLAnimatedImage alloc] initWithAnimatedGIFData:data];
+    self.loadingImageView = [FLAnimatedImageView new];
+    self.loadingImageView.frame = self.view.frame;
+    self.loadingImageView.animatedImage = fImage;
+    [self.view addSubview:self.loadingImageView];
+}
+
+- (void)removeLoadingGif
+{
+    [self.loadingImageView removeFromSuperview];
 }
 
 - (void)didReceiveMemoryWarning

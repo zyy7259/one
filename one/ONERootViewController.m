@@ -16,9 +16,10 @@
 #import "ONERecommendationBriefViewController.h"
 #import "ONERecommendationDetailViewController.h"
 #import "ONERecommendationCollectionViewController.h"
+#import "ONERecommendationImageViewController.h"
 #import "ONEShareViewController.h"
 
-@interface ONERootViewController () <ONERecommendationBriefDelegate, ONERecommendationDetailDelegate, ONERecommendationCollectionDelegate, ONEShareDelegate>
+@interface ONERootViewController () <ONERecommendationBriefDelegate, ONERecommendationDetailDelegate, ONERecommendationCollectionDelegate, ONERecommendationImageDelegate, ONEShareDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *mainScrollView;
 @property (weak, nonatomic) IBOutlet UIScrollView *recommendationsScrollView;
@@ -331,8 +332,22 @@ typedef void (^CompletionHandler)();
     if ([self pullUpMenuShown]) {
         [self hidePullUpMenu];
     } else {
-        // TODO load whole image
+        // 加载整个图片
+        ONERecommendationBriefViewController *briefVc = self.viewControllers[self.currentPage];
+        ONERecommendationImageViewController *imageVC = [ONERecommendationImageViewController instanceWithRecommendation:briefVc.recommendation];
+        imageVC.delegate = self;
+        
+        [self addChildViewController:imageVC];
+        [self.view addSubview:imageVC.view];
+        [imageVC didMoveToParentViewController:self];
     }
+}
+
+// 图片页想要关闭，此方法来执行具体的关闭操作
+- (void)ONERecommendationImageViewControllerDidFinishDisplay:(ONERecommendationImageViewController *)recommendationImageController
+{
+    // 移除图片页
+    [recommendationImageController.view removeFromSuperview];
 }
 
 // blurView被点击了

@@ -10,7 +10,7 @@
 
 @implementation ONEStringUtils
 
-+ (BOOL)isEmpty:(NSString *)string
++ (BOOL)isEmptyString:(NSString *)string
 {
     return string.length == 0;
 }

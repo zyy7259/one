@@ -10,6 +10,6 @@
 
 @interface ONEStringUtils : NSObject
 
-+ (BOOL)isEmpty:(NSString *)string;
++ (BOOL)isEmptyString:(NSString *)string;
 
 @end

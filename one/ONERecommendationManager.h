@@ -20,6 +20,8 @@ typedef void (^RecommendationImageCompletionHandlerType)(NSURL *location);
                                      dataCompletionHandler:(RecommendationDataCompletionHandlerType)dataHandler
                                     imageCompletionHandler:(RecommendationImageCompletionHandlerType)imageHandler;
 
+- (void)downloadRecommendationImage:(ONERecommendation *)recommendation imageUrl:(NSString *)imageUrl namePostfix:(NSString *)namePostfix imageCompletionHandler:(RecommendationImageCompletionHandlerType)imageHandler;
+
 - (void)writeRecommendationCollectionToFile:(NSArray *)recommendationArray;
 
 - (NSMutableArray *)readRecommendationCollectionFromFile;

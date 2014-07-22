@@ -75,8 +75,9 @@
 // 展示图片
 - (void)showRecommendationImage
 {
-    if ([[NSFileManager defaultManager] fileExistsAtPath:self.recommendation.blurredImageUrl]) {
-        self.thingImageView.image = [UIImage imageWithContentsOfFile:self.recommendation.blurredImageUrl];
+    NSString *filePath = self.recommendation.blurredImageLocalLocation;
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+        self.thingImageView.image = [UIImage imageWithContentsOfFile:filePath];
     } else {
         // 重新拉取图片
     }
@@ -99,18 +100,20 @@
                                                                      NSParagraphStyleAttributeName: paragraphStyle}
                                                            context:nil];
     
+    // 设置一个margin，放置scrollView不够长
+    NSInteger margin = 60;
     // 修改detailPanel的frame
     self.detailPanel.frame = CGRectMake(self.detailPanel.frame.origin.x,
                                         self.detailPanel.frame.origin.y,
                                         CGRectGetWidth(self.detailPanel.frame),
-                                        ceil(labelRect.size.height));
+                                        ceil(labelRect.size.height) + margin);
     // 修改detailLabel的frame
     self.detailLabel.frame = CGRectMake(self.detailLabel.frame.origin.x,
                                         self.detailLabel.frame.origin.y,
                                         ceil(labelRect.size.width),
                                         ceil(labelRect.size.height));
     // 修改scrollView的contentSize
-    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.scrollView.frame), CGRectGetHeight(self.detailLabel.frame) + self.detailPanel.frame.origin.y + 31);
+    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.scrollView.frame), CGRectGetHeight(self.detailLabel.frame) + self.detailPanel.frame.origin.y + margin);
     self.scrollView.delegate = self;
 }
 

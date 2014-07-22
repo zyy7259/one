@@ -7,7 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ONERecommendation.h"
+
+@protocol ONERecommendationImageDelegate;
 
 @interface ONERecommendationImageViewController : UIViewController
+
+@property id<ONERecommendationImageDelegate> delegate;
+
++ (id)instanceWithRecommendation:(ONERecommendation *)recommendation;
+- (id)initWithRecommendation:(ONERecommendation *)recommendation;
+
+@end
+
+@protocol ONERecommendationImageDelegate <NSObject>
+
+- (void)ONERecommendationImageViewControllerDidFinishDisplay:(ONERecommendationImageViewController *)recommendationImageController;
 
 @end

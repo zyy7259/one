@@ -9,6 +9,7 @@
 #import "ONERecommendationManager.h"
 #import "ONESessionDelegate.h"
 #import "ONELogger.h"
+#import "ONEStringUtils.h"
 
 @interface ONERecommendationManager ()
 
@@ -110,7 +111,7 @@ static ONERecommendationManager *sharedSingleton;
             }
             
             // 下载推荐内容的图片
-            [self downloadRecommendationImage:recommendation imageCompletionHandler:imageHandler];
+            [self downloadRecommendationBlurredImage:recommendation imageCompletionHandler:imageHandler];
             
             // 将推荐内容写入本地文件
             [self writeRecommendationToFile:recommendation];
@@ -126,10 +127,16 @@ static ONERecommendationManager *sharedSingleton;
     return recommendation;
 }
 
-// 下载图片
-- (void)downloadRecommendationImage:(ONERecommendation *)recommendation imageCompletionHandler:(RecommendationImageCompletionHandlerType)imageHandler
+// 下载带有灰度的图片
+- (void)downloadRecommendationBlurredImage:(ONERecommendation *)recommendation imageCompletionHandler:(RecommendationImageCompletionHandlerType)imageHandler
 {
-    [self.sessionDelegate startDownloadTaskWithUrl:recommendation.blurredImageUrl completionHandler:^(NSURL *location, NSError *error) {
+    [self downloadRecommendationImage:recommendation imageUrl:recommendation.blurredImageUrl namePostfix:@"blur" imageCompletionHandler:imageHandler];
+}
+
+// 下载图片
+- (void)downloadRecommendationImage:(ONERecommendation *)recommendation imageUrl:(NSString *)imageUrl namePostfix:(NSString *)namePostfix imageCompletionHandler:(RecommendationImageCompletionHandlerType)imageHandler
+{
+    [self.sessionDelegate startDownloadTaskWithUrl:imageUrl completionHandler:^(NSURL *location, NSError *error) {
         // 如果消息是任务完成，直接返回，不做处理
         if (location == nil && error == nil) {
             return ;
@@ -144,16 +151,19 @@ static ONERecommendationManager *sharedSingleton;
         NSError *e = nil;
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSURL *cacheDirUrl = [NSURL fileURLWithPath:self.cacheDir];
-        NSURL *targetFileUrl = [cacheDirUrl URLByAppendingPathComponent:[NSString stringWithFormat:@"%ld%ld%ld.jpg", (long)recommendation.year, (long)recommendation.month, (long)recommendation.day]];
+        NSMutableString *fileName = [NSMutableString stringWithFormat:@"%ld%ld%ld", (long)recommendation.year, (long)recommendation.month, (long)recommendation.day];
+        if (![ONEStringUtils isEmptyString:namePostfix]) {
+            [fileName appendString:namePostfix];
+        }
+        [fileName appendString:@".jpg"];
+        NSURL *targetFileUrl = [cacheDirUrl URLByAppendingPathComponent:fileName];
 //        [ONELogger logTitle:@"image new location" content:targetFileUrl.path];
         
         [self clearFileAtUrl:targetFileUrl];
         
         if ([fileManager moveItemAtURL:location toURL:targetFileUrl error:&e]) {
             [ONELogger logTitle:@"cache image success" content:nil];
-            // 记录新的图片地址后，通知handler
-//            recommendation.blurredImageUrl = targetFileUrl.path;
-            recommendation.blurredImageLocalLocation = targetFileUrl.path;
+            // 通知handler新的地址
             imageHandler(targetFileUrl);
         } else {
             [ONELogger logTitle:@"move image failed" content:e.localizedDescription];

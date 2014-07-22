@@ -45,10 +45,8 @@
 
 - (id)initWithDateComponents:(NSDateComponents *)dateComponents
 {
-    self = [self initWithNibName:NSStringFromClass([ONERecommendationBriefViewController class]) bundle:nil];
-    self.dateComponents = dateComponents;
-    
-    return self;
+    _dateComponents = dateComponents;
+    return [self initWithNibName:NSStringFromClass([ONERecommendationBriefViewController class]) bundle:nil];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -64,7 +62,6 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
     self.recommendationManager = [ONERecommendationManager sharedManager];
     [self showDate];
     [self loadRecommendation];
@@ -95,6 +92,8 @@
         [self showServerRecommendation:r];
     } imageCompletionHandler:^(NSURL *location) {
         if (location != nil) {
+            // 记录图片地址后加载图片
+            self.recommendation.blurredImageLocalLocation = location.path;
             [self showRecommendationImage];
         }
     }];
@@ -148,8 +147,9 @@
 // 展示图片
 - (void)showRecommendationImage
 {
-    if ([[NSFileManager defaultManager] fileExistsAtPath:self.recommendation.blurredImageLocalLocation]) {
-        self.thingImageView.image = [UIImage imageWithContentsOfFile:self.recommendation.blurredImageLocalLocation];
+    NSString *filePath = self.recommendation.blurredImageLocalLocation;
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+        self.thingImageView.image = [UIImage imageWithContentsOfFile:filePath];
         // 图片加载完成，移除loading gif
         [self removeLoadingGif];
     } else {

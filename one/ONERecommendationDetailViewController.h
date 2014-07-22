@@ -13,9 +13,9 @@
 
 @interface ONERecommendationDetailViewController : UIViewController
 
-- (id)initWithRecommendation:(ONERecommendation *)recommendation;
-
 @property id<ONERecommendationDetailDelegate> delegate;
+
+- (id)initWithRecommendation:(ONERecommendation *)recommendation;
 
 @end
 
