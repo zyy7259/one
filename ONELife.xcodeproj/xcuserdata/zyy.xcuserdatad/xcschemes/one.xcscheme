@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "7AFDDEAD197190C40031F293"
                BuildableName = "one.app"
-               BlueprintName = "one"
-               ReferencedContainer = "container:one.xcodeproj">
+               BlueprintName = "ONELife"
+               ReferencedContainer = "container:ONELife.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,8 +34,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "7AFDDEC8197190C40031F293"
                BuildableName = "oneTests.xctest"
-               BlueprintName = "oneTests"
-               ReferencedContainer = "container:one.xcodeproj">
+               BlueprintName = "ONELifeTests"
+               ReferencedContainer = "container:ONELife.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -44,8 +44,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7AFDDEAD197190C40031F293"
             BuildableName = "one.app"
-            BlueprintName = "one"
-            ReferencedContainer = "container:one.xcodeproj">
+            BlueprintName = "ONELife"
+            ReferencedContainer = "container:ONELife.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -63,8 +63,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7AFDDEAD197190C40031F293"
             BuildableName = "one.app"
-            BlueprintName = "one"
-            ReferencedContainer = "container:one.xcodeproj">
+            BlueprintName = "ONELife"
+            ReferencedContainer = "container:ONELife.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -81,8 +81,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7AFDDEAD197190C40031F293"
             BuildableName = "one.app"
-            BlueprintName = "one"
-            ReferencedContainer = "container:one.xcodeproj">
+            BlueprintName = "ONELife"
+            ReferencedContainer = "container:ONELife.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

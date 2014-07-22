@@ -46,7 +46,7 @@ static ONERecommendationManager *sharedSingleton;
     
     self.debug = YES;
     if (self.debug) {
-        self.urlBase = @"http://localhost:3000";
+        self.urlBase = @"http://10.242.56.212:3000";
     } else {
         self.urlBase = @"http://223.252.196.235/OneLife";
     }
@@ -88,7 +88,7 @@ static ONERecommendationManager *sharedSingleton;
 {
     ONERecommendation *recommendation = nil;
     
-    NSString *url = [NSString stringWithFormat:@"%@/today?year=%d&month=%d&day=%d", self.urlBase, dateComponents.year, dateComponents.month, dateComponents.day];
+    NSString *url = [NSString stringWithFormat:@"%@/today?year=%ld&month=%ld&day=%ld", self.urlBase, (long)dateComponents.year, (long)dateComponents.month, (long)dateComponents.day];
     
     [self.sessionDelegate startDataTaskWithUrl:url completionHandler:^(NSData *data, NSError *error) {
         if (error == nil) {
@@ -144,7 +144,7 @@ static ONERecommendationManager *sharedSingleton;
         NSError *e = nil;
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSURL *cacheDirUrl = [NSURL fileURLWithPath:self.cacheDir];
-        NSURL *targetFileUrl = [cacheDirUrl URLByAppendingPathComponent:[NSString stringWithFormat:@"%d%d%d.jpg", recommendation.year, recommendation.month, recommendation.day]];
+        NSURL *targetFileUrl = [cacheDirUrl URLByAppendingPathComponent:[NSString stringWithFormat:@"%ld%ld%ld.jpg", (long)recommendation.year, (long)recommendation.month, (long)recommendation.day]];
         [ONELogger logTitle:@"image new location" content:targetFileUrl.path];
         
         [self clearFileAtUrl:targetFileUrl];
@@ -179,7 +179,7 @@ static ONERecommendationManager *sharedSingleton;
 // 将推荐内容写入本地文件
 - (void)writeRecommendationToFile:(ONERecommendation *)recommendation
 {
-    NSString *fileName = [NSString stringWithFormat:@"%d%d%d", recommendation.year, recommendation.month, recommendation.day];
+    NSString *fileName = [NSString stringWithFormat:@"%ld%ld%ld", (long)recommendation.year, (long)recommendation.month, (long)recommendation.day];
     NSString *filePath = [self.cacheDir stringByAppendingPathComponent:fileName];
     NSDictionary *dic = [recommendation properties];
     BOOL success = [dic writeToFile:filePath atomically:YES];
@@ -190,7 +190,7 @@ static ONERecommendationManager *sharedSingleton;
 // 从本地文件读取推荐内容
 - (ONERecommendation *)readRecommendationFromFileWithDateComponents:(NSDateComponents *)dateComponents
 {
-    NSString *fileName = [NSString stringWithFormat:@"%d%d%d", dateComponents.year, dateComponents.month, dateComponents.day];
+    NSString *fileName = [NSString stringWithFormat:@"%ld%ld%ld", (long)dateComponents.year, (long)dateComponents.month, (long)dateComponents.day];
     NSString *filePath = [self.cacheDir stringByAppendingPathComponent:fileName];
     NSDictionary *properties = [NSDictionary dictionaryWithContentsOfFile:filePath];
     

@@ -72,7 +72,11 @@
 // 展示日期信息，不管是否有recommendation的数据，日期总是可以显示
 - (void)showDate
 {
-    self.dayLabel.text = [@(self.dateComponents.day) stringValue];
+    NSString *dayText = [@(self.dateComponents.day) stringValue];
+    if (self.dateComponents.day < 10) {
+        dayText = [@"0" stringByAppendingString:dayText];
+    }
+    self.dayLabel.text = dayText;
     self.monthLabel.text = [[ONEDateHelper sharedDateHelper] briefStringOfMonth:self.dateComponents.month];
     self.weekdayLabel.text = [[ONEDateHelper sharedDateHelper] stringOfWeekday:self.dateComponents.weekday];
 }
@@ -138,9 +142,6 @@
     [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [labelText length])];
     self.briefDetailLabel.attributedText = attributedString;
     [self.briefDetailLabel sizeToFit];
-    
-    // 移除loading gif
-    [self removeLoadingGif];
 }
 
 // 展示图片
@@ -148,6 +149,8 @@
 {
     if ([[NSFileManager defaultManager] fileExistsAtPath:self.recommendation.blurredImageUrl]) {
         self.thingImageView.image = [UIImage imageWithContentsOfFile:self.recommendation.blurredImageUrl];
+        // 图片加载完成，移除loading gif
+        [self removeLoadingGif];
     } else {
         // TODO 重新拉取图片
     }

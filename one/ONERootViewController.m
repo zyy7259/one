@@ -26,16 +26,22 @@
 @property (weak, nonatomic) IBOutlet UIButton *collectButton;
 @property (weak, nonatomic) IBOutlet UIButton *viewCollectButton;
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
+@property (weak, nonatomic) IBOutlet UILabel *dayLabel;
+@property (weak, nonatomic) IBOutlet UILabel *monthLabel;
+@property (weak, nonatomic) IBOutlet UILabel *weekdayLabel;
 @property ONERecommendationManager *recommendationManager;
 @property NSUInteger capacity;
 @property NSMutableArray *recommendations;
 @property NSMutableArray *viewControllers;
+@property NSUInteger lastPage;
 @property NSUInteger currentPage;
 @property NSUInteger pageWidth;
 @property ONEDateHelper *dateHelper;
 @property NSMutableSet *recommendationCollection;
 
 @end
+
+typedef void (^CompletionHandler)();
 
 @implementation ONERootViewController
 
@@ -64,6 +70,7 @@
     self.capacity = 3;
     self.recommendations = [NSMutableArray arrayWithCapacity:self.capacity];
     self.viewControllers = [NSMutableArray arrayWithCapacity:self.capacity];
+    self.lastPage = 0;
     self.currentPage = 0;
     self.pageWidth = CGRectGetWidth(self.view.frame);
     self.dateHelper = [ONEDateHelper sharedDateHelper];
@@ -73,27 +80,49 @@
     self.recommendationsScrollView.delegate = self;
     self.mainScrollView.delegate = self;
     
+    // 更新scrollView
     [self updateScrollViewContentSize];
+    // 初始化按钮
+    [self connectButtons];
     
     // load the visible pages
     for (NSUInteger i = 0; i < self.capacity; i++) {
         [self loadPage:i];
     }
     
-    // 初始化按钮
-    [self connectButtons];
-    
     // 读取存储在本地的收藏列表
     self.recommendationCollection = [NSMutableSet setWithArray:[self.recommendationManager readRecommendationCollectionFromFile]];
-    // 读取收藏列表之后，更新页面
+    // 读取收藏列表之后，更新页面，需要根据收藏状态更新按钮状态
     [self updateViewAppearance];
+    
+    // 使loading页渐渐消失
+    [self disappearLoading:^{
+    }];
+}
+
+- (void)disappearLoading:(CompletionHandler)handler
+{
+    UIImageView *loadingView = [[UIImageView alloc] initWithImage:[ONEResourceManager sharedManager].onelifeImage];
+    CGRect frame = self.view.frame;
+    loadingView.frame = frame;
+    [self.view addSubview:loadingView];
+    
+    frame = CGRectMake(-frame.size.width/2.0, -frame.size.height/2.0, frame.size.width * 2, frame.size.height * 2);
+    [UIView animateWithDuration:2.0
+                     animations:^{
+                         loadingView.frame = frame;
+                         loadingView.alpha = 0.0;
+                     } completion:^(BOOL finished) {
+                         [loadingView removeFromSuperview];
+                         handler();
+                     }];
 }
 
 - (void)updateScrollViewContentSize
 {
     CGRect frame = self.view.frame;
     self.recommendationsScrollView.contentSize = CGSizeMake(CGRectGetWidth(frame) * self.capacity, CGRectGetHeight(frame));
-    self.mainScrollView.contentSize = CGSizeMake(CGRectGetWidth(frame), CGRectGetHeight(frame) + 44);
+    self.mainScrollView.contentSize = CGSizeMake(CGRectGetWidth(frame), CGRectGetHeight(frame) + CGRectGetHeight(self.pullUpMenuView.frame));
 }
 
 - (void)connectButtons
@@ -115,6 +144,8 @@
     ONERecommendationBriefViewController *viewController = nil;
     
     // 如果page所代表的页面没有加载，加载它
+    NSDateComponents *dc = [self.dateHelper dateComponentsBeforeNDays:page];
+    
     if (page == self.viewControllers.count) {
         
         // 如果capacity不够了，更新它和scrollView的contentSize
@@ -124,11 +155,15 @@
         }
         
         // then create the viewController
-        viewController = [ONERecommendationBriefViewController instanceWithDateComponents:[self.dateHelper dateComponentsBeforeNDays:page]];
+        viewController = [ONERecommendationBriefViewController instanceWithDateComponents:dc];
         viewController.delegate = self;
         [self.viewControllers addObject:viewController];
     } else {
         viewController = self.viewControllers[page];
+    }
+    // 加载日期
+    if (page == self.currentPage) {
+        [self showDate:dc];
     }
     
     // 如果viewController的view没有在view tree上，把它加载到scrollView的view tree上
@@ -150,34 +185,26 @@
     }
 }
 
-# pragma mark 在页面即将出现时，渐渐消失loading图片
-
-- (void)viewWillAppear:(BOOL)animated
+// 展示日期信息，不管是否有recommendation的数据，日期总是可以显示
+- (void)showDate:(NSDateComponents *)dateComponents
 {
-    [super viewDidAppear:animated];
-    
-    static BOOL firstTime = YES;
-    if (firstTime) {
-        firstTime = NO;
-        [self disappearLoading];
+    static NSDateComponents *lastDateComponents;
+    if (lastDateComponents != nil) {
+        // 动画
+        if (self.lastPage < self.currentPage) {
+            // 显示的是下一页
+        } else if (self.lastPage > self.currentPage) {
+            // 显示的是上一页
+        }
     }
-}
-
-- (void)disappearLoading
-{
-    UIImageView *loadingView = [[UIImageView alloc] initWithImage:[ONEResourceManager sharedManager].onelifeImage];
-    CGRect frame = self.view.frame;
-    loadingView.frame = frame;
-    [self.view addSubview:loadingView];
-    
-    frame = CGRectMake(-frame.size.width/2.0, -frame.size.height/2.0, frame.size.width * 2, frame.size.height * 2);
-    [UIView animateWithDuration:0.75
-                     animations:^{
-                         loadingView.frame = frame;
-                         loadingView.alpha = 0.1;
-                     } completion:^(BOOL finished) {
-                         [loadingView removeFromSuperview];
-                     }];
+    NSString *dayText = [@(dateComponents.day) stringValue];
+    if (dateComponents.day < 10) {
+        dayText = [@"0" stringByAppendingString:dayText];
+    }
+    self.dayLabel.text = dayText;
+    self.monthLabel.text = [[ONEDateHelper sharedDateHelper] briefStringOfMonth:dateComponents.month];
+    self.weekdayLabel.text = [[ONEDateHelper sharedDateHelper] stringOfWeekday:dateComponents.weekday];
+    lastDateComponents = dateComponents;
 }
 
 # pragma mark 主题颜色
@@ -240,6 +267,7 @@
 {
     // 停止滑动后，如果前/后页超过50%的内容被显示，切换页面
     NSUInteger page = floor((self.recommendationsScrollView.contentOffset.x - self.pageWidth / 2) / self.pageWidth) + 1;
+    self.lastPage = self.currentPage;
     self.currentPage = page;
     
     // 切换页面之后，更新页面状态

@@ -27,7 +27,7 @@
                 return [self initWithProperties:properties];
             }
         } else {
-            [ONELogger logTitle:@"server error" content:[NSString stringWithFormat:@"response code %d", code]];
+            [ONELogger logTitle:@"server error" content:[NSString stringWithFormat:@"response code %ld", (long)code]];
             return nil;
         }
     } else {
