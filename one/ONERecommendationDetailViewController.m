@@ -149,6 +149,7 @@
     CGSize size = self.scrollView.frame.size;
     size.height += heightDelta;
     self.scrollView.contentSize = size;
+    self.scrollView.delegate = self;
     // 最后将articleView添加上去
     [self.detailPanel addSubview:self.articleView];
 }
