@@ -50,7 +50,15 @@
     _briefDetail = properties[@"briefDetail"];
     _detail = properties[@"detail"];
     _blurredImageUrl = properties[@"blurredImageUrl"];
+    _blurredImageLocalLocation = properties[@"blurredImageLocalLocation"];
+    if (_blurredImageLocalLocation == nil) {
+        _blurredImageLocalLocation = [NSString string];
+    }
     _imageUrl = properties[@"imageUrl"];
+    _imageLocalLocation = properties[@"imageLocalLocation"];
+    if (_imageLocalLocation == nil) {
+        _imageLocalLocation = [NSString string];
+    }
     _likes = [properties[@"likes"] intValue];
     _year = [properties[@"year"] intValue];
     _month = [properties[@"month"] intValue];
@@ -72,7 +80,9 @@
                                   self.briefDetail,
                                   self.detail,
                                   self.blurredImageUrl,
+                                  self.blurredImageLocalLocation,
                                   self.imageUrl,
+                                  self.imageLocalLocation,
                                   @(self.likes),
                                   @(self.year),
                                   @(self.month),
@@ -89,7 +99,9 @@
                                   @"briefDetail",
                                   @"detail",
                                   @"blurredImageUrl",
+                                  @"blurredImageLocalLocation",
                                   @"imageUrl",
+                                  @"imageLocalLocation",
                                   @"likes",
                                   @"year",
                                   @"month",

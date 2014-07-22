@@ -52,8 +52,8 @@ static ONEResourceManager *sharedSingleton;
 
 - (void)initButtonImages
 {
-    self.returnGrayImage = [UIImage imageNamed:@"returnGray"];
-    self.returnGraySelectedImage = [UIImage imageNamed:@"returnGraySelected"];
+    self.returnImage = [UIImage imageNamed:@"return"];
+    self.returnSelectedImage = [UIImage imageNamed:@"returnSelected"];
     
     self.collectDetailImage = [UIImage imageNamed:@"collectDetail"];
     self.collectDetailSelectedImage = [UIImage imageNamed:@"collectDetailSelected"];

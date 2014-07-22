@@ -10,6 +10,7 @@
 #import "ONEResourceManager.h"
 #import "ONEDateHelper.h"
 #import "ONEAnimationHelper.h"
+#import "ONEViewHelper.h"
 #import "ONERecommendation.h"
 #import "ONERecommendationManager.h"
 #import "ONERecommendationBriefViewController.h"
@@ -189,17 +190,22 @@ typedef void (^CompletionHandler)();
 - (void)showDate:(NSDateComponents *)dateComponents
 {
     static NSDateComponents *lastDateComponents;
+    
+    // 使用动画更新dayLabel
+    // 首先获取要显示的text
+    NSString *dayText = [@(dateComponents.day) stringValue];
+    if (dateComponents.day < 10) {
+        dayText = [@"0" stringByAppendingString:dayText];
+    }
+    // 动画
     if (lastDateComponents != nil) {
-        // 动画
+        UILabel *newDayLabel = [ONEViewHelper deepLabelCopy:self.dayLabel];
+        newDayLabel.text = dayText;
         if (self.lastPage < self.currentPage) {
             // 显示的是下一页
         } else if (self.lastPage > self.currentPage) {
             // 显示的是上一页
         }
-    }
-    NSString *dayText = [@(dateComponents.day) stringValue];
-    if (dateComponents.day < 10) {
-        dayText = [@"0" stringByAppendingString:dayText];
     }
     self.dayLabel.text = dayText;
     self.monthLabel.text = [[ONEDateHelper sharedDateHelper] briefStringOfMonth:dateComponents.month];

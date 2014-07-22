@@ -14,8 +14,8 @@
 @property UIImage *onelifeImage;
 
 // 灰色的返回按钮
-@property UIImage *returnGrayImage;
-@property UIImage *returnGraySelectedImage;
+@property UIImage *returnImage;
+@property UIImage *returnSelectedImage;
 
 // 嵌在详情页中的按钮
 @property UIImage *collectDetailImage;
