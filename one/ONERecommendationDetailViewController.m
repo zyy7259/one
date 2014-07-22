@@ -218,7 +218,7 @@
     static CGFloat duration = 0.3;
     static CGFloat lastPosition = 0;
     static BOOL hasFloated = NO;
-    static CGFloat threshold = 180;
+    static CGFloat threshold = 185;
     
     static BOOL originInitialized = NO;
     static CGRect collectButtonFrame;
@@ -252,6 +252,12 @@
                 hasFloated = YES;
                 // 首先获取按钮在view上的预期位置
                 CGRect collectButtonDesiredRect = [self.view convertRect:self.collectButton.frame fromView:self.scrollView];
+                    // 因为收藏和已收藏按钮的大小不一样，所以有一个delta
+                if (self.recommendation.collected) {
+                    //
+                } else {
+                    collectButtonDesiredRect.origin.x += 8;
+                }
                 collectButtonDesiredRect.size = collectButtonFloatFrame.size;
                 CGRect shareButtonDesiredRect = [self.view convertRect:self.shareButton.frame fromView:self.scrollView];
                 shareButtonDesiredRect.size = shareButtonFloatFrame.size;
@@ -297,9 +303,9 @@
                 // 因为收藏和已收藏按钮的大小不一样，所以有一个delta
                 CGRect collectButtonFrameWithDelta = collectButtonFrame;
                 if (self.recommendation.collected) {
-                    collectButtonFrameWithDelta.origin.x += 4;
+                    collectButtonFrameWithDelta.origin.x += 2;
                 } else {
-                    collectButtonFrameWithDelta.origin.x += 12;
+                    collectButtonFrameWithDelta.origin.x += 10;
                 }
                 // 将浮动按钮用动画转移到目标位置
                 [UIView animateWithDuration:duration

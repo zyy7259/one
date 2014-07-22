@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ONERecommendationBriefViewController">
             <connections>
+                <outlet property="blurView" destination="T2q-te-bh4" id="23L-Fj-vIc"/>
                 <outlet property="briefDetailLabel" destination="KQJ-er-AvJ" id="gxX-6W-39k"/>
                 <outlet property="cityLabel" destination="19l-mi-28D" id="jwH-cN-dqs"/>
                 <outlet property="dayLabel" destination="wya-i0-888" id="6uD-ez-1rm"/>
@@ -133,6 +134,9 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     <gestureRecognizers/>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="2SQ-7n-scW" appends="YES" id="Qzv-s4-EYN"/>
+                    </connections>
                 </view>
                 <view hidden="YES" contentMode="scaleToFill" id="ZAW-5h-fm5">
                     <rect key="frame" x="250" y="20" width="60" height="24"/>
@@ -171,6 +175,11 @@
         <tapGestureRecognizer id="6j0-v1-Ecp">
             <connections>
                 <action selector="introViewTapped:" destination="-1" id="8xq-te-P3B"/>
+            </connections>
+        </tapGestureRecognizer>
+        <tapGestureRecognizer id="2SQ-7n-scW">
+            <connections>
+                <action selector="blurViewTapped:" destination="-1" id="TVu-qC-nCh"/>
             </connections>
         </tapGestureRecognizer>
     </objects>

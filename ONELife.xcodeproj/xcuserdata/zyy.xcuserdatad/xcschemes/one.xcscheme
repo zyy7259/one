@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "7AFDDEAD197190C40031F293"
-               BuildableName = "one.app"
+               BuildableName = "ONELife.app"
                BlueprintName = "ONELife"
                ReferencedContainer = "container:ONELife.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "7AFDDEC8197190C40031F293"
-               BuildableName = "oneTests.xctest"
+               BuildableName = "ONELifeTests.xctest"
                BlueprintName = "ONELifeTests"
                ReferencedContainer = "container:ONELife.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7AFDDEAD197190C40031F293"
-            BuildableName = "one.app"
+            BuildableName = "ONELife.app"
             BlueprintName = "ONELife"
             ReferencedContainer = "container:ONELife.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7AFDDEAD197190C40031F293"
-            BuildableName = "one.app"
+            BuildableName = "ONELife.app"
             BlueprintName = "ONELife"
             ReferencedContainer = "container:ONELife.xcodeproj">
          </BuildableReference>
@@ -80,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7AFDDEAD197190C40031F293"
-            BuildableName = "one.app"
+            BuildableName = "ONELife.app"
             BlueprintName = "ONELife"
             ReferencedContainer = "container:ONELife.xcodeproj">
          </BuildableReference>

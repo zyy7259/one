@@ -24,10 +24,11 @@
 @property (weak, nonatomic) IBOutlet UIImageView *typeImageView;
 @property (weak, nonatomic) IBOutlet UILabel *cityLabel;
 @property (weak, nonatomic) IBOutlet UILabel *likesLabel;
+@property (weak, nonatomic) IBOutlet UIView *blurView;
+@property (weak, nonatomic) IBOutlet UIView *introView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *introLabel;
 @property (weak, nonatomic) IBOutlet UILabel *briefDetailLabel;
-@property (weak, nonatomic) IBOutlet UIView *introView;
 
 @property ONERecommendationManager *recommendationManager;
 @property NSDateComponents *dateComponents;
@@ -191,6 +192,15 @@
 {
     if ([self shouldInteract]) {
         [self.delegate ONERecommendationBriefViewImageTapped];
+    }
+}
+
+# pragma mark blur view 被点击
+
+- (IBAction)blurViewTapped:(UITapGestureRecognizer *)sender
+{
+    if ([self shouldInteract]) {
+        [self.delegate ONERecommendationBriefViewBlurViewTapped];
     }
 }
 

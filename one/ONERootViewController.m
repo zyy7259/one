@@ -318,6 +318,26 @@ typedef void (^CompletionHandler)();
 
 # pragma mark - 简单页、详情页、图片页和菜单之间的切换
 
+// 图片被点击了，切换到完整图片页面
+- (void)ONERecommendationBriefViewImageTapped
+{
+    // 如果菜单显示中，隐藏之；否则加载完整的图片
+    if ([self pullUpMenuShown]) {
+        [self hidePullUpMenu];
+    } else {
+        // TODO load whole image
+    }
+}
+
+// blurView被点击了
+- (void)ONERecommendationBriefViewBlurViewTapped
+{
+    // 如果菜单显示中，隐藏之
+    if ([self pullUpMenuShown]) {
+        [self hidePullUpMenu];
+    }
+}
+
 // 简单页被点击了，切换到对应的详情页面
 - (void)ONERecommendationBriefViewIntroTapped
 {
@@ -349,17 +369,6 @@ typedef void (^CompletionHandler)();
     [self dismissViewControllerAnimated:YES completion:nil];
     // TODO 自定义动画
 //    [ONEAnimationHelper popViewContorller:recommendationDetailController fromViewController:self];
-}
-
-// 图片被点击了，切换到完整图片页面
-- (void)ONERecommendationBriefViewImageTapped
-{
-    // 如果菜单显示中，隐藏之；否则加载完整的图片
-    if ([self pullUpMenuShown]) {
-        [self hidePullUpMenu];
-    } else {
-        // TODO load whole image
-    }
 }
 
 // 判断菜单是否显示

@@ -26,7 +26,8 @@
 
 @protocol ONERecommendationBriefDelegate <NSObject>
 
-- (void)ONERecommendationBriefViewIntroTapped;
 - (void)ONERecommendationBriefViewImageTapped;
+- (void)ONERecommendationBriefViewBlurViewTapped;
+- (void)ONERecommendationBriefViewIntroTapped;
 
 @end
