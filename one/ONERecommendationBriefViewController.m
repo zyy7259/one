@@ -10,7 +10,8 @@
 #import "ONERecommendation.h"
 #import "ONERecommendationManager.h"
 #import "ONELogger.h"
-#import "ONEDateHelper.h"
+#import "ONEDateUtils.h"
+#import "ONEViewUtils.h"
 #import "ONEResourceManager.h"
 #import "FLAnimatedImage.h"
 #import "FLAnimatedImageView.h"
@@ -75,8 +76,8 @@
         dayText = [@"0" stringByAppendingString:dayText];
     }
     self.dayLabel.text = dayText;
-    self.monthLabel.text = [[ONEDateHelper sharedDateHelper] briefStringOfMonth:self.dateComponents.month];
-    self.weekdayLabel.text = [[ONEDateHelper sharedDateHelper] stringOfWeekday:self.dateComponents.weekday];
+    self.monthLabel.text = [[ONEDateUtils sharedDateHelper] briefStringOfMonth:self.dateComponents.month];
+    self.weekdayLabel.text = [[ONEDateUtils sharedDateHelper] stringOfWeekday:self.dateComponents.weekday];
 }
 
 # pragma mark 加载recommendation
@@ -134,13 +135,7 @@
     self.titleLabel.text = self.recommendation.title;
     self.introLabel.text = self.recommendation.intro;
     self.likesLabel.text = [@(self.recommendation.likes) stringValue];
-    
-    NSString *labelText = self.recommendation.briefDetail;
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:labelText];
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    [paragraphStyle setLineSpacing:17];
-    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [labelText length])];
-    self.briefDetailLabel.attributedText = attributedString;
+    self.briefDetailLabel.attributedText = [ONEViewUtils attributedStringWithString:self.recommendation.briefDetail];
     [self.briefDetailLabel sizeToFit];
 }
 

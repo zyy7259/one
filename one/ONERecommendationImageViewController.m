@@ -86,7 +86,6 @@
 
 - (IBAction)imageTapped:(UIGestureRecognizer *)sender
 {
-    NSLog(@"image tapped");
     [self.delegate ONERecommendationImageViewControllerDidFinishDisplay:self];
 }
 

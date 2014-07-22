@@ -6,9 +6,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ONERecommendationDetailViewController">
             <connections>
+                <outlet property="addressLabel" destination="CGq-9m-WxO" id="v92-vc-Sp9"/>
+                <outlet property="articleView" destination="ixc-WZ-dhn" id="Pke-QV-nyj"/>
                 <outlet property="collectButton" destination="Vq9-At-zLU" id="a7B-fI-ERo"/>
                 <outlet property="collectFloatButton" destination="g2Z-Kz-8tT" id="ODh-S4-nvN"/>
-                <outlet property="detailLabel" destination="hEK-qV-FIy" id="HkL-4j-JJD"/>
                 <outlet property="detailPanel" destination="0M7-dO-fNN" id="MCF-QZ-FlG"/>
                 <outlet property="dismissButton" destination="K4Q-IL-e8b" id="FJW-8Z-n7A"/>
                 <outlet property="introLabel" destination="EzN-aB-4F3" id="acB-fI-Uoo"/>
@@ -16,6 +17,7 @@
                 <outlet property="scrollView" destination="DIp-k1-1U9" id="6D2-da-TWm"/>
                 <outlet property="shareButton" destination="jNM-U7-7cR" id="8Dl-qQ-FpR"/>
                 <outlet property="shareFloatButton" destination="ioz-57-HM4" id="IXD-sC-owd"/>
+                <outlet property="telLabel" destination="DGo-bG-Psm" id="JaG-cY-9LD"/>
                 <outlet property="thingImageView" destination="Z9t-Ik-3tK" id="UTb-Je-dZH"/>
                 <outlet property="titleLabel" destination="4hs-EM-pDr" id="eBs-UU-am6"/>
                 <outlet property="typeImageView" destination="u31-mf-MRA" id="ly7-Cc-mcA"/>
@@ -126,14 +128,38 @@
                             <rect key="frame" x="0.0" y="284" width="320" height="284"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hEK-qV-FIy">
-                                    <rect key="frame" x="20" y="15" width="280" height="21"/>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="联系信息" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nt9-NW-hV1">
+                                    <rect key="frame" x="20" y="20" width="68" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <color key="textColor" red="0.53333333333333333" green="0.53333333333333333" blue="0.53333333333333333" alpha="1" colorSpace="calibratedRGB"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="地址" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="CGq-9m-WxO">
+                                    <rect key="frame" x="20" y="55" width="280" height="43"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                    <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="电话" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DGo-bG-Psm">
+                                    <rect key="frame" x="20" y="111" width="280" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                    <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="详细介绍" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="k1U-GZ-Z1s">
+                                    <rect key="frame" x="20" y="144" width="68" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <view contentMode="scaleToFill" id="ixc-WZ-dhn">
+                                    <rect key="frame" x="20" y="179" width="280" height="100"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                </view>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         </view>

@@ -8,8 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ONEViewHelper : NSObject
+@interface ONEViewUtils : NSObject
 
 + (UILabel *)deepLabelCopy:(UILabel *)label;
++ (NSMutableAttributedString *)attributedStringWithString:(NSString *)string;
++ (CGRect)boundingRectWithString:(NSString *)string width:(CGFloat)width font:(UIFont *)font;
 
 @end

@@ -6,9 +6,9 @@
 //  Copyright (c) 2014年 bird. All rights reserved.
 //
 
-#import "ONEDateHelper.h"
+#import "ONEDateUtils.h"
 
-@interface ONEDateHelper ()
+@interface ONEDateUtils ()
 
 @property NSCalendar *gregorian;
 @property NSCalendarUnit calendarUnits;
@@ -18,20 +18,20 @@
 
 @end
 
-@implementation ONEDateHelper
+@implementation ONEDateUtils
 
-static ONEDateHelper *sharedSingleton;
+static ONEDateUtils *sharedSingleton;
 
 + (void)initialize
 {
     static BOOL initialized = NO;
     if (!initialized) {
         initialized = YES;
-        sharedSingleton = [ONEDateHelper new];
+        sharedSingleton = [ONEDateUtils new];
     }
 }
 
-+ (ONEDateHelper *)sharedDateHelper
++ (ONEDateUtils *)sharedDateHelper
 {
     return sharedSingleton;
 }

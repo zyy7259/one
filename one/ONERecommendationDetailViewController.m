@@ -11,6 +11,7 @@
 #import "ONEResourceManager.h"
 #import "ONEShareViewController.h"
 #import "ONEResourceManager.h"
+#import "ONEViewUtils.h"
 
 @interface ONERecommendationDetailViewController () <UIScrollViewDelegate, ONEShareDelegate>
 
@@ -22,12 +23,15 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *introLabel;
 @property (weak, nonatomic) IBOutlet UILabel *likesLabel;
-@property (weak, nonatomic) IBOutlet UIView *detailPanel;
-@property (weak, nonatomic) IBOutlet UILabel *detailLabel;
 @property (weak, nonatomic) IBOutlet UIButton *collectButton;
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
 @property (weak, nonatomic) IBOutlet UIButton *collectFloatButton;
 @property (weak, nonatomic) IBOutlet UIButton *shareFloatButton;
+@property (weak, nonatomic) IBOutlet UIView *detailPanel;
+@property (weak, nonatomic) IBOutlet UILabel *detailLabel;
+@property (weak, nonatomic) IBOutlet UILabel *addressLabel;
+@property (weak, nonatomic) IBOutlet UILabel *telLabel;
+@property (weak, nonatomic) IBOutlet UIView *articleView;
 @property ONEResourceManager *resourceManager;
 
 @end
@@ -67,7 +71,7 @@
     self.titleLabel.text = self.recommendation.title;
     self.introLabel.text = self.recommendation.intro;
     self.likesLabel.text = [@(self.recommendation.likes) stringValue];
-    [self showDetailScrollViewAndLabel];
+    [self showDetail];
     [self showRecommendationImage];
     [self initButtons];
 }
@@ -83,7 +87,51 @@
     }
 }
 
-- (void)showDetailScrollViewAndLabel
+- (void)showDetail
+{
+    // 先将articleView从viewTree上移除，然后再对其进行操作
+    CGRect articleFrame = self.articleView.frame;
+    [self.articleView removeFromSuperview];
+    // 将detail以换行符为分隔符进行解析，对解析到的结果进行便利，如果是普通文字，则创建一个UILabel；如果是url，则创建一个UIImageView
+    NSArray *paraArray = [self.recommendation.detail componentsSeparatedByString:@"\n"];
+    UIFont *font = self.addressLabel.font;
+    CGFloat paraWidth = self.addressLabel.frame.size.width;
+    CGFloat imageHeight = 200;
+    CGFloat y = 0;
+    CGFloat paragraphBottomMargin = 20;
+    for (NSString *str in paraArray) {
+        NSRange urlRange = [str rangeOfString:@"http"];
+        if (urlRange.location == NSNotFound) {
+            // 普通文字
+            UILabel *label = [UILabel new];
+            label.attributedText = [ONEViewUtils attributedStringWithString:str];
+            CGRect rect = [ONEViewUtils boundingRectWithString:str width:paraWidth font:font];
+            CGFloat height = ceil(rect.size.height) + paragraphBottomMargin;
+            label.frame = CGRectMake(0, y, paraWidth, height);
+            y += height;
+        } else {
+            // url
+            NSURL *imageUrl = [NSURL URLWithString:str];
+            UIImageView *imageView = [[UIImageView alloc] initWithImage:self.resourceManager.onelifeArticleTmpImage];
+            imageView.frame = CGRectMake(0, y, paraWidth, imageHeight);
+            y += imageHeight;
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                NSData *imageData = [NSData dataWithContentsOfURL:imageUrl];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    imageView.image = [UIImage imageWithData:imageData];
+                });
+            });
+        }
+    }
+    // 最后加上页面留白
+    CGFloat articleBottomMargin = 15;
+    articleFrame.size.height = y + articleBottomMargin;
+    self.articleView.frame = articleFrame;
+    // 拼装完成之后将articleView添加上去
+    [self.scrollView addSubview:self.articleView];
+}
+
+- (void)tmp
 {
     // 设置detailLabel要显示的文字
     NSString *labelText = self.recommendation.detail;

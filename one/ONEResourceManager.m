@@ -46,6 +46,7 @@ static ONEResourceManager *sharedSingleton;
 - (void)initImages
 {
     self.onelifeImage = [UIImage imageNamed:@"onelife"];
+    self.onelifeArticleTmpImage = [UIImage imageNamed:@"onelifeArticleTmp"];
     [self initButtonImages];
     [self initTypeImages];
 }

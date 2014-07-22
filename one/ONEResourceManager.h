@@ -12,6 +12,7 @@
 
 // onelife
 @property UIImage *onelifeImage;
+@property UIImage *onelifeArticleTmpImage;
 
 // 灰色的返回按钮
 @property UIImage *returnImage;

@@ -8,9 +8,9 @@
 
 #import "ONERootViewController.h"
 #import "ONEResourceManager.h"
-#import "ONEDateHelper.h"
+#import "ONEDateUtils.h"
 #import "ONEAnimationHelper.h"
-#import "ONEViewHelper.h"
+#import "ONEViewUtils.h"
 #import "ONERecommendation.h"
 #import "ONERecommendationManager.h"
 #import "ONERecommendationBriefViewController.h"
@@ -38,7 +38,7 @@
 @property NSUInteger lastPage;
 @property NSUInteger currentPage;
 @property NSUInteger pageWidth;
-@property ONEDateHelper *dateHelper;
+@property ONEDateUtils *dateHelper;
 @property NSMutableSet *recommendationCollection;
 
 @end
@@ -75,7 +75,7 @@ typedef void (^CompletionHandler)();
     self.lastPage = 0;
     self.currentPage = 0;
     self.pageWidth = CGRectGetWidth(self.view.frame);
-    self.dateHelper = [ONEDateHelper sharedDateHelper];
+    self.dateHelper = [ONEDateUtils sharedDateHelper];
     
     self.recommendationCollection = [NSMutableSet set];
 
@@ -200,17 +200,24 @@ typedef void (^CompletionHandler)();
     }
     // 动画
     if (lastDateComponents != nil) {
-        UILabel *newDayLabel = [ONEViewHelper deepLabelCopy:self.dayLabel];
+        UILabel *newDayLabel = [ONEViewUtils deepLabelCopy:self.dayLabel];
         newDayLabel.text = dayText;
+        NSInteger option = UIViewAnimationOptionTransitionCrossDissolve;
         if (self.lastPage < self.currentPage) {
             // 显示的是下一页
+            option = UIViewAnimationOptionTransitionFlipFromRight;
         } else if (self.lastPage > self.currentPage) {
             // 显示的是上一页
+            option = UIViewAnimationOptionTransitionFlipFromLeft;
         }
+        NSLog(@"%@", NSStringFromCGRect(self.dayLabel.frame));
+        NSLog(@"%@", NSStringFromCGRect(newDayLabel.frame));
+        [UIView transitionFromView:self.dayLabel toView:newDayLabel duration:0.2 options:option completion:nil];
+    } else {
+        self.dayLabel.text = dayText;
     }
-    self.dayLabel.text = dayText;
-    self.monthLabel.text = [[ONEDateHelper sharedDateHelper] briefStringOfMonth:dateComponents.month];
-    self.weekdayLabel.text = [[ONEDateHelper sharedDateHelper] stringOfWeekday:dateComponents.weekday];
+    self.monthLabel.text = [[ONEDateUtils sharedDateHelper] briefStringOfMonth:dateComponents.month];
+    self.weekdayLabel.text = [[ONEDateUtils sharedDateHelper] stringOfWeekday:dateComponents.weekday];
     lastDateComponents = dateComponents;
 }
 

@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ONEDateHelper : NSObject
+@interface ONEDateUtils : NSObject
 
-+ (ONEDateHelper *)sharedDateHelper;
++ (ONEDateUtils *)sharedDateHelper;
 
 - (NSDateComponents *)dateComponentsBeforeNDays:(NSUInteger)n;
 - (NSString *)briefStringOfMonth:(NSUInteger)month;
