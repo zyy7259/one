@@ -234,6 +234,8 @@ typedef void (^CompletionHandler)();
     // 动画
     if (lastDateComponents != nil) {
         UILabel *newDayLabel = [ONEViewUtils deepLabelCopy:self.dayLabel];
+        NSLog(@"%@", newDayLabel.superview);
+        [newDayLabel removeFromSuperview];
         newDayLabel.text = dayText;
         NSInteger option = UIViewAnimationOptionTransitionCrossDissolve;
         if (self.lastPage < self.currentPage) {
@@ -243,11 +245,10 @@ typedef void (^CompletionHandler)();
             // 显示的是上一页
             option = UIViewAnimationOptionTransitionFlipFromLeft;
         }
-//        NSLog(@"%@", NSStringFromCGRect(self.dayLabel.frame));
-//        NSLog(@"%@", NSStringFromCGRect(newDayLabel.frame));
-//        [UIView transitionFromView:self.dayLabel toView:newDayLabel duration:0.2 options:option completion:nil];
+        [UIView transitionFromView:self.dayLabel toView:newDayLabel duration:.4 options:option completion:nil];
+        self.dayLabel = newDayLabel;
     } else {
-//        self.dayLabel.text = dayText;
+        self.dayLabel.text = dayText;
     }
     self.dayLabel.text = dayText;
     self.monthLabel.text = [[ONEDateUtils sharedDateHelper] briefStringOfMonth:dateComponents.month];
