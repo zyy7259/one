@@ -45,7 +45,7 @@ static ONERecommendationManager *sharedSingleton;
     
     self.sessionDelegate = [ONESessionDelegate new];
     
-    self.debug = YES;
+    self.debug = NO;
     if (self.debug) {
         self.urlBase = @"http://10.242.56.212:3000";
     } else {
@@ -214,6 +214,61 @@ static ONERecommendationManager *sharedSingleton;
     }
     
     return recommendation;
+}
+
+- (void)getRecommendationLikes:(ONERecommendation *)recommendation likesHandler:(RecommendationLikesCompletionHandlerType)likesHandler
+{
+    NSString *url = [NSString stringWithFormat:@"%@/getlike?year=%ld&month=%ld&day=%ld", self.urlBase, (long)recommendation.year, (long)recommendation.month, (long)recommendation.day];
+    [self.sessionDelegate startDataTaskWithUrl:url completionHandler:^(NSData *data, NSError *error) {
+        if (error == nil) {
+            NSError *e = nil;
+            NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data options:0 error:&e];
+            if (e == nil) {
+                NSInteger code = [result[@"code"] integerValue];
+                if (code == 200) {
+                    NSDictionary *likeData = result[@"data"];
+                    if (likeData.count == 0) {
+                        // empty
+                    } else {
+                        // success
+                        NSInteger likes = [likeData[@"like"] integerValue];
+                        likesHandler(likes);
+                        return;
+                    }
+                }
+            }
+        }
+        likesHandler(-1);
+    }];
+}
+
+- (void)likeRecommendation:(ONERecommendation *)recommendation
+{
+    [self updateRecommendationLike:recommendation action:1];
+}
+
+- (void)dislikeRecommendation:(ONERecommendation *)recommendation
+{
+    [self updateRecommendationLike:recommendation action:-1];
+}
+
+- (void)updateRecommendationLike:(ONERecommendation *)recommendation action:(NSInteger)action
+{
+    NSString *url = [NSString stringWithFormat:@"%@/like?year=%ld&month=%ld&day=%ld&action=%ld", self.urlBase, (long)recommendation.year, (long)recommendation.month, (long)recommendation.day, (long)action];
+    NSLog(@"%@", url);
+    [self.sessionDelegate startDataTaskWithUrl:url completionHandler:^(NSData *data, NSError *error) {
+        if (error == nil) {
+            NSError *e = nil;
+            NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data options:0 error:&e];
+            if (e == nil) {
+                NSInteger code = [result[@"code"] integerValue];
+                if (code == 200) {
+                    // success
+                    return;
+                }
+            }
+        }
+    }];
 }
 
 // 将收藏列表写入本地文件

@@ -40,9 +40,9 @@
 @property UIImage *arrowRightWhiteImage;
 
 // 设置页面使用的三个图标
-@property UIImage *infoImage;
-@property UIImage *likeImage;
-@property UIImage *heartImage;
+@property UIImage *aboutUsImage;
+@property UIImage *likeUsImage;
+@property UIImage *scoreUsImage;
 
 + (ONEResourceManager *)sharedManager;
 

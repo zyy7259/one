@@ -31,6 +31,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *dayLabel;
 @property (weak, nonatomic) IBOutlet UILabel *monthLabel;
 @property (weak, nonatomic) IBOutlet UILabel *weekdayLabel;
+@property (weak, nonatomic) IBOutlet UIButton *likesButton;
 @property ONERecommendationManager *recommendationManager;
 @property NSUInteger capacity;
 @property NSMutableArray *recommendations;
@@ -131,6 +132,7 @@ typedef void (^CompletionHandler)();
 {
     [self.collectButton addTarget:self action:@selector(collectButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.shareButton addTarget:self action:@selector(shareButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.likesButton addTarget:self action:@selector(likesButtonTapped) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)updateViewAppearance
@@ -163,10 +165,6 @@ typedef void (^CompletionHandler)();
     } else {
         viewController = self.viewControllers[page];
     }
-    // 加载日期
-    if (page == self.currentPage) {
-        [self showDate:dc];
-    }
     
     // 如果viewController的view没有在view tree上，把它加载到scrollView的view tree上
     if (viewController.view.superview == nil) {
@@ -184,6 +182,12 @@ typedef void (^CompletionHandler)();
         [self addChildViewController:viewController];
         [self.recommendationsScrollView addSubview:viewController.view];
         [viewController didMoveToParentViewController:self];
+    }
+    
+    // 如果是当前正在显示的页面
+    if (page == self.currentPage) {
+        [self showDate:dc];
+        [viewController startAutoUpdate];
     }
 }
 
@@ -210,12 +214,13 @@ typedef void (^CompletionHandler)();
             // 显示的是上一页
             option = UIViewAnimationOptionTransitionFlipFromLeft;
         }
-        NSLog(@"%@", NSStringFromCGRect(self.dayLabel.frame));
-        NSLog(@"%@", NSStringFromCGRect(newDayLabel.frame));
-        [UIView transitionFromView:self.dayLabel toView:newDayLabel duration:0.2 options:option completion:nil];
+//        NSLog(@"%@", NSStringFromCGRect(self.dayLabel.frame));
+//        NSLog(@"%@", NSStringFromCGRect(newDayLabel.frame));
+//        [UIView transitionFromView:self.dayLabel toView:newDayLabel duration:0.2 options:option completion:nil];
     } else {
-        self.dayLabel.text = dayText;
+//        self.dayLabel.text = dayText;
     }
+    self.dayLabel.text = dayText;
     self.monthLabel.text = [[ONEDateUtils sharedDateHelper] briefStringOfMonth:dateComponents.month];
     self.weekdayLabel.text = [[ONEDateUtils sharedDateHelper] stringOfWeekday:dateComponents.weekday];
     lastDateComponents = dateComponents;
@@ -281,15 +286,26 @@ typedef void (^CompletionHandler)();
 {
     // 停止滑动后，如果前/后页超过50%的内容被显示，切换页面
     NSUInteger page = floor((self.recommendationsScrollView.contentOffset.x - self.pageWidth / 2) / self.pageWidth) + 1;
-    self.lastPage = self.currentPage;
-    self.currentPage = page;
-    
-    // 切换页面之后，更新页面状态
-    [self updateViewAppearance];
-    
-    // 切换页面之后，预加载可能会显示的页面
-    [self loadPage:page];
-    [self loadPage:page + 1];
+    // 如果切换到了新的页面
+    if (page != self.currentPage) {
+        // 首先停止上一个页面的自动更新
+        ONERecommendationBriefViewController *bVC = self.viewControllers[self.currentPage];
+        [bVC stopAutoUpdate];
+        
+        self.lastPage = self.currentPage;
+        
+        // 然后开始新的页面的自动更新
+        self.currentPage = page;
+        bVC = self.viewControllers[self.currentPage];
+        [bVC startAutoUpdate];
+        
+        // 切换页面之后，更新页面状态
+        [self updateViewAppearance];
+        
+        // 切换页面之后，预加载可能会显示的页面
+        [self loadPage:page];
+        [self loadPage:page + 1];
+    }
 }
 
 # pragma mark 上下滑动，显示/隐藏菜单
@@ -504,6 +520,48 @@ typedef void (^CompletionHandler)();
 // 隐藏分享界面之后，如果有额外操作，请在这里进行
 - (void)ONEShareViewControllerDidFinishDisplay:(ONEShareViewController *)recommendationShareViewController
 {
+}
+
+# pragma mark - 喜欢
+
+- (void)ONERecommendationBriefViewDidLoad:(ONERecommendationBriefViewController *)recommendationBriefViewController
+{
+    if (recommendationBriefViewController == self.viewControllers[self.currentPage]) {
+        // 如果是当前页
+        [self updateLikes:recommendationBriefViewController.recommendation.likes];
+    }
+}
+
+- (void)ONERecommendationBriefViewDidUpdateRecommendationLikes:(NSInteger)likes
+{
+    [self updateLikes:likes];
+}
+
+- (void)likesButtonTapped
+{
+    NSInteger likes = [self.likesButton.currentTitle integerValue];
+    ONERecommendationBriefViewController *bVC = self.viewControllers[self.currentPage];
+    self.likesButton.selected = !self.likesButton.selected;
+    if (self.likesButton.selected) {
+        likes++;
+        [bVC like];
+    } else {
+        likes--;
+        [bVC dislike];
+    }
+    [self updateLikes:likes];
+}
+
+- (void)updateLikes:(NSInteger)likes
+{
+    // TODO
+    CGRect frame = self.likesButton.frame;
+    CGSize size = [self.likesButton sizeThatFits:frame.size];
+    
+    NSString *likeString = [@(likes) stringValue];
+    [self.likesButton setTitle:likeString forState:UIControlStateNormal];
+    [self.likesButton setTitle:likeString forState:UIControlStateSelected];
+    [self.likesButton setTitle:likeString forState:UIControlStateHighlighted];
 }
 
 # pragma mark - Navigation

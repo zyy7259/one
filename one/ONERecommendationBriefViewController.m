@@ -34,6 +34,7 @@
 @property ONERecommendationManager *recommendationManager;
 @property NSDateComponents *dateComponents;
 @property FLAnimatedImageView *loadingImageView;
+@property NSThread *autoUpdateThread;
 
 @end
 
@@ -129,12 +130,15 @@
 // 展示recommendation
 - (void)showRecommendation
 {
+    // 即将展示recommendation，说明数据获取完毕，将self传给delegate
+    [self.delegate ONERecommendationBriefViewDidLoad:self];
+    // 展示recommendation
     [self showRecommendationImage];
     self.typeImageView.image = [[ONEResourceManager sharedManager] briefTypeImage:self.recommendation.type];
     self.cityLabel.text = self.recommendation.city;
     self.titleLabel.text = self.recommendation.title;
     self.introLabel.text = self.recommendation.intro;
-    self.likesLabel.text = [@(self.recommendation.likes) stringValue];
+    [self updateLikes:self.recommendation.likes];
     self.briefDetailLabel.attributedText = [ONEViewUtils attributedStringWithString:self.recommendation.briefDetail font:self.briefDetailLabel.font color:self.briefDetailLabel.textColor lineSpacing:17];
     [self.briefDetailLabel sizeToFit];
 }
@@ -150,6 +154,11 @@
     } else {
         // TODO 重新拉取图片
     }
+}
+
+- (void)updateLikes:(NSInteger)likes
+{
+    self.likesLabel.text = [@(likes) stringValue];
 }
 
 // 展示默认的recommendation
@@ -225,6 +234,53 @@
 - (void)deshadowIntroView
 {
     self.introView.backgroundColor = [UIColor clearColor];
+}
+
+# pragma mark 自动更新
+
+- (void)startAutoUpdate
+{
+    if (!self.autoUpdateThread.isCancelled) {
+        [self.autoUpdateThread cancel];
+    }
+    self.autoUpdateThread = [[NSThread alloc] initWithTarget:self selector:@selector(autoUpdate) object:nil];
+    [self.autoUpdateThread start];
+}
+
+- (void)stopAutoUpdate
+{
+    [self.autoUpdateThread cancel];
+}
+
+- (void)autoUpdate
+{
+    while (YES) {
+        // sleep for 10 sec
+        [NSThread sleepForTimeInterval:10];
+        if ([self shouldInteract]) {
+            // fetch likes info
+            [self.recommendationManager getRecommendationLikes:self.recommendation likesHandler:^(NSInteger likes) {
+                if (likes < 0) {
+                    likes = 0;
+                }
+                [ONELogger logTitle:[NSString stringWithFormat:@"fetch likes info%ld", (long)likes] content:nil];
+                [self updateLikes:likes];
+                [self.delegate ONERecommendationBriefViewDidUpdateRecommendationLikes:likes];
+            }];
+        }
+    }
+}
+
+# pragma mark 喜欢 不喜欢
+
+- (void)like
+{
+    [self.recommendationManager likeRecommendation:self.recommendation];
+}
+
+- (void)dislike
+{
+    [self.recommendationManager dislikeRecommendation:self.recommendation];
 }
 
 - (void)didReceiveMemoryWarning

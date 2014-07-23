@@ -74,9 +74,9 @@ static ONEResourceManager *sharedSingleton;
     self.arrowRightGreyImage = [UIImage imageNamed:@"arrowRightGrey"];
     self.arrowRightWhiteImage = [UIImage imageNamed:@"arrowRightWhite"];
     
-    self.infoImage = [UIImage imageNamed:@"info"];
-    self.likeImage = [UIImage imageNamed:@"like"];
-    self.heartImage = [UIImage imageNamed:@"heart"];
+    self.aboutUsImage = [UIImage imageNamed:@"info"];
+    self.likeUsImage = [UIImage imageNamed:@"like"];
+    self.scoreUsImage = [UIImage imageNamed:@"heart"];
 }
 
 - (void)initTypeImages

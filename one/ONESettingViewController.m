@@ -44,11 +44,11 @@
 {
     ONEResourceManager *resourceManager = [ONEResourceManager sharedManager];
     self.cellInfos = [NSArray arrayWithObjects:
-                      @{@"image": resourceManager.infoImage,
+                      @{@"image": resourceManager.aboutUsImage,
                         @"title": @"关于我们"},
-                      @{@"image": resourceManager.likeImage,
+                      @{@"image": resourceManager.likeUsImage,
                         @"title": @"推荐给朋友"},
-                      @{@"image": resourceManager.heartImage,
+                      @{@"image": resourceManager.scoreUsImage,
                         @"title": @"评个分吧"},
                       nil];
 }

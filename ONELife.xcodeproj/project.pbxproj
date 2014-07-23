@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		7A59E84519729F6600E637D4 /* ONERecommendation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A59E84419729F6600E637D4 /* ONERecommendation.m */; };
+		7A913CB9197EA2CE007ECA03 /* likeThis@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A913CB7197EA2CE007ECA03 /* likeThis@2x.png */; };
+		7A913CBA197EA2CE007ECA03 /* likeThisSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A913CB8197EA2CE007ECA03 /* likeThisSelected@2x.png */; };
 		7A937B3F197622BD0087D4F2 /* ONESessionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A937B3E197622BD0087D4F2 /* ONESessionDelegate.m */; };
 		7A937B4219766E760087D4F2 /* ONERecommendationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A937B4119766E760087D4F2 /* ONERecommendationManager.m */; };
 		7A937B45197678E40087D4F2 /* ONEDateUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A937B44197678E40087D4F2 /* ONEDateUtils.m */; };
@@ -125,6 +127,8 @@
 /* Begin PBXFileReference section */
 		7A59E84319729F6600E637D4 /* ONERecommendation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONERecommendation.h; sourceTree = "<group>"; };
 		7A59E84419729F6600E637D4 /* ONERecommendation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONERecommendation.m; sourceTree = "<group>"; };
+		7A913CB7197EA2CE007ECA03 /* likeThis@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "likeThis@2x.png"; sourceTree = "<group>"; };
+		7A913CB8197EA2CE007ECA03 /* likeThisSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "likeThisSelected@2x.png"; sourceTree = "<group>"; };
 		7A937B3D197622BD0087D4F2 /* ONESessionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONESessionDelegate.h; sourceTree = "<group>"; };
 		7A937B3E197622BD0087D4F2 /* ONESessionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONESessionDelegate.m; sourceTree = "<group>"; };
 		7A937B4019766E760087D4F2 /* ONERecommendationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONERecommendationManager.h; sourceTree = "<group>"; };
@@ -390,6 +394,8 @@
 		7AB018DA197E388000BB0F4E /* brief */ = {
 			isa = PBXGroup;
 			children = (
+				7A913CB7197EA2CE007ECA03 /* likeThis@2x.png */,
+				7A913CB8197EA2CE007ECA03 /* likeThisSelected@2x.png */,
 			);
 			name = brief;
 			sourceTree = "<group>";
@@ -708,6 +714,7 @@
 				7AB018B3197E245D00BB0F4E /* beautyCollect@2x.png in Resources */,
 				7AB018BF197E26DC00BB0F4E /* shareDetail@2x.png in Resources */,
 				7AC30F02197A647000A5C71C /* arrowRightGrey@2x.png in Resources */,
+				7A913CB9197EA2CE007ECA03 /* likeThis@2x.png in Resources */,
 				7AB018B0197E21A000BB0F4E /* onelife@2x.png in Resources */,
 				7AC30F50197A887500A5C71C /* funBrief@2x.png in Resources */,
 				7AB3BACC197CC06B009457E4 /* yixin@2x.png in Resources */,
@@ -742,6 +749,7 @@
 				7AB018CD197E35A800BB0F4E /* collect@2x.png in Resources */,
 				7AB018FB197E3FA300BB0F4E /* collectSelected@2x.png in Resources */,
 				7AC30F5A197A887500A5C71C /* sportCollect@2x.png in Resources */,
+				7A913CBA197EA2CE007ECA03 /* likeThisSelected@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

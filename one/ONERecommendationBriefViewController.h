@@ -21,11 +21,17 @@
 - (id)initWithDateComponents:(NSDateComponents *)dateComponents;
 - (void)shadowIntroView;
 - (void)deshadowIntroView;
+- (void)startAutoUpdate;
+- (void)stopAutoUpdate;
+- (void)like;
+- (void)dislike;
 
 @end
 
 @protocol ONERecommendationBriefDelegate <NSObject>
 
+- (void)ONERecommendationBriefViewDidLoad:(ONERecommendationBriefViewController *)recommendationBriefViewController;
+- (void)ONERecommendationBriefViewDidUpdateRecommendationLikes:(NSInteger)likes;
 - (void)ONERecommendationBriefViewImageTapped;
 - (void)ONERecommendationBriefViewBlurViewTapped;
 - (void)ONERecommendationBriefViewIntroTapped;

@@ -16,15 +16,15 @@
     NSError *error = nil;
     NSDictionary *result = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
     if (error == nil) {
-        NSInteger code = [result[@"code"] intValue];
+        NSInteger code = [result[@"code"] integerValue];
         if (code == 200) {
-            NSDictionary *properties = result[@"data"];
-            if (properties.count == 0) {
+            NSDictionary *propertiesData = result[@"data"];
+            if (propertiesData.count == 0) {
                 [ONELogger logTitle:@"empty data" content:nil];
                 return nil;
             } else {
                 // 成功
-                return [self initWithProperties:properties];
+                return [self initWithProperties:propertiesData];
             }
         } else {
             [ONELogger logTitle:@"server error" content:[NSString stringWithFormat:@"response code %ld", (long)code]];
@@ -40,11 +40,11 @@
 {
     self = [super init];
     
-    // must use intValue here, use (int) to convert will cause bad thing happen
+    // must use integerValue here, use (int) to convert will cause bad thing happen
     _city = properties[@"city"];
     _address = properties[@"address"];
     _tel = properties[@"tel"];
-    _type = [properties[@"type"] intValue];
+    _type = [properties[@"type"] integerValue];
     _title = properties[@"title"];
     _intro = properties[@"intro"];
     _briefDetail = properties[@"briefDetail"];
@@ -59,11 +59,11 @@
     if (_imageLocalLocation == nil) {
         _imageLocalLocation = [NSString string];
     }
-    _likes = [properties[@"likes"] intValue];
-    _year = [properties[@"year"] intValue];
-    _month = [properties[@"month"] intValue];
-    _day = [properties[@"day"] intValue];
-    _weekday = [properties[@"weekday"] intValue];
+    _likes = [properties[@"likes"] integerValue];
+    _year = [properties[@"year"] integerValue];
+    _month = [properties[@"month"] integerValue];
+    _day = [properties[@"day"] integerValue];
+    _weekday = [properties[@"weekday"] integerValue];
     
     return self;
 }

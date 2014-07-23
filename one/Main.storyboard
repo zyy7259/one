@@ -107,6 +107,20 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="PQF-vW-dID">
+                                <rect key="frame" x="249" y="36" width="55" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <state key="normal" title=" 999+" image="likeThis.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="selected" image="likeThisSelected.png"/>
+                                <state key="highlighted" image="likeThisSelected.png"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="8.5"/>
+                                </userDefinedRuntimeAttributes>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -115,6 +129,7 @@
                     <connections>
                         <outlet property="collectButton" destination="IZq-Wm-omD" id="ZRp-xu-t4q"/>
                         <outlet property="dayLabel" destination="1zW-dq-DzO" id="vCX-K5-0tN"/>
+                        <outlet property="likesButton" destination="PQF-vW-dID" id="AFU-Gp-5eP"/>
                         <outlet property="mainScrollView" destination="LS6-bi-giH" id="rBC-oc-2EI"/>
                         <outlet property="monthLabel" destination="zI1-7l-aWc" id="3Pp-V4-Fi3"/>
                         <outlet property="pullUpMenuView" destination="uXn-eb-ekN" id="mhn-nw-LPa"/>
@@ -302,6 +317,8 @@
         <image name="closeSelected.png" width="23" height="23"/>
         <image name="collect.png" width="25" height="24"/>
         <image name="collectSelected.png" width="25" height="24"/>
+        <image name="likeThis.png" width="13" height="11"/>
+        <image name="likeThisSelected.png" width="13" height="11"/>
         <image name="onelifeLogo.png" width="74" height="50"/>
         <image name="setting.png" width="24" height="24"/>
         <image name="settingSelected.png" width="24" height="24"/>
