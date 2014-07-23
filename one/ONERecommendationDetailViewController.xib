@@ -13,6 +13,7 @@
                 <outlet property="detailPanel" destination="0M7-dO-fNN" id="MCF-QZ-FlG"/>
                 <outlet property="dismissButton" destination="K4Q-IL-e8b" id="FJW-8Z-n7A"/>
                 <outlet property="introLabel" destination="EzN-aB-4F3" id="acB-fI-Uoo"/>
+                <outlet property="likesButton" destination="9bS-0V-RuJ" id="zQ9-Sm-cTC"/>
                 <outlet property="likesLabel" destination="7PX-YF-o7d" id="nIe-Ma-QPg"/>
                 <outlet property="scrollView" destination="DIp-k1-1U9" id="6D2-da-TWm"/>
                 <outlet property="shareButton" destination="jNM-U7-7cR" id="8Dl-qQ-FpR"/>
@@ -193,6 +194,20 @@
                     <state key="selected" image="returnGrayWhiteSelected.png"/>
                     <state key="highlighted" image="returnGrayWhiteSelected.png"/>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="9bS-0V-RuJ">
+                    <rect key="frame" x="249" y="36" width="55" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <state key="normal" title=" 999+" image="likeThis.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="selected" image="likeThisSelected.png"/>
+                    <state key="highlighted" image="likeThisSelected.png"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="8.5"/>
+                    </userDefinedRuntimeAttributes>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
@@ -202,6 +217,8 @@
     <resources>
         <image name="collectDetail.png" width="36" height="36"/>
         <image name="collectDetailSelected.png" width="36" height="36"/>
+        <image name="likeThis.png" width="13" height="11"/>
+        <image name="likeThisSelected.png" width="13" height="11"/>
         <image name="returnGrayWhite.png" width="35" height="36"/>
         <image name="returnGrayWhiteSelected.png" width="35" height="36"/>
         <image name="shareDetail.png" width="36" height="36"/>

@@ -292,10 +292,10 @@
             </objects>
             <point key="canvasLocation" x="853" y="-1285"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Setting Navigation View Controller-->
         <scene sceneID="YoS-7j-Mta">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="qTa-Zd-jaZ" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="qTa-Zd-jaZ" customClass="ONESettingNavigationViewController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="TGF-Iv-A4S">

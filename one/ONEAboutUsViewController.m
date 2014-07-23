@@ -30,6 +30,7 @@
     // Do any additional setup after loading the view from its nib.
     self.title = @"关于我们";
     [self initBarButtons];
+//    [self initGestures];
 }
 
 - (void)initBarButtons
@@ -44,7 +45,24 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:returnButton];;
 }
 
+- (void)initGestures
+{
+    UIScreenEdgePanGestureRecognizer *left2rightSwip = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(swipFromLeft2Right)];
+    left2rightSwip.edges = UIRectEdgeLeft;
+    [self.view addGestureRecognizer:left2rightSwip];
+}
+
+- (void)swipFromLeft2Right
+{
+    [self dismiss];
+}
+
 - (void)leftBarButtonTapped
+{
+    [self dismiss];
+}
+
+- (void)dismiss
 {
     [self.navigationController popViewControllerAnimated:YES];
 }

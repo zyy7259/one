@@ -543,6 +543,11 @@ typedef void (^CompletionHandler)();
 - (void)ONERecommendationBriefView:(ONERecommendationBriefViewController *)recommendationBriefViewController didUpdateRecommendationLikes:(NSInteger)likes
 {
     if (recommendationBriefViewController == self.viewControllers[self.currentPage]) {
+        UIViewController *vc = self.presentedViewController;
+        if ([vc isKindOfClass:[ONERecommendationDetailViewController class]]) {
+            ONERecommendationDetailViewController *dVc = (ONERecommendationDetailViewController *)vc;
+            [dVc updateLikes:likes];
+        }
         [self updateLikes:likes];
     }
 }

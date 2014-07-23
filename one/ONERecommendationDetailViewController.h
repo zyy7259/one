@@ -16,6 +16,7 @@
 @property id<ONERecommendationDetailDelegate> delegate;
 
 - (id)initWithRecommendation:(ONERecommendation *)recommendation;
+- (void)updateLikes:(NSInteger)likes;
 
 @end
 

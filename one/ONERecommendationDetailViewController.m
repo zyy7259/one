@@ -12,6 +12,8 @@
 #import "ONEShareViewController.h"
 #import "ONEResourceManager.h"
 #import "ONEViewUtils.h"
+#import "FLAnimatedImage.h"
+#import "FLAnimatedImageView.h"
 
 @interface ONERecommendationDetailViewController () <UIScrollViewDelegate, ONEShareDelegate>
 
@@ -28,10 +30,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *collectFloatButton;
 @property (weak, nonatomic) IBOutlet UIButton *shareFloatButton;
 @property (weak, nonatomic) IBOutlet UIView *detailPanel;
-@property (weak, nonatomic) IBOutlet UILabel *detailLabel;
 @property (weak, nonatomic) IBOutlet UILabel *addressLabel;
 @property (weak, nonatomic) IBOutlet UILabel *telLabel;
 @property (weak, nonatomic) IBOutlet UIView *articleView;
+@property (weak, nonatomic) IBOutlet UIButton *likesButton;
 @property ONEResourceManager *resourceManager;
 
 @end
@@ -73,6 +75,7 @@
     self.likesLabel.text = [@(self.recommendation.likes) stringValue];
     self.addressLabel.attributedText = [ONEViewUtils attributedStringWithString:self.recommendation.address font:self.addressLabel.font color:self.addressLabel.textColor lineSpacing:13];
     self.telLabel.text = self.recommendation.tel;
+    [self updateLikes:self.recommendation.likes];
     [self initButtons];
     [self showDetail];
     [self showRecommendationImage];
@@ -116,21 +119,34 @@
             CGRect rect = [ONEViewUtils boundingRectWithString:str width:paraWidth font:font lineSpacing:13];
             CGFloat height = ceil(rect.size.height);
             label.frame = CGRectMake(0, y, paraWidth, height);
+            [self.articleView addSubview:label];
             y += height;
             y += 15;
-            [self.articleView addSubview:label];
         } else {
-            // url
+            // image url
             NSURL *imageUrl = [NSURL URLWithString:str];
             UIImageView *imageView = [[UIImageView alloc] initWithImage:self.resourceManager.onelifeArticleTmpImage];
-            imageView.frame = CGRectMake(0, y, paraWidth, imageHeight);
+            CGRect frame = CGRectMake(0, y, paraWidth, imageHeight);
+            imageView.frame = frame;
+            
+            // 先放一张loading的图片
+            NSURL *loadingImageUrl = [[NSBundle mainBundle] URLForResource:@"loadingSmall@2x" withExtension:@"gif"];
+            NSData *loadingImageData = [NSData dataWithContentsOfURL:loadingImageUrl];
+            FLAnimatedImage *loadingImage = [[FLAnimatedImage alloc] initWithAnimatedGIFData:loadingImageData];
+            FLAnimatedImageView *loadingImageView = [FLAnimatedImageView new];
+            loadingImageView.animatedImage = loadingImage;
+            loadingImageView.frame = frame;
+            [self.articleView addSubview:loadingImageView];
+            
             y += imageHeight;
             y += 15;
-            [self.articleView addSubview:imageView];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                 NSData *imageData = [NSData dataWithContentsOfURL:imageUrl];
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    // 等图片下载完成之后再放上
+                    [loadingImageView removeFromSuperview];
                     imageView.image = [UIImage imageWithData:imageData];
+                    [self.articleView addSubview:imageView];
                 });
             });
         }
@@ -364,6 +380,43 @@
         }
     }
     lastPosition = endPosition;
+}
+
+// 更新喜欢按钮
+- (void)updateLikes:(NSInteger)likes
+{
+    static NSInteger MAX_LIKES = 999;
+    // 如果数据非法，修正之
+    if (likes < 0) {
+        likes = 0;
+    }
+    if (likes == 0 && self.likesButton.selected) {
+        likes = 1;
+    }
+    if (likes > MAX_LIKES) {
+        likes = MAX_LIKES;
+    }
+    NSString *likeString = [NSString stringWithFormat:@" %ld%@",
+                            (long)likes,
+                            (likes == MAX_LIKES ? @"+" : @"")];
+    
+    // 当前的frame
+    CGRect frame = self.likesButton.frame;
+    // 前一个最佳size
+    CGSize lastSize = [self.likesButton sizeThatFits:frame.size];
+    
+    [self.likesButton setTitle:likeString forState:UIControlStateNormal];
+    [self.likesButton setTitle:likeString forState:UIControlStateSelected];
+    [self.likesButton setTitle:likeString forState:UIControlStateHighlighted];
+    
+    // 当前的最佳size
+    CGSize currSize = [self.likesButton sizeThatFits:frame.size];
+    
+    // 根据两个size调整frame
+    CGFloat delta = currSize.width - lastSize.width;
+    frame.origin.x -= delta;
+    frame.size.width += delta;
+    self.likesButton.frame = frame;
 }
 
 - (void)didReceiveMemoryWarning

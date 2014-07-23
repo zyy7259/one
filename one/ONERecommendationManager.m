@@ -232,7 +232,7 @@ static ONERecommendationManager *sharedSingleton;
                         // empty
                     } else {
                         // success
-                        NSInteger likes = [likeData[@"like"] integerValue];
+                        NSInteger likes = [likeData[@"likes"] integerValue];
                         recommendation.likes = likes;
                         [self writeRecommendationToFile:recommendation];
                         likesHandler(likes);
