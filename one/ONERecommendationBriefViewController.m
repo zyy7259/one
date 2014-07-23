@@ -176,7 +176,7 @@
 
 - (void)addLoadingGif
 {
-    NSURL *url = [[NSBundle mainBundle] URLForResource:@"loading" withExtension:@"gif"];
+    NSURL *url = [[NSBundle mainBundle] URLForResource:@"loading@2x" withExtension:@"gif"];
     NSData *data = [NSData dataWithContentsOfURL:url];
     FLAnimatedImage *fImage = [[FLAnimatedImage alloc] initWithAnimatedGIFData:data];
     self.loadingImageView = [FLAnimatedImageView new];

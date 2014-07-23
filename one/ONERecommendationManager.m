@@ -11,7 +11,7 @@
 #import "ONELogger.h"
 #import "ONEStringUtils.h"
 
-static BOOL debug = YES;
+static BOOL debug = NO;
 
 @interface ONERecommendationManager ()
 
@@ -107,7 +107,8 @@ static ONERecommendationManager *sharedSingleton;
             recommendation.weekday = dateComponents.weekday;
             
             if (!debug) {
-                recommendation.blurredImageUrl = [self.urlBase stringByAppendingString:recommendation.blurredImageUrl];
+                recommendation.blurredImageUrl = [self.urlBase stringByAppendingPathComponent:recommendation.blurredImageUrl];
+                recommendation.imageUrl = [self.urlBase stringByAppendingPathComponent:recommendation.imageUrl];
             }
             
             // 下载推荐内容的图片
