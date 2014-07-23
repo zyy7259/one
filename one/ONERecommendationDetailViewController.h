@@ -25,6 +25,7 @@
 - (void)ONERecommendationDetailViewControllerDidFinishDisplay:(ONERecommendationDetailViewController *)recommendationDetailController;
 
 @optional
+- (void)ONERecommendationDetailViewControllerLikesButtonTapped:(ONERecommendationDetailViewController *)recommendationDetailController action:(NSInteger)action;
 - (void)ONERecommendationDetailViewControllerDidCollectRecommendation:(ONERecommendation *)recommendation;
 - (void)ONERecommendationDetailViewControllerDidDecollectRecommendation:(ONERecommendation *)recommendation;
 

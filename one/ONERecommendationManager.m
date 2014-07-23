@@ -196,7 +196,8 @@ static ONERecommendationManager *sharedSingleton;
     NSDictionary *dic = [recommendation properties];
     BOOL success = [dic writeToFile:filePath atomically:YES];
     NSString *info = [NSString stringWithFormat:@"%@ write recommendation data to file %@", (success ? @"success" : @"fail"), fileName];
-    [ONELogger logTitle:info content:nil];
+    info = info;
+//    [ONELogger logTitle:info content:nil];
 }
 
 // 从本地文件读取推荐内容

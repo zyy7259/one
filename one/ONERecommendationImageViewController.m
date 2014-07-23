@@ -88,6 +88,11 @@
     [self.delegate ONERecommendationImageViewControllerDidFinishDisplay:self];
 }
 
+- (IBAction)imageLongPressed:(UIGestureRecognizer *)sender
+{
+    NSLog(@"long pressed");
+}
+
 # pragma mark Loading Gif
 
 - (void)addLoadingGif

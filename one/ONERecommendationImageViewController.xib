@@ -22,6 +22,7 @@
                     <gestureRecognizers/>
                     <connections>
                         <outletCollection property="gestureRecognizers" destination="YE5-RU-Syv" appends="YES" id="r9t-Nn-ME0"/>
+                        <outletCollection property="gestureRecognizers" destination="E06-Lc-5Pe" appends="YES" id="FZX-hy-Mi5"/>
                     </connections>
                 </imageView>
             </subviews>
@@ -33,5 +34,10 @@
                 <action selector="imageTapped:" destination="-1" id="3E6-DQ-z0z"/>
             </connections>
         </tapGestureRecognizer>
+        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="E06-Lc-5Pe">
+            <connections>
+                <action selector="imageLongPressed:" destination="-1" id="cbS-wQ-Tnh"/>
+            </connections>
+        </pongPressGestureRecognizer>
     </objects>
 </document>

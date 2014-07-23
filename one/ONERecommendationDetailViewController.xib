@@ -13,8 +13,9 @@
                 <outlet property="detailPanel" destination="0M7-dO-fNN" id="MCF-QZ-FlG"/>
                 <outlet property="dismissButton" destination="K4Q-IL-e8b" id="FJW-8Z-n7A"/>
                 <outlet property="introLabel" destination="EzN-aB-4F3" id="acB-fI-Uoo"/>
-                <outlet property="likesButton" destination="9bS-0V-RuJ" id="zQ9-Sm-cTC"/>
-                <outlet property="likesLabel" destination="7PX-YF-o7d" id="nIe-Ma-QPg"/>
+                <outlet property="likesButton" destination="Li5-JY-xfe" id="dqp-MP-JV0"/>
+                <outlet property="likesLabel" destination="Fvi-Ob-8YQ" id="idN-L5-tOn"/>
+                <outlet property="likesView" destination="c9h-Xp-jip" id="ZBl-2S-A1p"/>
                 <outlet property="scrollView" destination="DIp-k1-1U9" id="6D2-da-TWm"/>
                 <outlet property="shareButton" destination="jNM-U7-7cR" id="8Dl-qQ-FpR"/>
                 <outlet property="shareFloatButton" destination="ioz-57-HM4" id="IXD-sC-owd"/>
@@ -38,27 +39,6 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <view hidden="YES" contentMode="scaleToFill" id="AJh-oX-BE8">
-                            <rect key="frame" x="240" y="44" width="60" height="24"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="LLL-Bv-9dz">
-                                    <rect key="frame" x="8" y="2" width="20" height="20"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                </imageView>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7PX-YF-o7d">
-                                    <rect key="frame" x="35" y="2" width="20" height="20"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                            </subviews>
-                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="12"/>
-                            </userDefinedRuntimeAttributes>
-                        </view>
                         <view contentMode="scaleToFill" id="axf-dl-Ry8">
                             <rect key="frame" x="0.0" y="166" width="320" height="63"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -157,7 +137,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" id="ixc-WZ-dhn">
-                                    <rect key="frame" x="20" y="180" width="280" height="104"/>
+                                    <rect key="frame" x="20" y="192" width="280" height="92"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 </view>
@@ -194,31 +174,54 @@
                     <state key="selected" image="returnGrayWhiteSelected.png"/>
                     <state key="highlighted" image="returnGrayWhiteSelected.png"/>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="9bS-0V-RuJ">
-                    <rect key="frame" x="249" y="36" width="55" height="18"/>
+                <view hidden="YES" contentMode="scaleToFill" id="c9h-Xp-jip">
+                    <rect key="frame" x="272" y="32" width="36" height="36"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                    <state key="normal" title=" 999+" image="likeThis.png">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <state key="selected" image="likeThisSelected.png"/>
-                    <state key="highlighted" image="likeThisSelected.png"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Li5-JY-xfe">
+                            <rect key="frame" x="9.5" y="6" width="17" height="17"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <state key="normal" image="likeThis.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="selected" image="likeThisSelected.png"/>
+                            <state key="highlighted" image="likeThisSelected.png"/>
+                        </button>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="999+" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Fvi-Ob-8YQ">
+                            <rect key="frame" x="6" y="18" width="24" height="17"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
+                    <gestureRecognizers/>
                     <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="8.5"/>
+                        <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="18"/>
                     </userDefinedRuntimeAttributes>
-                </button>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="d75-Dl-65S" appends="YES" id="Tw4-Ry-XWX"/>
+                    </connections>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
+        <tapGestureRecognizer id="d75-Dl-65S">
+            <connections>
+                <action selector="likesViewTapped" destination="-1" id="6mJ-5P-yLz"/>
+            </connections>
+        </tapGestureRecognizer>
     </objects>
     <resources>
         <image name="collectDetail.png" width="36" height="36"/>
         <image name="collectDetailSelected.png" width="36" height="36"/>
-        <image name="likeThis.png" width="13" height="11"/>
-        <image name="likeThisSelected.png" width="13" height="11"/>
+        <image name="likeThis.png" width="17" height="13"/>
+        <image name="likeThisSelected.png" width="17" height="13"/>
         <image name="returnGrayWhite.png" width="35" height="36"/>
         <image name="returnGrayWhiteSelected.png" width="35" height="36"/>
         <image name="shareDetail.png" width="36" height="36"/>

@@ -24,7 +24,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *typeImageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *introLabel;
-@property (weak, nonatomic) IBOutlet UILabel *likesLabel;
 @property (weak, nonatomic) IBOutlet UIButton *collectButton;
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
 @property (weak, nonatomic) IBOutlet UIButton *collectFloatButton;
@@ -33,8 +32,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *addressLabel;
 @property (weak, nonatomic) IBOutlet UILabel *telLabel;
 @property (weak, nonatomic) IBOutlet UIView *articleView;
+@property (weak, nonatomic) IBOutlet UIView *likesView;
 @property (weak, nonatomic) IBOutlet UIButton *likesButton;
+@property (weak, nonatomic) IBOutlet UILabel *likesLabel;
 @property ONEResourceManager *resourceManager;
+@property BOOL hasFloated;
 
 @end
 
@@ -79,6 +81,7 @@
     [self initButtons];
     [self showDetail];
     [self showRecommendationImage];
+    self.hasFloated = NO;
 }
 
 - (void)initButtons
@@ -268,7 +271,6 @@
 {
     static CGFloat duration = 0.3;
     static CGFloat lastPosition = 0;
-    static BOOL hasFloated = NO;
     static CGFloat contentOffsetYThreshold = 180;
     static CGFloat floatYPosition;
     
@@ -287,10 +289,11 @@
         shareButtonFrame = self.shareButton.frame;
         shareButtonFrame.size = self.dismissButton.frame.size;
         // 在添加浮动按钮时，要将浮动按钮移动到这两个位置
+        CGFloat floatButtonMarginDelta = 8;
         collectButtonFloatFrame = self.dismissButton.frame;
-        collectButtonFloatFrame.origin.x += (self.dismissButton.frame.size.width + self.dismissButton.frame.origin.x);
+        collectButtonFloatFrame.origin.x += (self.dismissButton.frame.size.width + self.dismissButton.frame.origin.x + floatButtonMarginDelta);
         shareButtonFloatFrame = collectButtonFloatFrame;
-        shareButtonFloatFrame.origin.x += (self.dismissButton.frame.size.width + self.dismissButton.frame.origin.x);
+        shareButtonFloatFrame.origin.x += (self.dismissButton.frame.size.width + self.dismissButton.frame.origin.x + floatButtonMarginDelta);
     }
     
     CGFloat startPosition = lastPosition;
@@ -298,12 +301,12 @@
     
     if (endPosition > startPosition) {
         // 向上滑
-        if (!hasFloated) {
+        if (!self.hasFloated) {
             // 如果按钮还没有悬浮，判断是否需要悬浮
             if (self.scrollView.contentOffset.y >= contentOffsetYThreshold) {
                 endPosition = self.scrollView.contentOffset.y;
                 // 将按钮浮动
-                hasFloated = YES;
+                self.hasFloated = YES;
                 // 首先获取按钮在view上的预期位置
                 CGRect collectButtonDesiredRect = [self.view convertRect:self.collectButton.frame fromView:self.scrollView];
                     // 因为收藏和已收藏按钮的大小不一样，所以有一个delta
@@ -340,12 +343,12 @@
         }
     } else {
         // 向下滑
-        if (hasFloated) {
+        if (self.hasFloated) {
             // 如果按钮已经悬浮，判断是否需要取消悬浮
             if (self.scrollView.contentOffset.y <= contentOffsetYThreshold) {
                 endPosition = self.scrollView.contentOffset.y;
                 // 将按钮复位
-                hasFloated = NO;
+                self.hasFloated = NO;
                 // 获取浮动按钮在scrollView上的预期位置
                 CGRect collectButtonDesiredRect = [self.view convertRect:self.collectFloatButton.frame toView:self.scrollView];
                 CGRect shareButtonDesiredRect = [self.view convertRect:self.shareFloatButton.frame toView:self.scrollView];
@@ -382,6 +385,30 @@
     lastPosition = endPosition;
 }
 
+- (IBAction)likesViewTapped
+{
+    [self likesButtonTapped];
+}
+
+// 点击喜欢按钮
+- (void)likesButtonTapped
+{
+    NSInteger likes = [self.likesLabel.text integerValue];
+    self.likesButton.selected = !self.likesButton.selected;
+    NSInteger action = 0;
+    if (self.likesButton.selected) {
+        likes++;
+        action = 1;
+    } else {
+        likes--;
+        action = -1;
+    }
+    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(ONERecommendationDetailViewControllerLikesButtonTapped:action:)]) {
+        [self.delegate ONERecommendationDetailViewControllerLikesButtonTapped:self action:action];
+    }
+    [self updateLikes:likes];
+}
+
 // 更新喜欢按钮
 - (void)updateLikes:(NSInteger)likes
 {
@@ -396,27 +423,13 @@
     if (likes > MAX_LIKES) {
         likes = MAX_LIKES;
     }
-    NSString *likeString = [NSString stringWithFormat:@" %ld%@",
+    NSString *likeString = [NSString stringWithFormat:@"%ld%@",
                             (long)likes,
                             (likes == MAX_LIKES ? @"+" : @"")];
     
-    // 当前的frame
-    CGRect frame = self.likesButton.frame;
-    // 前一个最佳size
-    CGSize lastSize = [self.likesButton sizeThatFits:frame.size];
+    self.likesLabel.text = likeString;
     
-    [self.likesButton setTitle:likeString forState:UIControlStateNormal];
-    [self.likesButton setTitle:likeString forState:UIControlStateSelected];
-    [self.likesButton setTitle:likeString forState:UIControlStateHighlighted];
-    
-    // 当前的最佳size
-    CGSize currSize = [self.likesButton sizeThatFits:frame.size];
-    
-    // 根据两个size调整frame
-    CGFloat delta = currSize.width - lastSize.width;
-    frame.origin.x -= delta;
-    frame.size.width += delta;
-    self.likesButton.frame = frame;
+    self.likesButton.hidden = NO;
 }
 
 - (void)didReceiveMemoryWarning

@@ -107,20 +107,37 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="PQF-vW-dID">
-                                <rect key="frame" x="249" y="36" width="55" height="18"/>
+                            <view hidden="YES" contentMode="scaleToFill" id="pNj-0K-Yze">
+                                <rect key="frame" x="272" y="32" width="36" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <state key="normal" title=" 999+" image="likeThis.png">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="selected" image="likeThisSelected.png"/>
-                                <state key="highlighted" image="likeThisSelected.png"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="PQF-vW-dID">
+                                        <rect key="frame" x="9.5" y="6" width="17" height="17"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" image="likeThis.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="selected" image="likeThisSelected.png"/>
+                                        <state key="highlighted" image="likeThisSelected.png"/>
+                                    </button>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="999+" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2eZ-x9-73Q">
+                                        <rect key="frame" x="6" y="18" width="24" height="17"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="8.5"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="18"/>
                                 </userDefinedRuntimeAttributes>
-                            </button>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="h4W-YH-cpq" appends="YES" id="hKO-RB-Bwz"/>
+                                </connections>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -130,6 +147,8 @@
                         <outlet property="collectButton" destination="IZq-Wm-omD" id="ZRp-xu-t4q"/>
                         <outlet property="dayLabel" destination="1zW-dq-DzO" id="vCX-K5-0tN"/>
                         <outlet property="likesButton" destination="PQF-vW-dID" id="AFU-Gp-5eP"/>
+                        <outlet property="likesLabel" destination="2eZ-x9-73Q" id="VEC-9O-pJU"/>
+                        <outlet property="likesView" destination="pNj-0K-Yze" id="0gy-nE-XfG"/>
                         <outlet property="mainScrollView" destination="LS6-bi-giH" id="rBC-oc-2EI"/>
                         <outlet property="monthLabel" destination="zI1-7l-aWc" id="3Pp-V4-Fi3"/>
                         <outlet property="pullUpMenuView" destination="uXn-eb-ekN" id="mhn-nw-LPa"/>
@@ -141,6 +160,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8NB-9p-jkx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="h4W-YH-cpq">
+                    <connections>
+                        <action selector="likesViewTapped" destination="m6v-ju-fb2" id="Bjs-NY-nkE"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="350" y="-1285"/>
         </scene>
@@ -317,8 +341,8 @@
         <image name="closeSelected.png" width="23" height="23"/>
         <image name="collect.png" width="25" height="24"/>
         <image name="collectSelected.png" width="25" height="24"/>
-        <image name="likeThis.png" width="13" height="11"/>
-        <image name="likeThisSelected.png" width="13" height="11"/>
+        <image name="likeThis.png" width="17" height="13"/>
+        <image name="likeThisSelected.png" width="17" height="13"/>
         <image name="onelifeLogo.png" width="74" height="50"/>
         <image name="setting.png" width="24" height="24"/>
         <image name="settingSelected.png" width="24" height="24"/>

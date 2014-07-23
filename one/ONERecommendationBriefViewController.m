@@ -120,7 +120,7 @@
     if (recommendation == nil) {
         // 服务器无数据，显示默认recommendation
         [ONELogger logTitle:@"no more recommendation, bazinga......" content:nil];
-        [self showDefaultRecommendation];
+        [self showEmptyRecommendation];
         return;
     }
     self.recommendation = recommendation;
@@ -131,7 +131,7 @@
 - (void)showRecommendation
 {
     // 即将展示recommendation，说明数据获取完毕，将self传给delegate
-    [self.delegate ONERecommendationBriefViewDidLoad:self];
+    [self.delegate ONERecommendationBriefViewDidLoadRecommendation:self];
     // 展示recommendation
     [self showRecommendationImage];
     self.typeImageView.image = [[ONEResourceManager sharedManager] briefTypeImage:self.recommendation.type];
@@ -162,12 +162,11 @@
 }
 
 // 展示默认的recommendation
-- (void)showDefaultRecommendation
+- (void)showEmptyRecommendation
 {
+    [self.delegate ONERecommendationBriefViewEmptyRecommendation:self];
     self.view.backgroundColor = [UIColor colorWithRed:67.0/255.0 green:217.0/255.0 blue:213.0/255.0 alpha:1.0];
-    self.titleLabel.text = nil;
-    self.introLabel.text = nil;
-    self.briefDetailLabel.text = nil;
+    self.blurView.hidden = YES;
     // 移除loading gif
     [self removeLoadingGif];
 }
@@ -176,7 +175,7 @@
 
 - (void)addLoadingGif
 {
-    NSURL *url = [[NSBundle mainBundle] URLForResource:@"loading@2x" withExtension:@"gif"];
+    NSURL *url = [[NSBundle mainBundle] URLForResource:@"loadingWhite@2x" withExtension:@"gif"];
     NSData *data = [NSData dataWithContentsOfURL:url];
     FLAnimatedImage *fImage = [[FLAnimatedImage alloc] initWithAnimatedGIFData:data];
     self.loadingImageView = [FLAnimatedImageView new];
@@ -263,7 +262,7 @@
                 if (likes < 0) {
                     likes = 0;
                 }
-                [ONELogger logTitle:[NSString stringWithFormat:@"fetch likes info - %ld", (long)likes] content:nil];
+//                [ONELogger logTitle:[NSString stringWithFormat:@"fetch likes info - %ld", (long)likes] content:nil];
                 [self updateLikes:likes];
                 [self.delegate ONERecommendationBriefView:self didUpdateRecommendationLikes:likes];
             }];
@@ -275,11 +274,13 @@
 
 - (void)like
 {
+    self.recommendation.likes++;
     [self.recommendationManager likeRecommendation:self.recommendation];
 }
 
 - (void)dislike
 {
+    self.recommendation.likes--;
     [self.recommendationManager dislikeRecommendation:self.recommendation];
 }
 

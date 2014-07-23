@@ -31,7 +31,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *dayLabel;
 @property (weak, nonatomic) IBOutlet UILabel *monthLabel;
 @property (weak, nonatomic) IBOutlet UILabel *weekdayLabel;
+@property (weak, nonatomic) IBOutlet UIView *likesView;
 @property (weak, nonatomic) IBOutlet UIButton *likesButton;
+@property (weak, nonatomic) IBOutlet UILabel *likesLabel;
 @property ONERecommendationManager *recommendationManager;
 @property NSUInteger capacity;
 @property NSMutableArray *recommendations;
@@ -99,8 +101,7 @@ typedef void (^CompletionHandler)();
     [self updateInterface];
     
     // 使loading页渐渐消失
-    [self disappearLoading:^{
-    }];
+    [self disappearLoading:nil];
 }
 
 - (void)disappearLoading:(CompletionHandler)handler
@@ -117,7 +118,9 @@ typedef void (^CompletionHandler)();
                          loadingView.alpha = 0.0;
                      } completion:^(BOOL finished) {
                          [loadingView removeFromSuperview];
-                         handler();
+                         if (handler != nil) {
+                             handler();
+                         }
                      }];
 }
 
@@ -252,7 +255,7 @@ typedef void (^CompletionHandler)();
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if ([scrollView isEqual:self.recommendationsScrollView]) {
-        [self recommendationsScrollViewDidScroll];
+        [self recommendationsScrollViewDidEndScrolling];
     } else if ([scrollView isEqual:self.mainScrollView]) {
         
     }
@@ -529,17 +532,28 @@ typedef void (^CompletionHandler)();
 {
 }
 
-# pragma mark - 喜欢
+# pragma mark brief加载recommendation的回调函数
 
 // Brief加载完成之后的回调函数，如果是当前页，则更新相应信息
-- (void)ONERecommendationBriefViewDidLoad:(ONERecommendationBriefViewController *)recommendationBriefViewController
+- (void)ONERecommendationBriefViewDidLoadRecommendation:(ONERecommendationBriefViewController *)recommendationBriefViewController
 {
     if (recommendationBriefViewController == self.viewControllers[self.currentPage]) {
         [self updateLikes:recommendationBriefViewController.recommendation.likes];
     }
 }
 
-// Brief更新了likes，如果是当前页，更新之
+- (void)ONERecommendationBriefViewEmptyRecommendation:(ONERecommendationBriefViewController *)recommendationBriefViewController
+{
+//    CGSize size = self.recommendationsScrollView.contentSize;
+//    size.width -= self.view.frame.size.width;
+//    self.recommendationsScrollView.contentSize = size;
+//    [self removeFromParentViewController];
+//    [recommendationBriefViewController.view removeFromSuperview];
+}
+
+# pragma mark - 喜欢
+
+// Brief更新了likes，如果是当前页，更新之；如果当前显示了详情页，更新之
 - (void)ONERecommendationBriefView:(ONERecommendationBriefViewController *)recommendationBriefViewController didUpdateRecommendationLikes:(NSInteger)likes
 {
     if (recommendationBriefViewController == self.viewControllers[self.currentPage]) {
@@ -552,10 +566,31 @@ typedef void (^CompletionHandler)();
     }
 }
 
+// Detail更新了likes，更新Brief
+- (void)ONERecommendationDetailViewControllerLikesButtonTapped:(ONERecommendationDetailViewController *)recommendationDetailController action:(NSInteger)action
+{
+    ONERecommendationBriefViewController *bVc = self.viewControllers[self.currentPage];
+    switch (action) {
+        case 1:
+            [bVc like];
+            break;
+        case -1:
+            [bVc dislike];
+            break;
+        default:
+            break;
+    }
+}
+
+- (IBAction)likesViewTapped
+{
+    [self likesButtonTapped];
+}
+
 // 点击喜欢按钮
 - (void)likesButtonTapped
 {
-    NSInteger likes = [self.likesButton.currentTitle integerValue];
+    NSInteger likes = [self.likesLabel.text integerValue];
     ONERecommendationBriefViewController *bVC = self.viewControllers[self.currentPage];
     self.likesButton.selected = !self.likesButton.selected;
     if (self.likesButton.selected) {
@@ -582,27 +617,13 @@ typedef void (^CompletionHandler)();
     if (likes > MAX_LIKES) {
         likes = MAX_LIKES;
     }
-    NSString *likeString = [NSString stringWithFormat:@" %ld%@",
+    NSString *likeString = [NSString stringWithFormat:@"%ld%@",
                             (long)likes,
                             (likes == MAX_LIKES ? @"+" : @"")];
     
-    // 当前的frame
-    CGRect frame = self.likesButton.frame;
-    // 前一个最佳size
-    CGSize lastSize = [self.likesButton sizeThatFits:frame.size];
+    self.likesLabel.text = likeString;
     
-    [self.likesButton setTitle:likeString forState:UIControlStateNormal];
-    [self.likesButton setTitle:likeString forState:UIControlStateSelected];
-    [self.likesButton setTitle:likeString forState:UIControlStateHighlighted];
-    
-    // 当前的最佳size
-    CGSize currSize = [self.likesButton sizeThatFits:frame.size];
-    
-    // 根据两个size调整frame
-    CGFloat delta = currSize.width - lastSize.width;
-    frame.origin.x -= delta;
-    frame.size.width += delta;
-    self.likesButton.frame = frame;
+    self.likesButton.hidden = NO;
 }
 
 # pragma mark - Navigation

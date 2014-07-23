@@ -11,6 +11,9 @@
 
 @interface ONEAboutUsViewController ()
 
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIImageView *aboutUsImageView;
+
 @end
 
 @implementation ONEAboutUsViewController
@@ -30,7 +33,7 @@
     // Do any additional setup after loading the view from its nib.
     self.title = @"关于我们";
     [self initBarButtons];
-//    [self initGestures];
+    self.scrollView.contentSize = self.scrollView.frame.size;
 }
 
 - (void)initBarButtons
@@ -43,18 +46,6 @@
     returnButton.frame = CGRectMake(0, 0, 23, 23);
     [returnButton addTarget:self action:@selector(leftBarButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:returnButton];;
-}
-
-- (void)initGestures
-{
-    UIScreenEdgePanGestureRecognizer *left2rightSwip = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(swipFromLeft2Right)];
-    left2rightSwip.edges = UIRectEdgeLeft;
-    [self.view addGestureRecognizer:left2rightSwip];
-}
-
-- (void)swipFromLeft2Right
-{
-    [self dismiss];
 }
 
 - (void)leftBarButtonTapped
