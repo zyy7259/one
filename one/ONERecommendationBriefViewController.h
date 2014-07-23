@@ -31,7 +31,7 @@
 @protocol ONERecommendationBriefDelegate <NSObject>
 
 - (void)ONERecommendationBriefViewDidLoad:(ONERecommendationBriefViewController *)recommendationBriefViewController;
-- (void)ONERecommendationBriefViewDidUpdateRecommendationLikes:(NSInteger)likes;
+- (void)ONERecommendationBriefView:(ONERecommendationBriefViewController *)recommendationBriefViewController didUpdateRecommendationLikes:(NSInteger)likes;
 - (void)ONERecommendationBriefViewImageTapped;
 - (void)ONERecommendationBriefViewBlurViewTapped;
 - (void)ONERecommendationBriefViewIntroTapped;

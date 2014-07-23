@@ -263,9 +263,9 @@
                 if (likes < 0) {
                     likes = 0;
                 }
-                [ONELogger logTitle:[NSString stringWithFormat:@"fetch likes info - %ld", (long)likes] content:nil];
+//                [ONELogger logTitle:[NSString stringWithFormat:@"fetch likes info - %ld", (long)likes] content:nil];
                 [self updateLikes:likes];
-                [self.delegate ONERecommendationBriefViewDidUpdateRecommendationLikes:likes];
+                [self.delegate ONERecommendationBriefView:self didUpdateRecommendationLikes:likes];
             }];
         }
     }

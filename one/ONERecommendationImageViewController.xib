@@ -25,7 +25,7 @@
                     </connections>
                 </imageView>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
         <tapGestureRecognizer id="YE5-RU-Syv">

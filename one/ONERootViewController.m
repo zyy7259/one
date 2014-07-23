@@ -96,7 +96,7 @@ typedef void (^CompletionHandler)();
     // 读取存储在本地的收藏列表
     self.recommendationCollection = [NSMutableSet setWithArray:[self.recommendationManager readRecommendationCollectionFromFile]];
     // 读取收藏列表之后，更新页面，需要根据收藏状态更新按钮状态
-    [self updateViewAppearance];
+    [self updateInterface];
     
     // 使loading页渐渐消失
     [self disappearLoading:^{
@@ -133,14 +133,6 @@ typedef void (^CompletionHandler)();
     [self.collectButton addTarget:self action:@selector(collectButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.shareButton addTarget:self action:@selector(shareButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.likesButton addTarget:self action:@selector(likesButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-}
-
-- (void)updateViewAppearance
-{
-    // 更新主题颜色
-    [self updateThemeColor];
-    // 更新收藏状态
-    [self syncCollectButtonAndCorrespondingRecommendationState];
 }
 
 - (void)loadPage:(NSUInteger)page
@@ -186,16 +178,45 @@ typedef void (^CompletionHandler)();
     
     // 如果是当前正在显示的页面
     if (page == self.currentPage) {
-        [self showDate:dc];
         [viewController startAutoUpdate];
     }
 }
 
+- (void)updateInterface
+{
+    // 更新主题颜色
+    [self updateThemeColor];
+    // 更新收藏状态
+    [self syncCollectButtonAndCorrespondingRecommendationState];
+    // 更新date
+    [self updateDate];
+    // 更新likes
+    NSInteger likes = 0;
+    ONERecommendationBriefViewController *bVC = self.viewControllers[self.currentPage];
+    if (bVC != nil) {
+        likes = bVC.recommendation.likes;
+    }
+    [self updateLikes:likes];
+}
+
+# pragma mark 主题颜色
+
+// 更换主题颜色
+- (void)updateThemeColor
+{
+    [self updateThemeColorWithPage:self.currentPage];
+}
+// 更换到指定页码的主题颜色
+- (void)updateThemeColorWithPage:(NSUInteger)page
+{
+}
+
 // 展示日期信息，不管是否有recommendation的数据，日期总是可以显示
-- (void)showDate:(NSDateComponents *)dateComponents
+- (void)updateDate
 {
     static NSDateComponents *lastDateComponents;
     
+    NSDateComponents *dateComponents = [self.dateHelper dateComponentsBeforeNDays:self.currentPage];
     // 使用动画更新dayLabel
     // 首先获取要显示的text
     NSString *dayText = [@(dateComponents.day) stringValue];
@@ -224,20 +245,6 @@ typedef void (^CompletionHandler)();
     self.monthLabel.text = [[ONEDateUtils sharedDateHelper] briefStringOfMonth:dateComponents.month];
     self.weekdayLabel.text = [[ONEDateUtils sharedDateHelper] stringOfWeekday:dateComponents.weekday];
     lastDateComponents = dateComponents;
-}
-
-# pragma mark 主题颜色
-
-// 更换主题颜色
-- (void)updateThemeColor
-{
-    [self updateThemeColorWithPage:self.currentPage];
-}
-// 更换到指定页码的主题颜色
-- (void)updateThemeColorWithPage:(NSUInteger)page
-{
-    //    ONERecommendation *recommendation = self.recommendations[page];
-    //    self.view.backgroundColor = recommendation.themeColor;
 }
 
 # pragma mark 左滑、右滑、上滑、下滑
@@ -292,19 +299,19 @@ typedef void (^CompletionHandler)();
         ONERecommendationBriefViewController *bVC = self.viewControllers[self.currentPage];
         [bVC stopAutoUpdate];
         
-        self.lastPage = self.currentPage;
-        
         // 然后开始新的页面的自动更新
+        self.lastPage = self.currentPage;
         self.currentPage = page;
         bVC = self.viewControllers[self.currentPage];
         [bVC startAutoUpdate];
         
         // 切换页面之后，更新页面状态
-        [self updateViewAppearance];
+        [self updateInterface];
         
         // 切换页面之后，预加载可能会显示的页面
-        [self loadPage:page];
         [self loadPage:page + 1];
+        [self loadPage:page + 2];
+        [self loadPage:page + 3];
     }
 }
 
@@ -524,19 +531,23 @@ typedef void (^CompletionHandler)();
 
 # pragma mark - 喜欢
 
+// Brief加载完成之后的回调函数，如果是当前页，则更新相应信息
 - (void)ONERecommendationBriefViewDidLoad:(ONERecommendationBriefViewController *)recommendationBriefViewController
 {
     if (recommendationBriefViewController == self.viewControllers[self.currentPage]) {
-        // 如果是当前页
         [self updateLikes:recommendationBriefViewController.recommendation.likes];
     }
 }
 
-- (void)ONERecommendationBriefViewDidUpdateRecommendationLikes:(NSInteger)likes
+// Brief更新了likes，如果是当前页，更新之
+- (void)ONERecommendationBriefView:(ONERecommendationBriefViewController *)recommendationBriefViewController didUpdateRecommendationLikes:(NSInteger)likes
 {
-    [self updateLikes:likes];
+    if (recommendationBriefViewController == self.viewControllers[self.currentPage]) {
+        [self updateLikes:likes];
+    }
 }
 
+// 点击喜欢按钮
 - (void)likesButtonTapped
 {
     NSInteger likes = [self.likesButton.currentTitle integerValue];
@@ -552,8 +563,10 @@ typedef void (^CompletionHandler)();
     [self updateLikes:likes];
 }
 
+// 更新喜欢按钮
 - (void)updateLikes:(NSInteger)likes
 {
+    static NSInteger MAX_LIKES = 999;
     // 如果数据非法，修正之
     if (likes < 0) {
         likes = 0;
@@ -561,15 +574,30 @@ typedef void (^CompletionHandler)();
     if (likes == 0 && self.likesButton.selected) {
         likes = 1;
     }
+    if (likes > MAX_LIKES) {
+        likes = MAX_LIKES;
+    }
+    NSString *likeString = [NSString stringWithFormat:@" %ld%@",
+                            (long)likes,
+                            (likes == MAX_LIKES ? @"+" : @"")];
     
-    // TODO
+    // 当前的frame
     CGRect frame = self.likesButton.frame;
-    CGSize size = [self.likesButton sizeThatFits:frame.size];
+    // 前一个最佳size
+    CGSize lastSize = [self.likesButton sizeThatFits:frame.size];
     
-    NSString *likeString = [@(likes) stringValue];
     [self.likesButton setTitle:likeString forState:UIControlStateNormal];
     [self.likesButton setTitle:likeString forState:UIControlStateSelected];
     [self.likesButton setTitle:likeString forState:UIControlStateHighlighted];
+    
+    // 当前的最佳size
+    CGSize currSize = [self.likesButton sizeThatFits:frame.size];
+    
+    // 根据两个size调整frame
+    CGFloat delta = currSize.width - lastSize.width;
+    frame.origin.x -= delta;
+    frame.size.width += delta;
+    self.likesButton.frame = frame;
 }
 
 # pragma mark - Navigation

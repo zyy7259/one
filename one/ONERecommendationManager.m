@@ -232,6 +232,8 @@ static ONERecommendationManager *sharedSingleton;
                     } else {
                         // success
                         NSInteger likes = [likeData[@"like"] integerValue];
+                        recommendation.likes = likes;
+                        [self writeRecommendationToFile:recommendation];
                         likesHandler(likes);
                         return;
                     }
@@ -262,7 +264,8 @@ static ONERecommendationManager *sharedSingleton;
             if (e == nil) {
                 NSInteger code = [result[@"code"] integerValue];
                 if (code == 200) {
-                    // success
+                    recommendation.likes += action;
+                    [self writeRecommendationToFile:recommendation];
                     return;
                 }
             }
