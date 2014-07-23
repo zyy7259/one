@@ -554,6 +554,14 @@ typedef void (^CompletionHandler)();
 
 - (void)updateLikes:(NSInteger)likes
 {
+    // 如果数据非法，修正之
+    if (likes < 0) {
+        likes = 0;
+    }
+    if (likes == 0 && self.likesButton.selected) {
+        likes = 1;
+    }
+    
     // TODO
     CGRect frame = self.likesButton.frame;
     CGSize size = [self.likesButton sizeThatFits:frame.size];

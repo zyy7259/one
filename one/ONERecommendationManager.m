@@ -11,13 +11,14 @@
 #import "ONELogger.h"
 #import "ONEStringUtils.h"
 
+static BOOL debug = YES;
+
 @interface ONERecommendationManager ()
 
 @property ONESessionDelegate *sessionDelegate;
 @property NSString *urlBase;
 @property NSString *cacheDir;
 @property NSString *collectionFileName;
-@property BOOL debug;
 
 @end
 
@@ -45,8 +46,7 @@ static ONERecommendationManager *sharedSingleton;
     
     self.sessionDelegate = [ONESessionDelegate new];
     
-    self.debug = NO;
-    if (self.debug) {
+    if (debug) {
         self.urlBase = @"http://10.242.56.212:3000";
     } else {
         self.urlBase = @"http://223.252.196.235/OneLife";
@@ -106,7 +106,7 @@ static ONERecommendationManager *sharedSingleton;
             recommendation.day = dateComponents.day;
             recommendation.weekday = dateComponents.weekday;
             
-            if (!self.debug) {
+            if (!debug) {
                 recommendation.blurredImageUrl = [self.urlBase stringByAppendingString:recommendation.blurredImageUrl];
             }
             
@@ -255,7 +255,6 @@ static ONERecommendationManager *sharedSingleton;
 - (void)updateRecommendationLike:(ONERecommendation *)recommendation action:(NSInteger)action
 {
     NSString *url = [NSString stringWithFormat:@"%@/like?year=%ld&month=%ld&day=%ld&action=%ld", self.urlBase, (long)recommendation.year, (long)recommendation.month, (long)recommendation.day, (long)action];
-    NSLog(@"%@", url);
     [self.sessionDelegate startDataTaskWithUrl:url completionHandler:^(NSData *data, NSError *error) {
         if (error == nil) {
             NSError *e = nil;
