@@ -59,7 +59,6 @@
     if ([ONEStringUtils isEmptyString:self.recommendation.imageLocalLocation]) {
         // 加载loading gif
         [self addLoadingGif];
-        return;
         [self.recommendationManager downloadRecommendationImage:self.recommendation imageUrl:self.recommendation.imageUrl namePostfix:nil imageCompletionHandler:^(NSURL *location) {
             if (location != nil) {
                 // 记录图片地址后加载图片
