@@ -83,7 +83,7 @@ static ONEResourceManager *sharedSingleton;
 
 - (void)initTypeImages
 {
-    NSArray *types = @[@"food", @"fun", @"house", @"shopping", @"travel", @"sport", @"beauty"];
+    NSArray *types = @[@"food", @"fun", @"house", @"beauty", @"shopping", @"travel", @"sport"];
     
     NSMutableArray *briefTmp = [NSMutableArray arrayWithCapacity:(types.count + 1)];
     NSMutableArray *detailTmp = [NSMutableArray arrayWithCapacity:(types.count + 1)];
