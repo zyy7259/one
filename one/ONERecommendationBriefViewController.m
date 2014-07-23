@@ -166,6 +166,7 @@
 {
     [self.delegate ONERecommendationBriefViewEmptyRecommendation:self];
     self.view.backgroundColor = [UIColor colorWithRed:67.0/255.0 green:217.0/255.0 blue:213.0/255.0 alpha:1.0];
+    self.typeImageView.image = [ONEResourceManager sharedManager].locationImage;
     self.blurView.hidden = YES;
     // 移除loading gif
     [self removeLoadingGif];
@@ -193,7 +194,7 @@
 
 - (IBAction)imageTapped:(UITapGestureRecognizer *)sender
 {
-    if ([self shouldInteract]) {
+    if ([self canInteract]) {
         [self.delegate ONERecommendationBriefViewImageTapped];
     }
 }
@@ -202,7 +203,7 @@
 
 - (IBAction)blurViewTapped:(UITapGestureRecognizer *)sender
 {
-    if ([self shouldInteract]) {
+    if ([self canInteract]) {
         [self.delegate ONERecommendationBriefViewBlurViewTapped];
     }
 }
@@ -211,14 +212,14 @@
 
 - (IBAction)introViewTapped:(UITapGestureRecognizer *)sender
 {
-    if ([self shouldInteract]) {
+    if ([self canInteract]) {
         [self.delegate ONERecommendationBriefViewIntroTapped];
     }
 }
 
 # pragma mark 是否能和用户互动
 
-- (BOOL)shouldInteract
+- (BOOL)canInteract
 {
     return self.recommendation != nil;
 }
@@ -256,7 +257,7 @@
     while (YES) {
         // sleep for 10 sec
         [NSThread sleepForTimeInterval:10];
-        if ([self shouldInteract]) {
+        if ([self canInteract]) {
             // fetch likes info
             [self.recommendationManager getRecommendationLikes:self.recommendation likesHandler:^(NSInteger likes) {
                 if (likes < 0) {

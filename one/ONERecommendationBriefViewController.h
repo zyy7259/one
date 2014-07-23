@@ -25,6 +25,7 @@
 - (void)stopAutoUpdate;
 - (void)like;
 - (void)dislike;
+- (BOOL)canInteract;
 
 @end
 

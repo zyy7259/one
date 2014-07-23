@@ -77,6 +77,8 @@ static ONEResourceManager *sharedSingleton;
     self.aboutUsImage = [UIImage imageNamed:@"info"];
     self.likeUsImage = [UIImage imageNamed:@"like"];
     self.scoreUsImage = [UIImage imageNamed:@"heart"];
+    
+    self.locationImage = [UIImage imageNamed:@"location"];
 }
 
 - (void)initTypeImages

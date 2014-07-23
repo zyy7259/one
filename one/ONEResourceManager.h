@@ -44,6 +44,8 @@
 @property UIImage *likeUsImage;
 @property UIImage *scoreUsImage;
 
+@property UIImage *locationImage;
+
 + (ONEResourceManager *)sharedManager;
 
 - (UIImage *)briefTypeImage:(NSUInteger)type;

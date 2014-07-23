@@ -198,6 +198,11 @@ typedef void (^CompletionHandler)();
     ONERecommendationBriefViewController *bVC = self.viewControllers[self.currentPage];
     if (bVC != nil) {
         likes = bVC.recommendation.likes;
+        if ([bVC canInteract]) {
+            self.mainScrollView.scrollEnabled = YES;
+        } else {
+            self.mainScrollView.scrollEnabled = NO;
+        }
     }
     [self updateLikes:likes];
 }
