@@ -228,9 +228,20 @@
     NSString *address = [self.addressLabel.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     if (![ONEStringUtils isEmptyString:address]) {
+        // 首先调用百度地图
+        NSString *baiduAddressUrlString = [NSString stringWithFormat:@"baidumap://map/place/search?query=%@", address];
+        NSURL *baiduAddressUrl = [NSURL URLWithString:baiduAddressUrlString];
+        if (baiduAddressUrl != nil && [[UIApplication sharedApplication] openURL:baiduAddressUrl]) {
+            return;
+        }
+        
+        // 如果没有百度地图，则调用系统默认地图
         NSString *addressUrlString = [NSString stringWithFormat:@"http://maps.apple.com/?q=%@", address];
         NSURL *addressUrl = [NSURL URLWithString:addressUrlString];
-        [[UIApplication sharedApplication] openURL:addressUrl];
+        if (addressUrl != nil && [[UIApplication sharedApplication] openURL:addressUrl]) {
+            return;
+        }
+        
     }
 }
 
