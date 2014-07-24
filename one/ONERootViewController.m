@@ -36,7 +36,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *likesLabel;
 @property (weak, nonatomic) IBOutlet UIButton *goToFirstButton;
 @property ONERecommendationManager *recommendationManager;
-@property NSUInteger capacity;
 @property NSMutableArray *recommendations;
 @property NSMutableArray *viewControllers;
 @property NSUInteger lastPage;
@@ -74,34 +73,29 @@ typedef void (^CompletionHandler)();
     // Do any additional setup after loading the view.
     
     self.recommendationManager = [ONERecommendationManager sharedManager];
-    self.capacity = 3;
-    self.recommendations = [NSMutableArray arrayWithCapacity:self.capacity];
-    self.viewControllers = [NSMutableArray arrayWithCapacity:self.capacity];
+    self.recommendations = [NSMutableArray array];
+    self.viewControllers = [NSMutableArray array];
     self.lastPage = 0;
     self.currentPage = 0;
     self.pageWidth = CGRectGetWidth(self.view.frame);
     self.dateHelper = [ONEDateUtils sharedDateHelper];
-    
     self.recommendationCollection = [NSMutableArray array];
-
     self.recommendationsScrollView.delegate = self;
     self.mainScrollView.delegate = self;
     
-    // 更新scrollView
-    [self updateScrollViewContentSize];
     // 初始化按钮
     [self connectButtons];
-    
-    // load the visible pages
-    for (NSUInteger i = 0; i < self.capacity; i++) {
+    // 更新mainScrollView的contentSize
+    CGRect frame = self.view.frame;
+    self.mainScrollView.contentSize = CGSizeMake(CGRectGetWidth(frame), CGRectGetHeight(frame) + CGRectGetHeight(self.pullUpMenuView.frame));
+    // 预加载页面
+    for (NSUInteger i = 0; i < 2; i++) {
         [self loadPage:i];
     }
-    
     // 读取存储在本地的收藏列表
     self.recommendationCollection = [self.recommendationManager readRecommendationCollectionFromFile];
     // 读取收藏列表之后，更新页面，需要根据收藏状态更新按钮状态
     [self updateInterface];
-    
     // 使loading页渐渐消失
     [self disappearLoading:nil];
 }
@@ -126,13 +120,6 @@ typedef void (^CompletionHandler)();
                      }];
 }
 
-- (void)updateScrollViewContentSize
-{
-    CGRect frame = self.view.frame;
-    self.recommendationsScrollView.contentSize = CGSizeMake(CGRectGetWidth(frame) * self.capacity, CGRectGetHeight(frame));
-    self.mainScrollView.contentSize = CGSizeMake(CGRectGetWidth(frame), CGRectGetHeight(frame) + CGRectGetHeight(self.pullUpMenuView.frame));
-}
-
 - (void)connectButtons
 {
     [self.collectButton addTarget:self action:@selector(collectButtonTapped) forControlEvents:UIControlEventTouchUpInside];
@@ -143,48 +130,32 @@ typedef void (^CompletionHandler)();
 
 - (void)loadPage:(NSUInteger)page
 {
-    ONERecommendationBriefViewController *viewController = nil;
-    
-    // 如果page所代表的页面没有加载，加载它
-    NSDateComponents *dc = [self.dateHelper dateComponentsBeforeNDays:page];
-    
+    // 如果page所代表的页面没有加载，加载之
     if (page == self.viewControllers.count) {
+        // 首先更新scrollView的contentSize
+        CGSize size = self.recommendationsScrollView.contentSize;
+        size.width += self.recommendationsScrollView.frame.size.width;
+        self.recommendationsScrollView.contentSize = size;
         
-        // 如果capacity不够了，更新它和scrollView的contentSize
-        if (page == self.capacity) {
-            self.capacity += 1;
-            [self updateScrollViewContentSize];
-        }
-        
-        // then create the viewController
-        viewController = [ONERecommendationBriefViewController instanceWithDateComponents:dc];
+        // 创建新的viewController
+        ONERecommendationBriefViewController *viewController = [ONERecommendationBriefViewController instanceWithDateComponents:[self.dateHelper dateComponentsBeforeNDays:page]];
         viewController.delegate = self;
         [self.viewControllers addObject:viewController];
-    } else {
-        viewController = self.viewControllers[page];
-    }
-    
-    // 如果viewController的view没有在view tree上，把它加载到scrollView的view tree上
-    if (viewController.view.superview == nil) {
-        CGRect frame = self.recommendationsScrollView.frame;
-        // 页面留白
-        NSUInteger margin = 0;
-        // 如果使用navigationController，上方多空64
-        NSUInteger barMargin = 0;
-        frame.origin.x = CGRectGetWidth(frame) * page + margin;
-        frame.origin.y = 0 + margin;
-        frame.size.width -= 2 * margin;
-        frame.size.height -= (barMargin + 2 * margin);
-        viewController.view.frame = frame;
         
+        // 计算viewController的view的frame
+        CGRect frame = self.recommendationsScrollView.frame;
+        frame.origin.x = CGRectGetWidth(frame) * page;
+        frame.origin.y = 0;
+        viewController.view.frame = frame;
+        // 将viewController的view加载到scrollView的view tree上
         [self addChildViewController:viewController];
         [self.recommendationsScrollView addSubview:viewController.view];
         [viewController didMoveToParentViewController:self];
-    }
-    
-    // 如果是当前正在显示的页面
-    if (page == self.currentPage) {
-        [viewController startAutoUpdate];
+        
+        // 如果是当前正在显示的页面，启动自动更新
+        if (page == self.currentPage) {
+            [viewController startAutoUpdate];
+        }
     }
 }
 
@@ -253,7 +224,7 @@ typedef void (^CompletionHandler)();
             // 显示的是上一页
             option = UIViewAnimationOptionTransitionFlipFromLeft;
         }
-        [UIView transitionFromView:self.dayLabel toView:newDayLabel duration:.4 options:option completion:nil];
+        [UIView transitionFromView:self.dayLabel toView:newDayLabel duration:.6 options:option completion:nil];
         self.dayLabel = newDayLabel;
     } else {
         self.dayLabel.text = dayText;
@@ -269,7 +240,7 @@ typedef void (^CompletionHandler)();
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if ([scrollView isEqual:self.recommendationsScrollView]) {
-        [self recommendationsScrollViewDidEndScrolling];
+//        [self recommendationsScrollViewDidScroll];
     } else if ([scrollView isEqual:self.mainScrollView]) {
         
     }
@@ -286,8 +257,11 @@ typedef void (^CompletionHandler)();
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-    if ([scrollView isEqual:self.mainScrollView] && decelerate == NO) {
-        [self mainScrollViewDidEndScrolling];
+    if (decelerate == NO) {
+        if ([scrollView isEqual:self.recommendationsScrollView]) {
+        } else if ([scrollView isEqual:self.mainScrollView]) {
+            [self mainScrollViewDidEndScrolling];
+        }
     }
 }
 
@@ -315,7 +289,6 @@ typedef void (^CompletionHandler)();
         // 首先停止上一个页面的自动更新
         ONERecommendationBriefViewController *bVC = self.viewControllers[self.currentPage];
         [bVC stopAutoUpdate];
-        
         // 然后开始新的页面的自动更新
         self.lastPage = self.currentPage;
         self.currentPage = page;
@@ -324,12 +297,29 @@ typedef void (^CompletionHandler)();
         
         // 切换页面之后，更新页面状态
         [self updateInterface];
-        
         // 切换页面之后，预加载可能会显示的页面
-        [self loadPage:page + 1];
-        [self loadPage:page + 2];
-        [self loadPage:page + 3];
+        [self loadPage:++page];
     }
+}
+
+# pragma mark brief加载recommendation的回调函数
+
+// Brief加载完成之后的回调函数，如果是当前页，则更新相应信息
+- (void)ONERecommendationBriefViewDidLoadRecommendation:(ONERecommendationBriefViewController *)recommendationBriefViewController
+{
+    if (recommendationBriefViewController == self.viewControllers[self.currentPage]) {
+        [self updateLikes:recommendationBriefViewController.recommendation.likes];
+    }
+}
+
+// 加载到空的recommendation，将其从scrollView上移除
+- (void)ONERecommendationBriefViewEmptyRecommendation:(ONERecommendationBriefViewController *)recommendationBriefViewController
+{
+    CGSize size = self.recommendationsScrollView.contentSize;
+    size.width -= self.recommendationsScrollView.frame.size.width;
+    self.recommendationsScrollView.contentSize = size;
+    [recommendationBriefViewController removeFromParentViewController];
+    [recommendationBriefViewController.view removeFromSuperview];
 }
 
 # pragma mark 上下滑动，显示/隐藏菜单
@@ -455,6 +445,7 @@ typedef void (^CompletionHandler)();
     // 菜单显示时，不能左右滑动
     [self.mainScrollView setContentOffset:CGPointMake(0, CGRectGetHeight(self.pullUpMenuView.frame)) animated:YES];
     self.recommendationsScrollView.scrollEnabled = NO;
+    self.goToFirstButton.enabled = NO;
 }
 
 // 隐藏菜单
@@ -463,6 +454,7 @@ typedef void (^CompletionHandler)();
     // 菜单隐藏后，可以左右滑动
     [self.mainScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
     self.recommendationsScrollView.scrollEnabled = YES;
+    self.goToFirstButton.enabled = YES;
 }
 
 # pragma mark 收藏
@@ -552,25 +544,6 @@ typedef void (^CompletionHandler)();
 {
 }
 
-# pragma mark brief加载recommendation的回调函数
-
-// Brief加载完成之后的回调函数，如果是当前页，则更新相应信息
-- (void)ONERecommendationBriefViewDidLoadRecommendation:(ONERecommendationBriefViewController *)recommendationBriefViewController
-{
-    if (recommendationBriefViewController == self.viewControllers[self.currentPage]) {
-        [self updateLikes:recommendationBriefViewController.recommendation.likes];
-    }
-}
-
-- (void)ONERecommendationBriefViewEmptyRecommendation:(ONERecommendationBriefViewController *)recommendationBriefViewController
-{
-//    CGSize size = self.recommendationsScrollView.contentSize;
-//    size.width -= self.view.frame.size.width;
-//    self.recommendationsScrollView.contentSize = size;
-//    [self removeFromParentViewController];
-//    [recommendationBriefViewController.view removeFromSuperview];
-}
-
 # pragma mark - 喜欢
 
 // Brief更新了likes，如果是当前页，更新之；如果当前显示了详情页，更新之
@@ -651,6 +624,8 @@ typedef void (^CompletionHandler)();
 - (void)goToFirstButtonTapped
 {
     [self.recommendationsScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+    self.currentPage = 0;
+    [self updateInterface];
 }
 
 # pragma mark - Navigation
