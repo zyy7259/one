@@ -69,6 +69,7 @@ typedef void (^CompletionHandler)();
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self setNeedsStatusBarAppearanceUpdate];
     // Do any additional setup after loading the view.
     
     self.recommendationManager = [ONERecommendationManager sharedManager];
@@ -234,7 +235,6 @@ typedef void (^CompletionHandler)();
     // 动画
     if (lastDateComponents != nil) {
         UILabel *newDayLabel = [ONEViewUtils deepLabelCopy:self.dayLabel];
-        NSLog(@"%@", newDayLabel.superview);
         [newDayLabel removeFromSuperview];
         newDayLabel.text = dayText;
         NSInteger option = UIViewAnimationOptionTransitionCrossDissolve;
@@ -376,9 +376,12 @@ typedef void (^CompletionHandler)();
         ONERecommendationImageViewController *imageVC = [ONERecommendationImageViewController instanceWithRecommendation:briefVc.recommendation];
         imageVC.delegate = self;
         
-        [self addChildViewController:imageVC];
-        [self.view addSubview:imageVC.view];
-        [imageVC didMoveToParentViewController:self];
+//        [self addChildViewController:imageVC];
+//        [self.view addSubview:imageVC.view];
+//        [imageVC didMoveToParentViewController:self];
+        imageVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        [self presentViewController:imageVC animated:YES completion:nil];
+        
     }
 }
 
@@ -386,7 +389,8 @@ typedef void (^CompletionHandler)();
 - (void)ONERecommendationImageViewControllerDidFinishDisplay:(ONERecommendationImageViewController *)recommendationImageController
 {
     // 移除图片页
-    [recommendationImageController.view removeFromSuperview];
+//    [recommendationImageController.view removeFromSuperview];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 // blurView被点击了

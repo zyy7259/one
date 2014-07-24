@@ -11,7 +11,7 @@
 #import "ONELogger.h"
 #import "ONEStringUtils.h"
 
-static BOOL debug = NO;
+static BOOL debug = YES;
 
 @interface ONERecommendationManager ()
 
@@ -47,7 +47,7 @@ static ONERecommendationManager *sharedSingleton;
     self.sessionDelegate = [ONESessionDelegate new];
     
     if (debug) {
-        self.urlBase = @"http://10.242.56.212:3000";
+        self.urlBase = @"http://localhost:3000";
     } else {
         self.urlBase = @"http://223.252.196.235/OneLife";
     }
@@ -145,6 +145,7 @@ static ONERecommendationManager *sharedSingleton;
         // 如果有错误
         if (error != nil) {
             [ONELogger logTitle:@"download error" content:error.localizedDescription];
+            imageHandler(nil);
             return ;
         }
         

@@ -16,6 +16,7 @@
 @interface ONERecommendationImageViewController ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *thingImageView;
+@property (weak, nonatomic) IBOutlet UIButton *saveButton;
 @property ONERecommendation *recommendation;
 @property ONERecommendationManager *recommendationManager;
 @property FLAnimatedImageView *loadingImageView;
@@ -44,9 +45,15 @@
     return self;
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self setNeedsStatusBarAppearanceUpdate];
     // Do any additional setup after loading the view from its nib.
     self.recommendationManager = [ONERecommendationManager sharedManager];
     [self loadRecommendationImage];
@@ -76,6 +83,7 @@
     NSString *filePath = self.recommendation.imageLocalLocation;
     if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
         self.thingImageView.image = [UIImage imageWithContentsOfFile:filePath];
+        [self initButtons];
         // 图片加载完成，移除loading gif
         [self removeLoadingGif];
     } else {
@@ -90,7 +98,23 @@
 
 - (IBAction)imageLongPressed:(UIGestureRecognizer *)sender
 {
-    NSLog(@"long pressed");
+    
+}
+
+- (void)initButtons
+{
+    self.saveButton.hidden = NO;
+    [self.saveButton addTarget:self action:@selector(saveButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)saveButtonTapped
+{
+    UIImageWriteToSavedPhotosAlbum(self.thingImageView.image, self, @selector(imageDidSaved), nil);
+}
+
+- (void)imageDidSaved
+{
+    NSLog(@"success");
 }
 
 # pragma mark Loading Gif

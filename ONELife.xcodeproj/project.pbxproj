@@ -578,16 +578,16 @@
 		7AFDDEB7197190C40031F293 /* one */ = {
 			isa = PBXGroup;
 			children = (
-				7AB01902197E7A7400BB0F4E /* Utils */,
-				7AC30EBD197A350B00A5C71C /* image */,
-				7A937B3C197622930087D4F2 /* data */,
 				7A8196DE1973D2610032B38F /* controller */,
-				7A8196DD1973D2580032B38F /* model */,
-				7A8196DC1973D24E0032B38F /* view */,
+				7A937B3C197622930087D4F2 /* data */,
+				7AC30EBD197A350B00A5C71C /* image */,
 				7AFDDEC3197190C40031F293 /* Images.xcassets */,
+				7A8196DD1973D2580032B38F /* model */,
 				7AFDDEC0197190C40031F293 /* ONEAppDelegate.h */,
 				7AFDDEC1197190C40031F293 /* ONEAppDelegate.m */,
 				7AFDDEB8197190C40031F293 /* Supporting Files */,
+				7AB01902197E7A7400BB0F4E /* Utils */,
+				7A8196DC1973D24E0032B38F /* view */,
 			);
 			path = one;
 			sourceTree = "<group>";

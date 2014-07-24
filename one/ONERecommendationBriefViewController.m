@@ -93,11 +93,7 @@
     ONERecommendation *r = [self.recommendationManager getRecommendationWithDateComponents:self.dateComponents dataCompletionHandler:^(ONERecommendation *r) {
         [self showServerRecommendation:r];
     } imageCompletionHandler:^(NSURL *location) {
-        if (location != nil) {
-            // 记录图片地址后加载图片
-            self.recommendation.blurredImageLocalLocation = location.path;
-            [self showRecommendationImage];
-        }
+        [self showRecommendationImageWithLocation:location];
     }];
     [self showLocalRecommendation:r];
 }
@@ -141,6 +137,20 @@
     [self updateLikes:self.recommendation.likes];
     self.briefDetailLabel.attributedText = [ONEViewUtils attributedStringWithString:self.recommendation.briefDetail font:self.briefDetailLabel.font color:self.briefDetailLabel.textColor lineSpacing:17];
     [self.briefDetailLabel sizeToFit];
+    self.blurView.hidden = NO;
+}
+
+// 加载指定位置的图片
+- (void)showRecommendationImageWithLocation:(NSURL *)location
+{
+    if (location != nil) {
+        // 记录图片地址后加载图片
+        self.recommendation.blurredImageLocalLocation = location.path;
+        [self showRecommendationImage];
+    } else {
+        // 图片加载失败
+        [self showEmptyRecommendation];
+    }
 }
 
 // 展示图片
@@ -152,7 +162,11 @@
         // 图片加载完成，移除loading gif
         [self removeLoadingGif];
     } else {
-        // TODO 重新拉取图片
+        // 如果是从本地加载的recommendation，而且对应的图片没有下载成功，重新下载一次
+        [ONELogger logTitle:@"re-download recommendation blurred image" content:nil];
+        [self.recommendationManager downloadRecommendationBlurredImage:self.recommendation imageCompletionHandler:^(NSURL *location) {
+            [self showRecommendationImageWithLocation:location];
+        }];
     }
 }
 
