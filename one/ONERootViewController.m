@@ -224,12 +224,11 @@ typedef void (^CompletionHandler)();
             // 显示的是上一页
             option = UIViewAnimationOptionTransitionFlipFromLeft;
         }
-        [UIView transitionFromView:self.dayLabel toView:newDayLabel duration:.6 options:option completion:nil];
+        [UIView transitionFromView:self.dayLabel toView:newDayLabel duration:.4 options:option completion:nil];
         self.dayLabel = newDayLabel;
     } else {
         self.dayLabel.text = dayText;
     }
-    self.dayLabel.text = dayText;
     self.monthLabel.text = [[ONEDateUtils sharedDateHelper] briefStringOfMonth:dateComponents.month];
     self.weekdayLabel.text = [[ONEDateUtils sharedDateHelper] stringOfWeekday:dateComponents.weekday];
     lastDateComponents = dateComponents;
@@ -241,6 +240,7 @@ typedef void (^CompletionHandler)();
 {
     if ([scrollView isEqual:self.recommendationsScrollView]) {
 //        [self recommendationsScrollViewDidScroll];
+        [self recommendationsScrollViewDidEndScrolling];
     } else if ([scrollView isEqual:self.mainScrollView]) {
         
     }
