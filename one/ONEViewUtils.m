@@ -29,6 +29,7 @@ static UILabel *hintLabel = nil;
     [attributedString addAttribute:NSForegroundColorAttributeName value:color range:range];
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     [paragraphStyle setLineSpacing:lineSpacing];
+    [paragraphStyle setAlignment:NSTextAlignmentJustified];
     [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:range];
     return attributedString;
 }
