@@ -142,33 +142,33 @@ static ONERecommendationManager *sharedSingleton;
         if (location == nil && error == nil) {
             return ;
         }
-        // 如果有错误
-        if (error != nil) {
-            [ONELogger logTitle:@"download error" content:error.localizedDescription];
-            imageHandler(nil);
-            return ;
-        }
         
-        // 将图片重新命名后放置在本地
-        NSError *e = nil;
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        NSURL *cacheDirUrl = [NSURL fileURLWithPath:self.cacheDir];
+        // 拼装fileName
         NSMutableString *fileName = [NSMutableString stringWithFormat:@"%ld%ld%ld", (long)recommendation.year, (long)recommendation.month, (long)recommendation.day];
         if (![ONEStringUtils isEmptyString:namePostfix]) {
             [fileName appendString:namePostfix];
         }
         [fileName appendString:@".jpg"];
+        
+        // 如果有错误
+        if (error != nil) {
+            [ONELogger logTitle:[NSString stringWithFormat:@"download image %@ error", fileName] content:error.localizedDescription];
+            imageHandler(nil);
+            return ;
+        }
+        
+        // 将图片放置在本地
+        NSError *e = nil;
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSURL *cacheDirUrl = [NSURL fileURLWithPath:self.cacheDir];
         NSURL *targetFileUrl = [cacheDirUrl URLByAppendingPathComponent:fileName];
-//        [ONELogger logTitle:@"image new location" content:targetFileUrl.path];
-        
-        [self clearFileAtUrl:targetFileUrl];
-        
+        [self clearFileAtUrl:targetFileUrl fileName:fileName];
         if ([fileManager moveItemAtURL:location toURL:targetFileUrl error:&e]) {
-            [ONELogger logTitle:@"cache image success" content:nil];
+            [ONELogger logTitle:[NSString stringWithFormat:@"cache image %@ success", fileName] content:nil];
             // 通知handler新的地址
             imageHandler(targetFileUrl);
         } else {
-            [ONELogger logTitle:@"move image failed" content:e.localizedDescription];
+            [ONELogger logTitle:[NSString stringWithFormat:@"move image %@ failed", fileName] content:e.localizedDescription];
             imageHandler(nil);
         }
         
@@ -178,14 +178,14 @@ static ONERecommendationManager *sharedSingleton;
 }
 
 // 清空文件
-- (void)clearFileAtUrl:(NSURL *)location
+- (void)clearFileAtUrl:(NSURL *)location fileName:(NSString *)fileName
 {
     NSError *error = nil;
     BOOL success = [[NSFileManager defaultManager] removeItemAtURL:location error:&error];
     if (success) {
-        [ONELogger logTitle:@"clear image cache success" content:location.absoluteString];
+        [ONELogger logTitle:[NSString stringWithFormat:@"clear image %@ cache success", fileName] content:location.absoluteString];
     } else {
-        [ONELogger logTitle:@"clear file cache failed" content:error.localizedDescription];
+        [ONELogger logTitle:[NSString stringWithFormat:@"clear image %@ cache failed", fileName] content:error.localizedDescription];
     }
 }
 
@@ -196,7 +196,7 @@ static ONERecommendationManager *sharedSingleton;
     NSString *filePath = [self.cacheDir stringByAppendingPathComponent:fileName];
     NSDictionary *dic = [recommendation properties];
     BOOL success = [dic writeToFile:filePath atomically:YES];
-    NSString *info = [NSString stringWithFormat:@"%@ write recommendation data to file %@", (success ? @"success" : @"fail"), fileName];
+    NSString *info = [NSString stringWithFormat:@"%@ write recommendation data to file %@ ", (success ? @"success" : @"fail"), fileName];
     info = info;
 //    [ONELogger logTitle:info content:nil];
 }
@@ -208,7 +208,7 @@ static ONERecommendationManager *sharedSingleton;
     NSString *filePath = [self.cacheDir stringByAppendingPathComponent:fileName];
     NSDictionary *properties = [NSDictionary dictionaryWithContentsOfFile:filePath];
     
-    NSString *info = [NSString stringWithFormat:@"%@ read recommendation data from file %@", (properties != nil ? @"success" : @"fail"), fileName];
+    NSString *info = [NSString stringWithFormat:@"%@ read recommendation data from file %@ ", (properties != nil ? @"success" : @"fail"), fileName];
     [ONELogger logTitle:info content:nil];
     
     ONERecommendation *recommendation = nil;
@@ -286,7 +286,7 @@ static ONERecommendationManager *sharedSingleton;
     
     NSString *filePath = [self.cacheDir stringByAppendingPathComponent:self.collectionFileName];
     BOOL success = [propertiesArray writeToFile:filePath atomically:YES];
-    NSString *info = [NSString stringWithFormat:@"%@ write collection to file %@", (success ? @"success" : @"fail"), self.collectionFileName];
+    NSString *info = [NSString stringWithFormat:@"%@ write collection to file %@ ", (success ? @"success" : @"fail"), self.collectionFileName];
     [ONELogger logTitle:info content:nil];
 }
 
@@ -296,7 +296,7 @@ static ONERecommendationManager *sharedSingleton;
     NSString *filePath = [self.cacheDir stringByAppendingPathComponent:self.collectionFileName];
     NSMutableArray *propertiesArray = [NSMutableArray arrayWithContentsOfFile:filePath];
     
-    NSString *info = [NSString stringWithFormat:@"%@ read recommendation collection from file %@", (propertiesArray != nil ? @"success" : @"fail"), filePath];
+    NSString *info = [NSString stringWithFormat:@"%@ read recommendation collection from file %@ ", (propertiesArray != nil ? @"success" : @"fail"), filePath];
     [ONELogger logTitle:info content:nil];
     
     NSMutableArray *recommendationArray = [NSMutableArray arrayWithCapacity:propertiesArray.count];
