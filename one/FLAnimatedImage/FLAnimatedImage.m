@@ -253,7 +253,7 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
                     const NSTimeInterval kDelayTimeIntervalMinimum = 0.02;
                     // Use `[NSNumber compare:]` for comparison to let it decide how to deal with accurate float representation.
                     if ([delayTime compare:@(kDelayTimeIntervalMinimum)] == NSOrderedAscending) {
-                        NSLog(@"Verbose: Rounding frame %zu's `delayTime` from %f up to default %f (minimum supported: %f).", i, [delayTime floatValue], kDelayTimeIntervalDefault, kDelayTimeIntervalMinimum);
+//                        NSLog(@"Verbose: Rounding frame %zu's `delayTime` from %f up to default %f (minimum supported: %f).", i, [delayTime floatValue], kDelayTimeIntervalDefault, kDelayTimeIntervalMinimum);
                         delayTime = @(kDelayTimeIntervalDefault);
                     }
                     delayTimesMutable[i] = delayTime;

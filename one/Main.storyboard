@@ -114,6 +114,15 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ddL-Q4-3pD">
+                                <rect key="frame" x="273" y="32" width="35" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="rocket.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="selected" image="rocketSelected.png"/>
+                                <state key="highlighted" image="rocketSelected.png"/>
+                            </button>
                             <view hidden="YES" contentMode="scaleToFill" id="pNj-0K-Yze">
                                 <rect key="frame" x="272" y="32" width="36" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -153,6 +162,7 @@
                     <connections>
                         <outlet property="collectButton" destination="IZq-Wm-omD" id="ZRp-xu-t4q"/>
                         <outlet property="dayLabel" destination="1zW-dq-DzO" id="vCX-K5-0tN"/>
+                        <outlet property="goToFirstButton" destination="ddL-Q4-3pD" id="2NU-h3-ONe"/>
                         <outlet property="likesButton" destination="PQF-vW-dID" id="AFU-Gp-5eP"/>
                         <outlet property="likesLabel" destination="2eZ-x9-73Q" id="VEC-9O-pJU"/>
                         <outlet property="likesView" destination="pNj-0K-Yze" id="0gy-nE-XfG"/>
@@ -351,6 +361,8 @@
         <image name="likeThis.png" width="17" height="13"/>
         <image name="likeThisSelected.png" width="17" height="13"/>
         <image name="onelifeLogo.png" width="74" height="50"/>
+        <image name="rocket.png" width="35" height="36"/>
+        <image name="rocketSelected.png" width="35" height="36"/>
         <image name="setting.png" width="24" height="24"/>
         <image name="settingSelected.png" width="24" height="24"/>
         <image name="share.png" width="24" height="24"/>

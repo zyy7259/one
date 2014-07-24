@@ -34,6 +34,7 @@
 @property (weak, nonatomic) IBOutlet UIView *likesView;
 @property (weak, nonatomic) IBOutlet UIButton *likesButton;
 @property (weak, nonatomic) IBOutlet UILabel *likesLabel;
+@property (weak, nonatomic) IBOutlet UIButton *goToFirstButton;
 @property ONERecommendationManager *recommendationManager;
 @property NSUInteger capacity;
 @property NSMutableArray *recommendations;
@@ -137,6 +138,7 @@ typedef void (^CompletionHandler)();
     [self.collectButton addTarget:self action:@selector(collectButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.shareButton addTarget:self action:@selector(shareButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.likesButton addTarget:self action:@selector(likesButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.goToFirstButton addTarget:self action:@selector(goToFirstButtonTapped) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)loadPage:(NSUInteger)page
@@ -194,6 +196,12 @@ typedef void (^CompletionHandler)();
     [self syncCollectButtonAndCorrespondingRecommendationState];
     // 更新date
     [self updateDate];
+    // 更新返回首页的按钮
+    if (self.currentPage == 0) {
+        self.goToFirstButton.hidden = YES;
+    } else {
+        self.goToFirstButton.hidden = NO;
+    }
     // 更新likes
     NSInteger likes = 0;
     ONERecommendationBriefViewController *bVC = self.viewControllers[self.currentPage];
@@ -636,6 +644,13 @@ typedef void (^CompletionHandler)();
     self.likesLabel.text = likeString;
     
     self.likesButton.hidden = NO;
+}
+
+# pragma mark 返回首页
+
+- (void)goToFirstButtonTapped
+{
+    [self.recommendationsScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 
 # pragma mark - Navigation

@@ -115,6 +115,7 @@
     CGFloat imageHeight = 200;
     CGFloat y = 0;
     for (NSString *str in paraArray) {
+        NSLog(@"%@", str);
         NSRange urlRange = [str rangeOfString:@"http"];
         if (urlRange.location == NSNotFound) {
             // 普通文字
@@ -125,6 +126,7 @@
             CGFloat height = ceil(rect.size.height);
             label.frame = CGRectMake(0, y, paraWidth, height);
             [self.articleView addSubview:label];
+            NSLog(@"%@", label);
             y += height;
             y += 15;
         } else {
@@ -142,6 +144,7 @@
             loadingImageView.animatedImage = loadingImage;
             loadingImageView.frame = frame;
             [self.articleView addSubview:loadingImageView];
+            NSLog(@"%@", loadingImageView);
             
             y += imageHeight;
             y += 15;
