@@ -104,18 +104,17 @@
 
 - (void)showDetail
 {
-    // 先将articleView从viewTree上移除，然后再对其进行操作
+    CGFloat paraWidth = self.articleView.frame.size.width;
+    // 先将articleView隐藏，然后再对其进行操作
     CGRect articleFrame = self.articleView.frame;
-    [self.articleView removeFromSuperview];
+    self.articleView.hidden = YES;
     // 将detail以换行符为分隔符进行解析，对解析到的结果进行便利，如果是普通文字，则创建一个UILabel；如果是url，则创建一个UIImageView
     NSArray *paraArray = [self.recommendation.detail componentsSeparatedByString:@"\n"];
     UIColor *textColor = self.addressLabel.textColor;
     UIFont *font = self.addressLabel.font;
-    CGFloat paraWidth = self.articleView.frame.size.width;
     CGFloat imageHeight = 200;
     CGFloat y = 0;
     for (NSString *str in paraArray) {
-        NSLog(@"%@", str);
         NSRange urlRange = [str rangeOfString:@"http"];
         if (urlRange.location == NSNotFound) {
             // 普通文字
@@ -126,7 +125,6 @@
             CGFloat height = ceil(rect.size.height);
             label.frame = CGRectMake(0, y, paraWidth, height);
             [self.articleView addSubview:label];
-            NSLog(@"%@", label);
             y += height;
             y += 15;
         } else {
@@ -144,7 +142,6 @@
             loadingImageView.animatedImage = loadingImage;
             loadingImageView.frame = frame;
             [self.articleView addSubview:loadingImageView];
-            NSLog(@"%@", loadingImageView);
             
             y += imageHeight;
             y += 15;
@@ -174,8 +171,8 @@
     size.height += heightDelta;
     self.scrollView.contentSize = size;
     self.scrollView.delegate = self;
-    // 最后将articleView添加上去
-    [self.detailPanel addSubview:self.articleView];
+    // 最后将articleView显示出来
+    self.articleView.hidden = NO;
 }
 
 // 展示图片
@@ -384,8 +381,6 @@
                 self.collectFloatButton.frame = collectButtonDesiredRect;
                 self.shareFloatButton.frame = shareButtonDesiredRect;
                 // 添加并显示浮动按钮
-                [self.collectFloatButton removeFromSuperview];
-                [self.shareFloatButton removeFromSuperview];
                 [self.view addSubview:self.collectFloatButton];
                 [self.view addSubview:self.shareFloatButton];
                 self.collectFloatButton.hidden = NO;
@@ -410,8 +405,6 @@
                 CGRect collectButtonDesiredRect = [self.view convertRect:self.collectFloatButton.frame toView:self.scrollView];
                 CGRect shareButtonDesiredRect = [self.view convertRect:self.shareFloatButton.frame toView:self.scrollView];
                 // 将浮动按钮转移到scrollView上
-                [self.collectFloatButton removeFromSuperview];
-                [self.shareFloatButton removeFromSuperview];
                 self.collectFloatButton.frame = collectButtonDesiredRect;
                 self.shareFloatButton.frame = shareButtonDesiredRect;
                 [self.scrollView addSubview:self.collectFloatButton];
