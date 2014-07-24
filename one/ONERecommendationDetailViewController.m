@@ -326,60 +326,63 @@
     static CGFloat duration = 0.3;
     static CGFloat lastPosition = 0;
     static CGFloat contentOffsetYThreshold = 180;
-    static CGFloat floatYPosition;
+    static CGFloat yPositionBeforeFloat;
     
-    static BOOL originInitialized = NO;
     static CGRect collectButtonFrame;
     static CGRect shareButtonFrame;
     static CGRect collectButtonFloatFrame;
     static CGRect shareButtonFloatFrame;
-    if (!originInitialized) {
-        originInitialized = YES;
+    
+    static BOOL initialized = NO;
+    if (!initialized) {
+        initialized = YES;
         CGRect dismissButtonFrame = self.dismissButton.frame;
-        floatYPosition = dismissButtonFrame.origin.y + CGRectGetHeight(dismissButtonFrame);
-        // 在移除浮动按钮时，先将浮动按钮移动到这两个frame所指示的位置
-        collectButtonFrame = self.collectButton.frame;
-        collectButtonFrame.size = self.dismissButton.frame.size;
-        shareButtonFrame = self.shareButton.frame;
-        shareButtonFrame.size = self.dismissButton.frame.size;
-        // 在添加浮动按钮时，要将浮动按钮移动到这两个位置
+        yPositionBeforeFloat = dismissButtonFrame.origin.y + CGRectGetHeight(dismissButtonFrame);
+        // 在添加浮动按钮后，要将浮动按钮移动到这两个位置
         CGFloat floatButtonMarginDelta = 8;
         collectButtonFloatFrame = self.dismissButton.frame;
         collectButtonFloatFrame.origin.x += (self.dismissButton.frame.size.width + self.dismissButton.frame.origin.x + floatButtonMarginDelta);
         shareButtonFloatFrame = collectButtonFloatFrame;
         shareButtonFloatFrame.origin.x += (self.dismissButton.frame.size.width + self.dismissButton.frame.origin.x + floatButtonMarginDelta);
+        // 在移除浮动按钮前，将浮动按钮移动到这两个frame所指示的位置
+        collectButtonFrame = self.collectButton.frame;
+        collectButtonFrame.size = self.dismissButton.frame.size;
+        shareButtonFrame = self.shareButton.frame;
+        shareButtonFrame.size = self.dismissButton.frame.size;
     }
     
     CGFloat startPosition = lastPosition;
     CGFloat endPosition = self.scrollView.contentOffset.y;
+    lastPosition = endPosition;
     
     if (endPosition > startPosition) {
-        // 向上滑
+        // 向上拉
         if (!self.hasFloated) {
             // 如果按钮还没有悬浮，判断是否需要悬浮
-            if (self.scrollView.contentOffset.y >= contentOffsetYThreshold) {
-                endPosition = self.scrollView.contentOffset.y;
+            if (endPosition >= contentOffsetYThreshold) {
                 // 将按钮浮动
                 self.hasFloated = YES;
                 // 首先获取按钮在view上的预期位置
-                CGRect collectButtonDesiredRect = [self.view convertRect:self.collectButton.frame fromView:self.scrollView];
+                CGRect collectFloatButtonDesiredRect = [self.view convertRect:self.collectButton.frame fromView:self.scrollView];
                     // 因为收藏和已收藏按钮的大小不一样，所以有一个delta
                 if (self.recommendation.collected) {
                     //
                 } else {
-                    collectButtonDesiredRect.origin.x += 8;
+                    collectFloatButtonDesiredRect.origin.x += 8;
                 }
-                collectButtonDesiredRect.origin.y = floatYPosition;
-                collectButtonDesiredRect.size = collectButtonFloatFrame.size;
-                CGRect shareButtonDesiredRect = [self.view convertRect:self.shareButton.frame fromView:self.scrollView];
-                shareButtonDesiredRect.size = shareButtonFloatFrame.size;
-                shareButtonDesiredRect.origin.y = floatYPosition;
-                // 然后将按钮从原来的superView上移除
+                // 修正y值
+                collectFloatButtonDesiredRect.origin.y = yPositionBeforeFloat;
+                // 修正size
+                collectFloatButtonDesiredRect.size = collectButtonFloatFrame.size;
+                CGRect shareFloatButtonDesiredRect = [self.view convertRect:self.shareButton.frame fromView:self.scrollView];
+                shareFloatButtonDesiredRect.origin.y = yPositionBeforeFloat;
+                shareFloatButtonDesiredRect.size = shareButtonFloatFrame.size;
+                // 将按钮从原来的superView上隐藏
                 self.collectButton.hidden = YES;
                 self.shareButton.hidden = YES;
                 // 设置浮动按钮的位置
-                self.collectFloatButton.frame = collectButtonDesiredRect;
-                self.shareFloatButton.frame = shareButtonDesiredRect;
+                self.collectFloatButton.frame = collectFloatButtonDesiredRect;
+                self.shareFloatButton.frame = shareFloatButtonDesiredRect;
                 // 添加并显示浮动按钮
                 [self.view addSubview:self.collectFloatButton];
                 [self.view addSubview:self.shareFloatButton];
@@ -394,19 +397,18 @@
             }
         }
     } else {
-        // 向下滑
+        // 向下拉
         if (self.hasFloated) {
             // 如果按钮已经悬浮，判断是否需要取消悬浮
-            if (self.scrollView.contentOffset.y <= contentOffsetYThreshold) {
-                endPosition = self.scrollView.contentOffset.y;
+            if (endPosition <= contentOffsetYThreshold) {
                 // 将按钮复位
                 self.hasFloated = NO;
                 // 获取浮动按钮在scrollView上的预期位置
-                CGRect collectButtonDesiredRect = [self.view convertRect:self.collectFloatButton.frame toView:self.scrollView];
-                CGRect shareButtonDesiredRect = [self.view convertRect:self.shareFloatButton.frame toView:self.scrollView];
+                CGRect collectFloatButtonDesiredRect = [self.view convertRect:self.collectFloatButton.frame toView:self.scrollView];
+                CGRect shareFloatButtonDesiredRect = [self.view convertRect:self.shareFloatButton.frame toView:self.scrollView];
                 // 将浮动按钮转移到scrollView上
-                self.collectFloatButton.frame = collectButtonDesiredRect;
-                self.shareFloatButton.frame = shareButtonDesiredRect;
+                self.collectFloatButton.frame = collectFloatButtonDesiredRect;
+                self.shareFloatButton.frame = shareFloatButtonDesiredRect;
                 [self.scrollView addSubview:self.collectFloatButton];
                 [self.scrollView addSubview:self.shareFloatButton];
                 // 因为收藏和已收藏按钮的大小不一样，所以有一个delta
@@ -422,17 +424,21 @@
                                      self.collectFloatButton.frame = collectButtonFrameWithDelta;
                                      self.shareFloatButton.frame = shareButtonFrame;
                                  } completion:^(BOOL finished) {
+                                     // 在此动画执行过程中，有可能用户又向上拉了，导致重新浮动按钮
+                                     // 此时就不能继续执行了，否则会隐藏浮动按钮
+                                     if (self.hasFloated) {
+                                         return;
+                                     }
                                      // 将浮动按钮隐藏
                                      self.collectFloatButton.hidden = YES;
                                      self.shareFloatButton.hidden = YES;
-                                     // 将按钮添加到scrollView上
+                                     // 将按钮添显示
                                      self.collectButton.hidden = NO;
                                      self.shareButton.hidden = NO;
                                  }];
             }
         }
     }
-    lastPosition = endPosition;
 }
 
 - (IBAction)likesViewTapped
