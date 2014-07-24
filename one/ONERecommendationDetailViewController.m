@@ -111,7 +111,7 @@
     NSArray *paraArray = [self.recommendation.detail componentsSeparatedByString:@"\n"];
     UIColor *textColor = self.addressLabel.textColor;
     UIFont *font = self.addressLabel.font;
-    CGFloat paraWidth = self.addressLabel.frame.size.width;
+    CGFloat paraWidth = self.articleView.frame.size.width;
     CGFloat imageHeight = 200;
     CGFloat y = 0;
     for (NSString *str in paraArray) {
