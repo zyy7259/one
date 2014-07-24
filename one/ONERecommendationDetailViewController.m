@@ -424,8 +424,8 @@
                                      self.collectFloatButton.frame = collectButtonFrameWithDelta;
                                      self.shareFloatButton.frame = shareButtonFrame;
                                  } completion:^(BOOL finished) {
-                                     // 在此动画执行过程中，有可能用户又向上拉了，导致重新浮动按钮
-                                     // 此时就不能继续执行了，否则会隐藏浮动按钮
+                                     // ！！！在此动画执行过程中，有可能用户又向上拉了，导致重新浮动按钮
+                                     // ！！！此时就不能继续执行了，否则会隐藏浮动按钮
                                      if (self.hasFloated) {
                                          return;
                                      }
