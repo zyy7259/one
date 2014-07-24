@@ -42,7 +42,7 @@
 @property NSUInteger currentPage;
 @property NSUInteger pageWidth;
 @property ONEDateUtils *dateHelper;
-@property NSMutableSet *recommendationCollection;
+@property NSMutableArray *recommendationCollection;
 
 @end
 
@@ -81,7 +81,7 @@ typedef void (^CompletionHandler)();
     self.pageWidth = CGRectGetWidth(self.view.frame);
     self.dateHelper = [ONEDateUtils sharedDateHelper];
     
-    self.recommendationCollection = [NSMutableSet set];
+    self.recommendationCollection = [NSMutableArray array];
 
     self.recommendationsScrollView.delegate = self;
     self.mainScrollView.delegate = self;
@@ -97,7 +97,7 @@ typedef void (^CompletionHandler)();
     }
     
     // 读取存储在本地的收藏列表
-    self.recommendationCollection = [NSMutableSet setWithArray:[self.recommendationManager readRecommendationCollectionFromFile]];
+    self.recommendationCollection = [self.recommendationManager readRecommendationCollectionFromFile];
     // 读取收藏列表之后，更新页面，需要根据收藏状态更新按钮状态
     [self updateInterface];
     
@@ -509,8 +509,10 @@ typedef void (^CompletionHandler)();
 // 将recommendation加入收藏列表，并将收藏列表写入本地文件
 - (void)addRecommendationToCollection:(ONERecommendation *)recommendation
 {
-    // TODO 将收藏列表用 Array 来实现，加入收藏时要先判断是否已经存在
-    [self.recommendationCollection addObject:recommendation];
+    // 收藏列表用 Array 来实现，加入收藏时要先判断是否已经存在
+    if (![self.recommendationCollection containsObject:recommendation]) {
+        [self.recommendationCollection addObject:recommendation];
+    }
     [self saveRecommendationCollectionToLocal];
 }
 
@@ -524,7 +526,7 @@ typedef void (^CompletionHandler)();
 // 将收藏列表写入本地文件
 - (void)saveRecommendationCollectionToLocal
 {
-    [self.recommendationManager writeRecommendationCollectionToFile:self.recommendationCollection.allObjects];
+    [self.recommendationManager writeRecommendationCollectionToFile:self.recommendationCollection];
 }
 
 # pragma mark - 分享
@@ -655,7 +657,7 @@ typedef void (^CompletionHandler)();
         if ([viewController isKindOfClass:[ONERecommendationCollectionViewController class]]) {
             ONERecommendationCollectionViewController *collectionController = (ONERecommendationCollectionViewController *)viewController;
             collectionController.delegate = self;
-            collectionController.recommendationCollection = [NSMutableArray arrayWithArray:self.recommendationCollection.allObjects];
+            collectionController.recommendationCollection = self.recommendationCollection;
         }
     }
     
@@ -666,7 +668,7 @@ typedef void (^CompletionHandler)();
 {
     ONERecommendationCollectionViewController *collectionController = sender.sourceViewController;
     // 从收藏列表回来之后，首先更新收藏列表数据
-    self.recommendationCollection = [NSMutableSet setWithArray:collectionController.recommendationCollection];
+    self.recommendationCollection = collectionController.recommendationCollection;
     // 隐藏菜单
     [self hidePullUpMenu];
     // 当前项的收藏状态可能发生改变，更新收藏按钮状态

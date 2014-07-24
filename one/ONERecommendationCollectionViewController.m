@@ -122,7 +122,7 @@
         // 然后通知delegate，r被取消收藏了
         [self.delegate ONERecommendationCollectionViewControllerDidDeleteRecommendation:r];
         // 将r从数据源删除
-        [self.recommendationCollection removeObjectAtIndex:indexPath.row];
+        [self.recommendationCollection removeObject:r];
         // 更新tableView
         [self.collectionTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
@@ -142,11 +142,16 @@
 
 - (void)ONERecommendationDetailViewControllerDidFinishDisplay:(ONERecommendationDetailViewController *)recommendationDetailController
 {
+    [self.collectionTableView reloadData];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)ONERecommendationDetailViewControllerDidCollectRecommendation:(ONERecommendation *)recommendation
 {
+    if (![self.recommendationCollection containsObject:recommendation]) {
+        [self.recommendationCollection addObject:recommendation];
+    }
+    [self.collectionTableView reloadData];
     UIViewController *vc = self.presentingViewController;
     if ([vc isKindOfClass:[ONERootViewController class]]) {
         ONERootViewController *rVc = (ONERootViewController *)vc;
@@ -156,6 +161,8 @@
 
 - (void)ONERecommendationDetailViewControllerDidDecollectRecommendation:(ONERecommendation *)recommendation
 {
+    [self.recommendationCollection removeObject:recommendation];
+    [self.collectionTableView reloadData];
     UIViewController *vc = self.presentingViewController;
     if ([vc isKindOfClass:[ONERootViewController class]]) {
         ONERootViewController *rVc = (ONERootViewController *)vc;
