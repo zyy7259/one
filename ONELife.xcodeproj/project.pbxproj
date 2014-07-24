@@ -208,6 +208,7 @@
 		7AB79A3D1980CE6D00214F9B /* address@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "address@2x.png"; sourceTree = "<group>"; };
 		7AB79A451980F6ED00214F9B /* rocket@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rocket@2x.png"; sourceTree = "<group>"; };
 		7AB79A461980F6ED00214F9B /* rocketSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rocketSelected@2x.png"; sourceTree = "<group>"; };
+		7AB79A491981028200214F9B /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		7AC30EE9197A529900A5C71C /* onelifeLogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "onelifeLogo@2x.png"; sourceTree = "<group>"; };
 		7AC30F00197A647000A5C71C /* arrowRightGrey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrowRightGrey@2x.png"; sourceTree = "<group>"; };
 		7AC30F01197A647000A5C71C /* arrowRightWhite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrowRightWhite@2x.png"; sourceTree = "<group>"; };
@@ -588,6 +589,7 @@
 		7AFDDEB0197190C40031F293 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7AB79A491981028200214F9B /* CoreText.framework */,
 				7AFDDEB1197190C40031F293 /* Foundation.framework */,
 				7AFDDEB3197190C40031F293 /* CoreGraphics.framework */,
 				7AFDDEB5197190C40031F293 /* UIKit.framework */,

@@ -114,7 +114,7 @@ typedef void (^CompletionHandler)();
     [self.view addSubview:loadingView];
     
     frame = CGRectMake(-frame.size.width/2.0, -frame.size.height/2.0, frame.size.width * 2, frame.size.height * 2);
-    [UIView animateWithDuration:2.0
+    [UIView animateWithDuration:3.0
                      animations:^{
                          loadingView.frame = frame;
                          loadingView.alpha = 0.0;
