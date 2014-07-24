@@ -11,7 +11,7 @@
 #import "ONELogger.h"
 #import "ONEStringUtils.h"
 
-static BOOL debug = YES;
+static BOOL debug = NO;
 
 @interface ONERecommendationManager ()
 
@@ -183,9 +183,9 @@ static ONERecommendationManager *sharedSingleton;
     NSError *error = nil;
     BOOL success = [[NSFileManager defaultManager] removeItemAtURL:location error:&error];
     if (success) {
-        [ONELogger logTitle:[NSString stringWithFormat:@"clear image %@ cache success", fileName] content:location.absoluteString];
+//        [ONELogger logTitle:[NSString stringWithFormat:@"clear image %@ cache success", fileName] content:nil];
     } else {
-        [ONELogger logTitle:[NSString stringWithFormat:@"clear image %@ cache failed", fileName] content:error.localizedDescription];
+//        [ONELogger logTitle:[NSString stringWithFormat:@"clear image %@ cache failed", fileName] content:error.localizedDescription];
     }
 }
 
@@ -286,7 +286,7 @@ static ONERecommendationManager *sharedSingleton;
     
     NSString *filePath = [self.cacheDir stringByAppendingPathComponent:self.collectionFileName];
     BOOL success = [propertiesArray writeToFile:filePath atomically:YES];
-    NSString *info = [NSString stringWithFormat:@"%@ write collection to file %@ ", (success ? @"success" : @"fail"), self.collectionFileName];
+    NSString *info = [NSString stringWithFormat:@"%@ write collection to file ", (success ? @"success" : @"fail")];
     [ONELogger logTitle:info content:nil];
 }
 
@@ -296,7 +296,7 @@ static ONERecommendationManager *sharedSingleton;
     NSString *filePath = [self.cacheDir stringByAppendingPathComponent:self.collectionFileName];
     NSMutableArray *propertiesArray = [NSMutableArray arrayWithContentsOfFile:filePath];
     
-    NSString *info = [NSString stringWithFormat:@"%@ read recommendation collection from file %@ ", (propertiesArray != nil ? @"success" : @"fail"), filePath];
+    NSString *info = [NSString stringWithFormat:@"%@ read recommendation collection ", (propertiesArray != nil ? @"success" : @"fail")];
     [ONELogger logTitle:info content:nil];
     
     NSMutableArray *recommendationArray = [NSMutableArray arrayWithCapacity:propertiesArray.count];

@@ -163,7 +163,7 @@
         [self removeLoadingGif];
     } else {
         // 如果是从本地加载的recommendation，而且对应的图片没有下载成功，重新下载一次
-        [ONELogger logTitle:@"re-download recommendation blurred image" content:nil];
+        [ONELogger logTitle:[NSString stringWithFormat:@"re-download recommendation %ld%ld%ld blurred image", (long)self.recommendation.year, (long)self.recommendation.month, (long)self.recommendation.day] content:nil];
         [self.recommendationManager downloadRecommendationBlurredImage:self.recommendation imageCompletionHandler:^(NSURL *location) {
             [self showRecommendationImageWithLocation:location];
         }];
