@@ -225,7 +225,13 @@
     UIColor *color = self.addressLabel.textColor;
     self.addressLabel.textColor = [ONEViewUtils usColor];
     [self performSelector:@selector(resetAddressLabel:) withObject:color afterDelay:[ONEViewUtils tapDelay]];
-    NSString *address = self.addressLabel.text;
+    NSString *address = [self.addressLabel.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    if (![ONEStringUtils isEmptyString:address]) {
+        NSString *addressUrlString = [NSString stringWithFormat:@"http://maps.apple.com/?q=%@", address];
+        NSURL *addressUrl = [NSURL URLWithString:addressUrlString];
+        [[UIApplication sharedApplication] openURL:addressUrl];
+    }
 }
 
 - (void)resetAddressLabel:(UIColor *)color
