@@ -10,6 +10,7 @@
 #import "ONERecommendation.h"
 #import "ONERecommendationDetailViewController.h"
 #import "ONEResourceManager.h"
+#import "ONERootViewController.h"
 
 @interface ONERecommendationCollectionViewController ()
 
@@ -95,6 +96,7 @@
     
     // 切换界面
     ONERecommendation *recommendation = self.recommendationCollection[indexPath.row];
+    recommendation.collected = YES;
     ONERecommendationDetailViewController *detailController = [[ONERecommendationDetailViewController alloc] initWithRecommendation:recommendation];
     detailController.delegate = self;
     detailController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
@@ -141,6 +143,24 @@
 - (void)ONERecommendationDetailViewControllerDidFinishDisplay:(ONERecommendationDetailViewController *)recommendationDetailController
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)ONERecommendationDetailViewControllerDidCollectRecommendation:(ONERecommendation *)recommendation
+{
+    UIViewController *vc = self.presentingViewController;
+    if ([vc isKindOfClass:[ONERootViewController class]]) {
+        ONERootViewController *rVc = (ONERootViewController *)vc;
+        [rVc ONERecommendationDetailViewControllerDidCollectRecommendation:recommendation];
+    }
+}
+
+- (void)ONERecommendationDetailViewControllerDidDecollectRecommendation:(ONERecommendation *)recommendation
+{
+    UIViewController *vc = self.presentingViewController;
+    if ([vc isKindOfClass:[ONERootViewController class]]) {
+        ONERootViewController *rVc = (ONERootViewController *)vc;
+        [rVc ONERecommendationDetailViewControllerDidDecollectRecommendation:recommendation];
+    }
 }
 
 - (void)didReceiveMemoryWarning

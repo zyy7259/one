@@ -19,7 +19,7 @@
 #import "ONERecommendationImageViewController.h"
 #import "ONEShareViewController.h"
 
-@interface ONERootViewController () <ONERecommendationBriefDelegate, ONERecommendationDetailDelegate, ONERecommendationCollectionDelegate, ONERecommendationImageDelegate, ONEShareDelegate>
+@interface ONERootViewController () <ONERecommendationBriefDelegate, ONERecommendationCollectionDelegate, ONERecommendationImageDelegate, ONEShareDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *mainScrollView;
 @property (weak, nonatomic) IBOutlet UIScrollView *recommendationsScrollView;

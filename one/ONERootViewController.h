@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ONERecommendationDetailViewController.h"
 
-@interface ONERootViewController : UIViewController <UIScrollViewDelegate>
+@interface ONERootViewController : UIViewController <UIScrollViewDelegate, ONERecommendationDetailDelegate>
 
 - (IBAction)unwindFromRecommendationCollection:(UIStoryboardSegue *)sender;
 - (IBAction)unwindFromSetting:(UIStoryboardSegue *)sender;

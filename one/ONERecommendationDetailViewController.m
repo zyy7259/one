@@ -12,6 +12,7 @@
 #import "ONEShareViewController.h"
 #import "ONEResourceManager.h"
 #import "ONEViewUtils.h"
+#import "ONEStringUtils.h"
 #import "FLAnimatedImage.h"
 #import "FLAnimatedImageView.h"
 
@@ -215,6 +216,41 @@
 - (void)dismissButtonTapped
 {
     [self.delegate ONERecommendationDetailViewControllerDidFinishDisplay:self];
+}
+
+# pragma mark 打开地图
+
+- (IBAction)addressLabelTapped:(id)sender
+{
+    UIColor *color = self.addressLabel.textColor;
+    self.addressLabel.textColor = [ONEViewUtils usColor];
+    [self performSelector:@selector(resetAddressLabel:) withObject:color afterDelay:[ONEViewUtils tapDelay]];
+    NSString *address = self.addressLabel.text;
+}
+
+- (void)resetAddressLabel:(UIColor *)color
+{
+    self.addressLabel.textColor = color;
+}
+
+# pragma mark 拨打电话
+
+- (IBAction)telLabelTapped:(id)sender
+{
+    UIColor *color = self.telLabel.textColor;
+    self.telLabel.textColor = [ONEViewUtils usColor];
+    [self performSelector:@selector(resetTelLabel:) withObject:color afterDelay:[ONEViewUtils tapDelay]];
+    NSString *tel = self.telLabel.text;
+    if (![ONEStringUtils isEmptyString:tel]) {
+        NSString *telUrlString = [NSString stringWithFormat:@"telprompt:%@",tel];
+        NSURL *telUrl = [NSURL URLWithString:telUrlString];
+        [[UIApplication sharedApplication] openURL:telUrl];
+    }
+}
+
+- (void)resetTelLabel:(UIColor *)color
+{
+    self.telLabel.textColor = color;
 }
 
 # pragma mark 上下滑动时，动态调页面

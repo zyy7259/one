@@ -13,5 +13,8 @@
 + (UILabel *)deepLabelCopy:(UILabel *)label;
 + (NSMutableAttributedString *)attributedStringWithString:(NSString *)string font:(UIFont *)font color:(UIColor *)color lineSpacing:(CGFloat)lineSpacing;
 + (CGRect)boundingRectWithString:(NSString *)string width:(CGFloat)width font:(UIFont *)font lineSpacing:(CGFloat)lineSpacing;
++ (void)showHint:(NSString *)hint inViewController:(UIViewController *)viewController;
++ (CGFloat)tapDelay;
++ (UIColor *)usColor;
 
 @end

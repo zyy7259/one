@@ -8,6 +8,8 @@
 
 #import "ONEViewUtils.h"
 
+static UILabel *hintLabel = nil;
+
 @implementation ONEViewUtils
 
 + (UILabel *)deepLabelCopy:(UILabel *)label
@@ -41,6 +43,41 @@
                              attributes:@{NSFontAttributeName: font,
                                           NSParagraphStyleAttributeName: paragraphStyle}
                                 context:nil];
+}
+
++ (void)showHint:(NSString *)hint inViewController:(UIViewController *)viewController
+{
+    if (hintLabel == nil) {
+        hintLabel = [UILabel new];
+        hintLabel.font = [UIFont systemFontOfSize:18];
+        hintLabel.textColor = [UIColor whiteColor];
+        hintLabel.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.5];
+        hintLabel.textAlignment = NSTextAlignmentCenter;
+        hintLabel.layer.cornerRadius = 10;
+    }
+    hintLabel.text = hint;
+    [hintLabel sizeToFit];
+    CGRect frame = hintLabel.frame;
+    frame.size.width += 40;
+    frame.size.height += 20;
+    hintLabel.frame = frame;
+    hintLabel.center = viewController.view.center;
+    [viewController.view addSubview:hintLabel];
+    [UIView animateWithDuration:0.4 animations:^{
+        hintLabel.alpha = 0;
+    } completion:^(BOOL finished) {
+        [hintLabel removeFromSuperview];
+    }];
+}
+
++ (CGFloat)tapDelay
+{
+    return 0.2;
+}
+
++ (UIColor *)usColor
+{
+    return [UIColor colorWithRed:66/255.0 green:217/255.0 blue:213/255.0 alpha:1.0];
 }
 
 @end

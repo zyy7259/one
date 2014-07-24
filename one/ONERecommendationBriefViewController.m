@@ -258,7 +258,7 @@
         [self.autoUpdateThread cancel];
     }
     self.autoUpdateThread = [[NSThread alloc] initWithTarget:self selector:@selector(autoUpdate) object:nil];
-    [self.autoUpdateThread start];
+//    [self.autoUpdateThread start];
 }
 
 - (void)stopAutoUpdate

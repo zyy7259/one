@@ -10,6 +10,7 @@
 #import "ONERecommendation.h"
 #import "ONERecommendationManager.h"
 #import "ONEStringUtils.h"
+#import "ONEViewUtils.h"
 #import "FLAnimatedImage.h"
 #import "FLAnimatedImageView.h"
 
@@ -17,6 +18,7 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *thingImageView;
 @property (weak, nonatomic) IBOutlet UIButton *saveButton;
+@property (weak, nonatomic) IBOutlet UIView *hintView;
 @property ONERecommendation *recommendation;
 @property ONERecommendationManager *recommendationManager;
 @property FLAnimatedImageView *loadingImageView;
@@ -109,12 +111,21 @@
 
 - (void)saveButtonTapped
 {
-    UIImageWriteToSavedPhotosAlbum(self.thingImageView.image, self, @selector(imageDidSaved), nil);
+    [self imageSaved];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        UIImageWriteToSavedPhotosAlbum(self.thingImageView.image, nil, nil, nil);
+    });
 }
 
-- (void)imageDidSaved
+- (void)imageSaved
 {
-    NSLog(@"success");
+    self.hintView.hidden = NO;
+    self.hintView.alpha = 1.0;
+    [UIView animateWithDuration:2.0 animations:^{
+        self.hintView.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        self.hintView.hidden = YES;
+    }];
 }
 
 # pragma mark Loading Gif

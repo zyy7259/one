@@ -19,7 +19,7 @@
                 <outlet property="scrollView" destination="DIp-k1-1U9" id="6D2-da-TWm"/>
                 <outlet property="shareButton" destination="jNM-U7-7cR" id="8Dl-qQ-FpR"/>
                 <outlet property="shareFloatButton" destination="ioz-57-HM4" id="IXD-sC-owd"/>
-                <outlet property="telLabel" destination="DGo-bG-Psm" id="JaG-cY-9LD"/>
+                <outlet property="telLabel" destination="9FN-td-eZD" id="pc3-QZ-yGm"/>
                 <outlet property="thingImageView" destination="Z9t-Ik-3tK" id="UTb-Je-dZH"/>
                 <outlet property="titleLabel" destination="4hs-EM-pDr" id="eBs-UU-am6"/>
                 <outlet property="typeImageView" destination="u31-mf-MRA" id="ly7-Cc-mcA"/>
@@ -116,19 +116,34 @@
                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="地址" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="CGq-9m-WxO">
-                                    <rect key="frame" x="20" y="52" width="280" height="52"/>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="address.png" id="1pd-2V-z9l">
+                                    <rect key="frame" x="20" y="53" width="14" height="17"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                                <label opaque="NO" clipsSubviews="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="地址" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="CGq-9m-WxO">
+                                    <rect key="frame" x="40" y="52" width="260" height="52"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <gestureRecognizers/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
+                                    <connections>
+                                        <outletCollection property="gestureRecognizers" destination="2qG-5C-G9S" appends="YES" id="giQ-he-ajM"/>
+                                    </connections>
                                 </label>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="电话" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DGo-bG-Psm">
-                                    <rect key="frame" x="20" y="120" width="280" height="13"/>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="call.png" id="D0C-UM-YlX">
+                                    <rect key="frame" x="20" y="120" width="15" height="15"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                                <label opaque="NO" clipsSubviews="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="电话" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9FN-td-eZD">
+                                    <rect key="frame" x="40" y="113" width="260" height="27"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
+                                    <connections>
+                                        <outletCollection property="gestureRecognizers" destination="uoV-mb-kI2" appends="YES" id="ehb-Tz-atv"/>
+                                    </connections>
                                 </label>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="详细介绍" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="k1U-GZ-Z1s">
                                     <rect key="frame" x="20" y="155" width="280" height="16"/>
@@ -216,8 +231,20 @@
                 <action selector="likesViewTapped" destination="-1" id="6mJ-5P-yLz"/>
             </connections>
         </tapGestureRecognizer>
+        <tapGestureRecognizer id="uoV-mb-kI2">
+            <connections>
+                <action selector="telLabelTapped:" destination="-1" id="I9H-wU-sWl"/>
+            </connections>
+        </tapGestureRecognizer>
+        <tapGestureRecognizer id="2qG-5C-G9S">
+            <connections>
+                <action selector="addressLabelTapped:" destination="-1" id="sfG-NP-KKz"/>
+            </connections>
+        </tapGestureRecognizer>
     </objects>
     <resources>
+        <image name="address.png" width="14" height="17"/>
+        <image name="call.png" width="15" height="14"/>
         <image name="collectDetail.png" width="36" height="36"/>
         <image name="collectDetailSelected.png" width="36" height="36"/>
         <image name="likeThis.png" width="17" height="13"/>
