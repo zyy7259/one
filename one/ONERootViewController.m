@@ -224,7 +224,7 @@ typedef void (^CompletionHandler)();
             // 显示的是上一页
             option = UIViewAnimationOptionTransitionFlipFromLeft;
         }
-        [UIView transitionFromView:self.dayLabel toView:newDayLabel duration:.4 options:option completion:nil];
+        [UIView transitionFromView:self.dayLabel toView:newDayLabel duration:0.8 options:option completion:nil];
         self.dayLabel = newDayLabel;
     } else {
         self.dayLabel.text = dayText;
@@ -239,8 +239,7 @@ typedef void (^CompletionHandler)();
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if ([scrollView isEqual:self.recommendationsScrollView]) {
-//        [self recommendationsScrollViewDidScroll];
-        [self recommendationsScrollViewDidEndScrolling];
+        [self recommendationsScrollViewDidScroll];
     } else if ([scrollView isEqual:self.mainScrollView]) {
         
     }
@@ -273,16 +272,22 @@ typedef void (^CompletionHandler)();
     // 当前/后页超过30%的内容被显示时，切换主题颜色
     NSInteger startPosition = self.currentPage * self.pageWidth;
     NSInteger currentPosition = self.recommendationsScrollView.contentOffset.x;
-    if (abs((int)(startPosition - currentPosition)) >= self.pageWidth / 2) {
+    if (abs((int)(startPosition - currentPosition)) >= self.pageWidth / 3.0) {
         NSUInteger page = self.currentPage + (startPosition < currentPosition ? 1 : -1);
         [self updateThemeColorWithPage:page];
     }
+    [self updatePageAfterScrolling];
 }
 
 // 左右滑动结束后，可能需要切换页面
 - (void)recommendationsScrollViewDidEndScrolling
 {
-    // 停止滑动后，如果前/后页超过50%的内容被显示，切换页面
+    [self updatePageAfterScrolling];
+}
+
+- (void)updatePageAfterScrolling
+{
+    // 滑动后，如果前/后页超过50%的内容被显示，则将要切换页面
     NSUInteger page = floor((self.recommendationsScrollView.contentOffset.x - self.pageWidth / 2) / self.pageWidth) + 1;
     // 如果切换到了新的页面
     if (page != self.currentPage) {
