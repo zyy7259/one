@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *thingImageView;
 @property (weak, nonatomic) IBOutlet UIButton *saveButton;
 @property (weak, nonatomic) IBOutlet UIView *hintView;
+@property (weak, nonatomic) IBOutlet UILabel *hintLabel;
 @property ONERecommendation *recommendation;
 @property ONERecommendationManager *recommendationManager;
 @property FLAnimatedImageView *loadingImageView;
@@ -111,13 +112,27 @@
 
 - (void)saveButtonTapped
 {
-    [self imageSaved];
+    self.saveButton.enabled = NO;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        UIImageWriteToSavedPhotosAlbum(self.thingImageView.image, nil, nil, nil);
+        UIImageWriteToSavedPhotosAlbum(self.thingImageView.image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
     });
 }
 
-- (void)imageSaved
+- (void)               image: (UIImage *) image
+    didFinishSavingWithError: (NSError *) error
+                 contextInfo: (void *) contextInfo
+{
+    if (error == nil) {
+        self.hintLabel.text = @"已保存到相册";
+        [self imageDidSaved];
+    } else {
+        NSLog(@"%@", error);
+        self.hintLabel.text = @"保存失败";
+        [self imageDidSaved];
+    }
+}
+
+- (void)imageDidSaved
 {
     self.hintView.hidden = NO;
     self.hintView.alpha = 1.0;
@@ -125,6 +140,7 @@
         self.hintView.alpha = 0.0;
     } completion:^(BOOL finished) {
         self.hintView.hidden = YES;
+        self.saveButton.enabled = YES;
     }];
 }
 

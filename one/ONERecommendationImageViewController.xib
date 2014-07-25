@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ONERecommendationImageViewController">
             <connections>
+                <outlet property="hintLabel" destination="ZtK-bC-4LU" id="W9f-2c-6Q7"/>
                 <outlet property="hintView" destination="ksC-Tc-6wK" id="chG-Tt-BeH"/>
                 <outlet property="saveButton" destination="Ssh-sW-19L" id="s5K-Tq-PhN"/>
                 <outlet property="thingImageView" destination="JOW-sT-8cB" id="0VC-c8-fhh"/>
