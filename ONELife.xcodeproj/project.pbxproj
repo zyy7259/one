@@ -53,6 +53,8 @@
 		7A87F400198A8F350009BCC2 /* 9.json in Resources */ = {isa = PBXBuildFile; fileRef = 7A87F3D3198A8F350009BCC2 /* 9.json */; };
 		7A87F401198A8F350009BCC2 /* 9.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A87F3D4198A8F350009BCC2 /* 9.png */; };
 		7A87F402198A8F350009BCC2 /* 9blur.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A87F3D5198A8F350009BCC2 /* 9blur.png */; };
+		7A87F405198BD8EF0009BCC2 /* ONEFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A87F404198BD8EF0009BCC2 /* ONEFileManager.m */; };
+		7A87F408198BDD4D0009BCC2 /* ONEConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A87F407198BDD4D0009BCC2 /* ONEConstants.m */; };
 		7A937B3F197622BD0087D4F2 /* ONESessionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A937B3E197622BD0087D4F2 /* ONESessionDelegate.m */; };
 		7A937B4219766E760087D4F2 /* ONERecommendationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A937B4119766E760087D4F2 /* ONERecommendationManager.m */; };
 		7A937B45197678E40087D4F2 /* ONEDateUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A937B44197678E40087D4F2 /* ONEDateUtils.m */; };
@@ -143,7 +145,7 @@
 		7AC7AE0E197A05A000BA283A /* ONESettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AC7AE0D197A05A000BA283A /* ONESettingViewController.m */; };
 		7AC7AE12197A0A7D00BA283A /* ONEAboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AC7AE10197A0A7D00BA283A /* ONEAboutUsViewController.m */; };
 		7AC7AE13197A0A7D00BA283A /* ONEAboutUsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7AC7AE11197A0A7D00BA283A /* ONEAboutUsViewController.xib */; };
-		7AC7AE16197A132800BA283A /* ONEResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AC7AE15197A132800BA283A /* ONEResourceManager.m */; };
+		7AC7AE16197A132800BA283A /* ONEImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AC7AE15197A132800BA283A /* ONEImageManager.m */; };
 		7ADB5C1C197FCCA0004B8DD2 /* loadingBlack@2x.gif in Resources */ = {isa = PBXBuildFile; fileRef = 7ADB5C19197FCCA0004B8DD2 /* loadingBlack@2x.gif */; };
 		7ADB5C1D197FCCA0004B8DD2 /* loadingSmall@2x.gif in Resources */ = {isa = PBXBuildFile; fileRef = 7ADB5C1A197FCCA0004B8DD2 /* loadingSmall@2x.gif */; };
 		7ADB5C1E197FCCA0004B8DD2 /* loadingWhite@2x.gif in Resources */ = {isa = PBXBuildFile; fileRef = 7ADB5C1B197FCCA0004B8DD2 /* loadingWhite@2x.gif */; };
@@ -228,6 +230,10 @@
 		7A87F3D3198A8F350009BCC2 /* 9.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = 9.json; sourceTree = "<group>"; };
 		7A87F3D4198A8F350009BCC2 /* 9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 9.png; sourceTree = "<group>"; };
 		7A87F3D5198A8F350009BCC2 /* 9blur.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 9blur.png; sourceTree = "<group>"; };
+		7A87F403198BD8EF0009BCC2 /* ONEFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONEFileManager.h; sourceTree = "<group>"; };
+		7A87F404198BD8EF0009BCC2 /* ONEFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONEFileManager.m; sourceTree = "<group>"; };
+		7A87F406198BDD4D0009BCC2 /* ONEConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONEConstants.h; sourceTree = "<group>"; };
+		7A87F407198BDD4D0009BCC2 /* ONEConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONEConstants.m; sourceTree = "<group>"; };
 		7A937B3D197622BD0087D4F2 /* ONESessionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONESessionDelegate.h; sourceTree = "<group>"; };
 		7A937B3E197622BD0087D4F2 /* ONESessionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONESessionDelegate.m; sourceTree = "<group>"; };
 		7A937B4019766E760087D4F2 /* ONERecommendationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONERecommendationManager.h; sourceTree = "<group>"; };
@@ -335,8 +341,8 @@
 		7AC7AE0F197A0A7D00BA283A /* ONEAboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONEAboutUsViewController.h; sourceTree = "<group>"; };
 		7AC7AE10197A0A7D00BA283A /* ONEAboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONEAboutUsViewController.m; sourceTree = "<group>"; };
 		7AC7AE11197A0A7D00BA283A /* ONEAboutUsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ONEAboutUsViewController.xib; sourceTree = "<group>"; };
-		7AC7AE14197A132800BA283A /* ONEResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONEResourceManager.h; sourceTree = "<group>"; };
-		7AC7AE15197A132800BA283A /* ONEResourceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONEResourceManager.m; sourceTree = "<group>"; };
+		7AC7AE14197A132800BA283A /* ONEImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONEImageManager.h; sourceTree = "<group>"; };
+		7AC7AE15197A132800BA283A /* ONEImageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONEImageManager.m; sourceTree = "<group>"; };
 		7ADB5C19197FCCA0004B8DD2 /* loadingBlack@2x.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "loadingBlack@2x.gif"; sourceTree = "<group>"; };
 		7ADB5C1A197FCCA0004B8DD2 /* loadingSmall@2x.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "loadingSmall@2x.gif"; sourceTree = "<group>"; };
 		7ADB5C1B197FCCA0004B8DD2 /* loadingWhite@2x.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "loadingWhite@2x.gif"; sourceTree = "<group>"; };
@@ -506,8 +512,12 @@
 				7A937B3E197622BD0087D4F2 /* ONESessionDelegate.m */,
 				7AC572701977895C00DDD900 /* ONELogger.h */,
 				7AC572711977895C00DDD900 /* ONELogger.m */,
-				7AC7AE14197A132800BA283A /* ONEResourceManager.h */,
-				7AC7AE15197A132800BA283A /* ONEResourceManager.m */,
+				7AC7AE14197A132800BA283A /* ONEImageManager.h */,
+				7AC7AE15197A132800BA283A /* ONEImageManager.m */,
+				7A87F403198BD8EF0009BCC2 /* ONEFileManager.h */,
+				7A87F404198BD8EF0009BCC2 /* ONEFileManager.m */,
+				7A87F406198BDD4D0009BCC2 /* ONEConstants.h */,
+				7A87F407198BDD4D0009BCC2 /* ONEConstants.m */,
 			);
 			name = resource;
 			sourceTree = "<group>";
@@ -1013,18 +1023,20 @@
 			files = (
 				7AFDDEBE197190C40031F293 /* main.m in Sources */,
 				7AC5E888197FB48C006E181C /* ONESettingNavigationViewController.m in Sources */,
+				7A87F408198BDD4D0009BCC2 /* ONEConstants.m in Sources */,
 				7A937B3F197622BD0087D4F2 /* ONESessionDelegate.m in Sources */,
 				7AF27FC319727B5B00BBC0AC /* ONERootViewController.m in Sources */,
 				7AB6AAC319794F56002A8992 /* JCRBlurView.m in Sources */,
 				7AF27FC71972873D00BBC0AC /* ONERecommendationBriefViewController.m in Sources */,
 				7AC7AE12197A0A7D00BA283A /* ONEAboutUsViewController.m in Sources */,
 				7AC7AE0E197A05A000BA283A /* ONESettingViewController.m in Sources */,
+				7A87F405198BD8EF0009BCC2 /* ONEFileManager.m in Sources */,
 				7AB77FDE197D6DDE0004FFDF /* FLAnimatedImageView.m in Sources */,
 				7AB703B9197B92EB008DE376 /* ONEAnimationHelper.m in Sources */,
 				7AFDDEC2197190C40031F293 /* ONEAppDelegate.m in Sources */,
 				7AB3BAB8197CAADA009457E4 /* ONEShareViewController.m in Sources */,
 				7AB018F9197E3EF800BB0F4E /* ONEStringUtils.m in Sources */,
-				7AC7AE16197A132800BA283A /* ONEResourceManager.m in Sources */,
+				7AC7AE16197A132800BA283A /* ONEImageManager.m in Sources */,
 				7AF27FCC197287EA00BBC0AC /* ONERecommendationDetailViewController.m in Sources */,
 				7AC30F62197A8AF900A5C71C /* ONERecommendationImageViewController.m in Sources */,
 				7A59E84519729F6600E637D4 /* ONERecommendation.m in Sources */,

@@ -10,6 +10,8 @@
 #import "ONESessionDelegate.h"
 #import "ONELogger.h"
 #import "ONEStringUtils.h"
+#import "ONEFileManager.h"
+#import "ONEConstants.h"
 
 static BOOL debug = NO;
 
@@ -187,6 +189,24 @@ static ONERecommendationManager *sharedSingleton;
     } else {
 //        [ONELogger logTitle:[NSString stringWithFormat:@"clear image %@ cache failed", fileName] content:error.localizedDescription];
     }
+}
+
+// 获取某个日期对应的默认recommendation
+- (ONERecommendation *)defaultRecommendationForDateComponents:(NSDateComponents *)dateComponents
+{
+    NSInteger i = dateComponents.day % DEFAULT_CAPACITY;
+    if (i == 0) {
+        i = DEFAULT_CAPACITY;
+    }
+    NSDictionary *properties = [ONEFileManager JSONObjectWithContentsOfFile:[@(i) stringValue]];
+    ONERecommendation *recommendation = [ONERecommendation instanceWithProperties:properties];
+    // 设置推荐内容的日期属性，日期属性被用于把推荐内容保存到本地文件
+    recommendation.year = dateComponents.year;
+    recommendation.month = dateComponents.month;
+    recommendation.day = dateComponents.day;
+    recommendation.weekday = dateComponents.weekday;
+    [self writeRecommendationToFile:recommendation];
+    return recommendation;
 }
 
 // 将推荐内容写入本地文件

@@ -9,7 +9,7 @@
 #import "ONERecommendationCollectionViewController.h"
 #import "ONERecommendation.h"
 #import "ONERecommendationDetailViewController.h"
-#import "ONEResourceManager.h"
+#import "ONEImageManager.h"
 #import "ONERootViewController.h"
 
 @interface ONERecommendationCollectionViewController ()
@@ -44,7 +44,7 @@
 
 - (void)initBarButtons
 {
-    ONEResourceManager *resourceManager = [ONEResourceManager sharedManager];
+    ONEImageManager *resourceManager = [ONEImageManager sharedManager];
     UIButton *editButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [editButton setImage:resourceManager.editImage forState:UIControlStateNormal];
     [editButton setImage:resourceManager.editSelectedImage forState:UIControlStateSelected];
@@ -80,8 +80,8 @@
     ONERecommendation *recommendation = self.recommendationCollection[indexPath.row];
     cell.textLabel.text = recommendation.title;
     cell.detailTextLabel.text = recommendation.intro;
-    cell.imageView.image = [[ONEResourceManager sharedManager] collectTypeImage:recommendation.type];
-    cell.accessoryView = [[UIImageView alloc] initWithImage:[ONEResourceManager sharedManager].arrowRightGreyImage];
+    cell.imageView.image = [[ONEImageManager sharedManager] collectTypeImage:recommendation.type];
+    cell.accessoryView = [[UIImageView alloc] initWithImage:[ONEImageManager sharedManager].arrowRightGreyImage];
     
     return cell;
 }

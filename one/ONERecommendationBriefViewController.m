@@ -12,7 +12,8 @@
 #import "ONELogger.h"
 #import "ONEDateUtils.h"
 #import "ONEViewUtils.h"
-#import "ONEResourceManager.h"
+#import "ONEImageManager.h"
+#import "ONEConstants.h"
 #import "FLAnimatedImage.h"
 #import "FLAnimatedImageView.h"
 
@@ -116,7 +117,7 @@
     if (recommendation == nil) {
         // 服务器无数据，显示默认recommendation
         [ONELogger logTitle:@"no more recommendation, bazinga......" content:nil];
-        [self showEmptyRecommendation];
+        [self noRecommendation];
         return;
     }
     self.recommendation = recommendation;
@@ -130,7 +131,7 @@
     [self.delegate ONERecommendationBriefViewDidLoadRecommendation:self];
     // 展示recommendation
     [self showRecommendationImage];
-    self.typeImageView.image = [[ONEResourceManager sharedManager] briefTypeImage:self.recommendation.type];
+    self.typeImageView.image = [[ONEImageManager sharedManager] briefTypeImage:self.recommendation.type];
     self.cityLabel.text = self.recommendation.city;
     self.titleLabel.text = self.recommendation.title;
     self.introLabel.text = self.recommendation.intro;
@@ -149,7 +150,7 @@
         [self showRecommendationImage];
     } else {
         // 图片加载失败
-        [self showEmptyRecommendation];
+        [self noRecommendation];
     }
 }
 
@@ -157,8 +158,12 @@
 - (void)showRecommendationImage
 {
     NSString *filePath = self.recommendation.blurredImageLocalLocation;
-    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-        self.thingImageView.image = [UIImage imageWithContentsOfFile:filePath];
+    if (filePath != nil) {
+        if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+            self.thingImageView.image = [UIImage imageWithContentsOfFile:filePath];
+        } else {
+            self.thingImageView.image = [UIImage imageNamed:filePath];
+        }
         // 图片加载完成，移除loading gif
         [self removeLoadingGif];
     } else {
@@ -175,15 +180,17 @@
     self.likesLabel.text = [@(likes) stringValue];
 }
 
-// 展示默认的recommendation
-- (void)showEmptyRecommendation
+// 没有拿到recommendation
+- (void)noRecommendation
 {
-    [self.delegate ONERecommendationBriefViewEmptyRecommendation:self];
-    self.view.backgroundColor = [UIColor colorWithRed:67.0/255.0 green:217.0/255.0 blue:213.0/255.0 alpha:1.0];
-    self.typeImageView.image = [ONEResourceManager sharedManager].locationImage;
-    self.blurView.hidden = YES;
-    // 移除loading gif
-    [self removeLoadingGif];
+    if (DEBUGGING) {
+        self.recommendation = [self.recommendationManager defaultRecommendationForDateComponents:self.dateComponents];
+        [self showRecommendation];
+    } else {
+        [self.delegate ONERecommendationBriefViewEmptyRecommendation:self];
+        // 移除loading gif
+        [self removeLoadingGif];
+    }
 }
 
 # pragma mark Loading Gif

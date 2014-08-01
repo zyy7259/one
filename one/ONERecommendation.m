@@ -11,6 +11,11 @@
 
 @implementation ONERecommendation
 
++ (id)instanceWithProperties:(NSDictionary *)properties
+{
+    return [[self alloc] initWithProperties:properties];
+}
+
 - (id)initWithJSONData:(NSData *)jsonData
 {
     NSError *error = nil;

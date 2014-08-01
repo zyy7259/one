@@ -8,9 +8,9 @@
 
 #import "ONERecommendationDetailViewController.h"
 #import "ONERecommendation.h"
-#import "ONEResourceManager.h"
+#import "ONEImageManager.h"
 #import "ONEShareViewController.h"
-#import "ONEResourceManager.h"
+#import "ONEImageManager.h"
 #import "ONEViewUtils.h"
 #import "ONEStringUtils.h"
 #import "FLAnimatedImage.h"
@@ -36,7 +36,7 @@
 @property (weak, nonatomic) IBOutlet UIView *likesView;
 @property (weak, nonatomic) IBOutlet UIButton *likesButton;
 @property (weak, nonatomic) IBOutlet UILabel *likesLabel;
-@property ONEResourceManager *resourceManager;
+@property ONEImageManager *resourceManager;
 @property BOOL hasFloated;
 
 @end
@@ -71,19 +71,34 @@
     [super viewDidLoad];
     [self setNeedsStatusBarAppearanceUpdate];
     // Do any additional setup after loading the view from its nib.
-    self.resourceManager = [ONEResourceManager sharedManager];
+    self.resourceManager = [ONEImageManager sharedManager];
     
-    self.typeImageView.image = [[ONEResourceManager sharedManager] detailTypeImage:self.recommendation.type];
+    self.typeImageView.image = [[ONEImageManager sharedManager] detailTypeImage:self.recommendation.type];
     self.titleLabel.text = self.recommendation.title;
     self.introLabel.text = self.recommendation.intro;
     self.likesLabel.text = [@(self.recommendation.likes) stringValue];
     self.addressLabel.attributedText = [ONEViewUtils attributedStringWithString:self.recommendation.address font:self.addressLabel.font color:self.addressLabel.textColor lineSpacing:13];
     self.telLabel.text = self.recommendation.tel;
     [self updateLikes:self.recommendation.likes];
+    [self showRecommendationImage];
     [self initButtons];
     [self showDetail];
-    [self showRecommendationImage];
     self.hasFloated = NO;
+}
+
+// 展示图片
+- (void)showRecommendationImage
+{
+    NSString *filePath = self.recommendation.blurredImageLocalLocation;
+    if (filePath != nil) {
+        if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+            self.thingImageView.image = [UIImage imageWithContentsOfFile:filePath];
+        } else {
+            self.thingImageView.image = [UIImage imageNamed:filePath];
+        }
+    } else {
+        // 重新拉取图片
+    }
 }
 
 - (void)initButtons
@@ -173,17 +188,6 @@
     self.scrollView.delegate = self;
     // 最后将articleView显示出来
     self.articleView.hidden = NO;
-}
-
-// 展示图片
-- (void)showRecommendationImage
-{
-    NSString *filePath = self.recommendation.blurredImageLocalLocation;
-    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-        self.thingImageView.image = [UIImage imageWithContentsOfFile:filePath];
-    } else {
-        // 重新拉取图片
-    }
 }
 
 # pragma mark 收藏/取消收藏

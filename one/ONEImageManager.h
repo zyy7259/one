@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ONEResourceManager : NSObject
+@interface ONEImageManager : NSObject
 
 // onelife
 @property UIImage *onelifeImage;
@@ -46,7 +46,7 @@
 
 @property UIImage *locationImage;
 
-+ (ONEResourceManager *)sharedManager;
++ (ONEImageManager *)sharedManager;
 
 - (UIImage *)briefTypeImage:(NSUInteger)type;
 - (UIImage *)detailTypeImage:(NSUInteger)type;

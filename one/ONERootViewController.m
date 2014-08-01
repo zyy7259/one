@@ -7,7 +7,7 @@
 //
 
 #import "ONERootViewController.h"
-#import "ONEResourceManager.h"
+#import "ONEImageManager.h"
 #import "ONEDateUtils.h"
 #import "ONEAnimationHelper.h"
 #import "ONEViewUtils.h"
@@ -102,7 +102,7 @@ typedef void (^CompletionHandler)();
 
 - (void)disappearLoading:(CompletionHandler)handler
 {
-    UIImageView *loadingView = [[UIImageView alloc] initWithImage:[ONEResourceManager sharedManager].onelifeImage];
+    UIImageView *loadingView = [[UIImageView alloc] initWithImage:[ONEImageManager sharedManager].onelifeImage];
     CGRect frame = self.view.frame;
     loadingView.frame = frame;
     [self.view addSubview:loadingView];

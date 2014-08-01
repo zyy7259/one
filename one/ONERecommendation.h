@@ -30,6 +30,7 @@
 
 @property (nonatomic) BOOL collected;
 
++ (id)instanceWithProperties:(NSDictionary *)properties;
 - (id)initWithJSONData:(NSData *)jsonData;
 - (id)initWithProperties:(NSDictionary *)properties;
 

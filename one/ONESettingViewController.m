@@ -8,7 +8,7 @@
 
 #import "ONESettingViewController.h"
 #import "ONEAboutUsViewController.h"
-#import "ONEResourceManager.h"
+#import "ONEImageManager.h"
 #import "ONEShareViewController.h"
 
 @interface ONESettingViewController () <UITableViewDataSource, UITableViewDelegate, ONEShareDelegate>
@@ -42,7 +42,7 @@
 
 - (void)initCellInfos
 {
-    ONEResourceManager *resourceManager = [ONEResourceManager sharedManager];
+    ONEImageManager *resourceManager = [ONEImageManager sharedManager];
     self.cellInfos = [NSArray arrayWithObjects:
                       @{@"image": resourceManager.aboutUsImage,
                         @"title": @"关于我们"},
@@ -76,7 +76,7 @@
     NSInteger row = indexPath.row;
     cell.imageView.image = self.cellInfos[row][@"image"];
     cell.textLabel.text = self.cellInfos[row][@"title"];
-    cell.accessoryView = [[UIImageView alloc] initWithImage:[ONEResourceManager sharedManager].arrowRightGreyImage];
+    cell.accessoryView = [[UIImageView alloc] initWithImage:[ONEImageManager sharedManager].arrowRightGreyImage];
     
     return cell;
 }

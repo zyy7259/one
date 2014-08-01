@@ -22,6 +22,7 @@ typedef void (^RecommendationLikesCompletionHandlerType)(NSInteger likes);
                                     imageCompletionHandler:(RecommendationImageCompletionHandlerType)imageHandler;
 - (void)downloadRecommendationBlurredImage:(ONERecommendation *)recommendation imageCompletionHandler:(RecommendationImageCompletionHandlerType)imageHandler;
 - (void)downloadRecommendationImage:(ONERecommendation *)recommendation imageUrl:(NSString *)imageUrl namePostfix:(NSString *)namePostfix imageCompletionHandler:(RecommendationImageCompletionHandlerType)imageHandler;
+- (ONERecommendation *)defaultRecommendationForDateComponents:(NSDateComponents *)dateComponents;
 
 - (void)getRecommendationLikes:(ONERecommendation *)recommendation likesHandler:(RecommendationLikesCompletionHandlerType)likesHandler;
 - (void)likeRecommendation:(ONERecommendation *)recommendation;
@@ -30,5 +31,6 @@ typedef void (^RecommendationLikesCompletionHandlerType)(NSInteger likes);
 - (void)writeRecommendationCollectionToFile:(NSArray *)recommendationArray;
 
 - (NSMutableArray *)readRecommendationCollectionFromFile;
+
 
 @end

@@ -6,9 +6,9 @@
 //  Copyright (c) 2014年 bird. All rights reserved.
 //
 
-#import "ONEResourceManager.h"
+#import "ONEImageManager.h"
 
-@interface ONEResourceManager ()
+@interface ONEImageManager ()
 
 @property NSArray *briefTypeImages;
 @property NSArray *detailTypeImages;
@@ -16,20 +16,20 @@
 
 @end
 
-@implementation ONEResourceManager
+@implementation ONEImageManager
 
-static ONEResourceManager *sharedSingleton;
+static ONEImageManager *sharedSingleton;
 
 + (void)initialize
 {
     static BOOL initialized = NO;
     if (!initialized) {
         initialized = YES;
-        sharedSingleton = [ONEResourceManager new];
+        sharedSingleton = [ONEImageManager new];
     }
 }
 
-+ (ONEResourceManager *)sharedManager
++ (ONEImageManager *)sharedManager
 {
     return sharedSingleton;
 }

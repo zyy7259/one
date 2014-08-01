@@ -7,7 +7,7 @@
 //
 
 #import "ONEAboutUsViewController.h"
-#import "ONEResourceManager.h"
+#import "ONEImageManager.h"
 
 @interface ONEAboutUsViewController ()
 
@@ -38,7 +38,7 @@
 
 - (void)initBarButtons
 {
-    ONEResourceManager *resourceManager = [ONEResourceManager sharedManager];
+    ONEImageManager *resourceManager = [ONEImageManager sharedManager];
     UIButton *returnButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [returnButton setImage:resourceManager.returnImage forState:UIControlStateNormal];
     [returnButton setImage:resourceManager.returnSelectedImage forState:UIControlStateSelected];
