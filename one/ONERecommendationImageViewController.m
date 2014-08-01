@@ -84,8 +84,12 @@
 - (void)showRecommendationImage
 {
     NSString *filePath = self.recommendation.imageLocalLocation;
-    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-        self.thingImageView.image = [UIImage imageWithContentsOfFile:filePath];
+    if (filePath != nil) {
+        if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+            self.thingImageView.image = [UIImage imageWithContentsOfFile:filePath];
+        } else {
+            self.thingImageView.image = [UIImage imageNamed:filePath];
+        }
         [self initButtons];
         // 图片加载完成，移除loading gif
         [self removeLoadingGif];
