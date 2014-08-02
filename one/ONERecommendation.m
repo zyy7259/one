@@ -25,7 +25,7 @@
         if (code == 200) {
             NSDictionary *propertiesData = result[@"data"];
             if (propertiesData.count == 0) {
-                [ONELogger logTitle:@"empty data" content:nil];
+                [ONELogger logTitle:@"empty recommendation data from server..." content:nil];
                 return nil;
             } else {
                 // 成功

@@ -13,9 +13,9 @@
 + (void)logTitle:(NSString *)title content:(NSString *)content
 {
     if (content) {
-        NSLog(@"\n\nLOG - %@:\n%@\n\n", title, content);
+        NSLog(@"\n%@:\n%@\n\n", title, content);
     } else {
-        NSLog(@"\n\nLOG - %@\n\n", title);
+        NSLog(@"\n%@\n\n", title);
     }
 }
 

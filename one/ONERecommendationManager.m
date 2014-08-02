@@ -316,7 +316,7 @@ static ONERecommendationManager *sharedSingleton;
     NSString *filePath = [self.cacheDir stringByAppendingPathComponent:self.collectionFileName];
     NSMutableArray *propertiesArray = [NSMutableArray arrayWithContentsOfFile:filePath];
     
-    NSString *info = [NSString stringWithFormat:@"%@ read recommendation collection ", (propertiesArray != nil ? @"success" : @"fail")];
+    NSString *info = [NSString stringWithFormat:@"%@ read local recommendation collection ", (propertiesArray != nil ? @"success" : @"fail")];
     [ONELogger logTitle:info content:nil];
     
     NSMutableArray *recommendationArray = [NSMutableArray arrayWithCapacity:propertiesArray.count];

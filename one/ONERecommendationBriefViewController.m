@@ -104,7 +104,7 @@
 {
     if (recommendation == nil) {
         // 本地无数据，即将从服务器拉取数据
-        [ONELogger logTitle:@"loading data from server......" content:nil];
+        [ONELogger logTitle:@"loading data from server..." content:nil];
         return;
     }
     self.recommendation = recommendation;
@@ -116,7 +116,7 @@
 {
     if (recommendation == nil) {
         // 服务器无数据，显示默认recommendation
-        [ONELogger logTitle:@"no more recommendation, bazinga......" content:nil];
+        [ONELogger logTitle:@"no recommendation from server..." content:nil];
         [self noRecommendation];
         return;
     }
