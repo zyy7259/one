@@ -20,8 +20,7 @@ typedef void (^RecommendationLikesCompletionHandlerType)(NSInteger likes);
 - (ONERecommendation *)getRecommendationWithDateComponents:(NSDateComponents *)dateComponents
                                      dataCompletionHandler:(RecommendationDataCompletionHandlerType)dataHandler
                                     imageCompletionHandler:(RecommendationImageCompletionHandlerType)imageHandler;
-- (void)downloadRecommendationBlurredImage:(ONERecommendation *)recommendation imageCompletionHandler:(RecommendationImageCompletionHandlerType)imageHandler;
-- (void)downloadRecommendationImage:(ONERecommendation *)recommendation imageUrl:(NSString *)imageUrl namePostfix:(NSString *)namePostfix imageCompletionHandler:(RecommendationImageCompletionHandlerType)imageHandler;
+- (void)downloadRecommendationImage:(ONERecommendation *)recommendation imageCompletionHandler:(RecommendationImageCompletionHandlerType)imageHandler;
 - (ONERecommendation *)defaultRecommendationForDateComponents:(NSDateComponents *)dateComponents;
 
 - (void)getRecommendationLikes:(ONERecommendation *)recommendation likesHandler:(RecommendationLikesCompletionHandlerType)likesHandler;

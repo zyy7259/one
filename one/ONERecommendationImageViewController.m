@@ -59,26 +59,7 @@
     [self setNeedsStatusBarAppearanceUpdate];
     // Do any additional setup after loading the view from its nib.
     self.recommendationManager = [ONERecommendationManager sharedManager];
-    [self loadRecommendationImage];
-}
-
-// 加载要显示的图片
-- (void)loadRecommendationImage
-{
-    // 如果没有加载图片，加载之
-    if ([ONEStringUtils isEmptyString:self.recommendation.imageLocalLocation]) {
-        // 加载loading gif
-        [self addLoadingGif];
-        [self.recommendationManager downloadRecommendationImage:self.recommendation imageUrl:self.recommendation.imageUrl namePostfix:nil imageCompletionHandler:^(NSURL *location) {
-            if (location != nil) {
-                // 记录图片地址后加载图片
-                self.recommendation.imageLocalLocation = location.path;
-                [self showRecommendationImage];
-            }
-        }];
-    } else {
-        [self showRecommendationImage];
-    }
+    [self showRecommendationImage];
 }
 
 - (void)showRecommendationImage

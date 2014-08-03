@@ -54,11 +54,6 @@
     _intro = properties[@"intro"];
     _briefDetail = properties[@"briefDetail"];
     _detail = properties[@"detail"];
-    _blurredImageUrl = properties[@"blurredImageUrl"];
-    _blurredImageLocalLocation = properties[@"blurredImageLocalLocation"];
-    if (_blurredImageLocalLocation == nil) {
-        _blurredImageLocalLocation = [NSString string];
-    }
     _imageUrl = properties[@"imageUrl"];
     _imageLocalLocation = properties[@"imageLocalLocation"];
     if (_imageLocalLocation == nil) {
@@ -84,8 +79,6 @@
                                   self.intro,
                                   self.briefDetail,
                                   self.detail,
-                                  self.blurredImageUrl,
-                                  self.blurredImageLocalLocation,
                                   self.imageUrl,
                                   self.imageLocalLocation,
                                   @(self.likes),
@@ -103,8 +96,6 @@
                                   @"intro",
                                   @"briefDetail",
                                   @"detail",
-                                  @"blurredImageUrl",
-                                  @"blurredImageLocalLocation",
                                   @"imageUrl",
                                   @"imageLocalLocation",
                                   @"likes",
@@ -128,7 +119,6 @@
             [self.intro isEqualToString:r.intro] &&
             [self.briefDetail isEqualToString:r.briefDetail] &&
             [self.detail isEqualToString:r.detail] &&
-            [self.blurredImageUrl isEqualToString:r.blurredImageUrl] &&
             [self.imageUrl isEqualToString:r.imageUrl] &&
             self.likes == r.likes &&
             self.year == r.year &&

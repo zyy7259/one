@@ -89,7 +89,7 @@
 // 展示图片
 - (void)showRecommendationImage
 {
-    NSString *filePath = self.recommendation.blurredImageLocalLocation;
+    NSString *filePath = self.recommendation.imageLocalLocation;
     if (filePath != nil) {
         if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
             self.thingImageView.image = [UIImage imageWithContentsOfFile:filePath];

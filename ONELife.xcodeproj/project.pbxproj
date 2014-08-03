@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7A2A6AD3198E067100EA0B81 /* FXBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A2A6AD2198E067100EA0B81 /* FXBlurView.m */; };
 		7A59E84519729F6600E637D4 /* ONERecommendation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A59E84419729F6600E637D4 /* ONERecommendation.m */; };
 		7A87F3D6198A8F350009BCC2 /* 1-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A87F3A9198A8F350009BCC2 /* 1-1.png */; };
 		7A87F3D7198A8F350009BCC2 /* 1-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A87F3AA198A8F350009BCC2 /* 1-2.png */; };
@@ -102,7 +103,6 @@
 		7AB3BACE197CC06B009457E4 /* yixinFriendsSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB3BAC6197CC06B009457E4 /* yixinFriendsSelected@2x.png */; };
 		7AB3BACF197CC06B009457E4 /* yixinSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB3BAC7197CC06B009457E4 /* yixinSelected@2x.png */; };
 		7AB6AABC1978BA06002A8992 /* ONERecommendationCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB6AABA1978BA06002A8992 /* ONERecommendationCollectionViewController.m */; };
-		7AB6AAC319794F56002A8992 /* JCRBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB6AAC219794F56002A8992 /* JCRBlurView.m */; };
 		7AB703B9197B92EB008DE376 /* ONEAnimationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB703B8197B92EB008DE376 /* ONEAnimationHelper.m */; };
 		7AB77FDD197D6DDE0004FFDF /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB77FDA197D6DDE0004FFDF /* FLAnimatedImage.m */; };
 		7AB77FDE197D6DDE0004FFDF /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB77FDC197D6DDE0004FFDF /* FLAnimatedImageView.m */; };
@@ -183,6 +183,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7A2A6AD1198E067100EA0B81 /* FXBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXBlurView.h; sourceTree = "<group>"; };
+		7A2A6AD2198E067100EA0B81 /* FXBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXBlurView.m; sourceTree = "<group>"; };
 		7A59E84319729F6600E637D4 /* ONERecommendation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONERecommendation.h; sourceTree = "<group>"; };
 		7A59E84419729F6600E637D4 /* ONERecommendation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONERecommendation.m; sourceTree = "<group>"; };
 		7A87F3A9198A8F350009BCC2 /* 1-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1-1.png"; sourceTree = "<group>"; };
@@ -288,8 +290,6 @@
 		7AB3BAC7197CC06B009457E4 /* yixinSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yixinSelected@2x.png"; sourceTree = "<group>"; };
 		7AB6AAB91978BA06002A8992 /* ONERecommendationCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONERecommendationCollectionViewController.h; sourceTree = "<group>"; };
 		7AB6AABA1978BA06002A8992 /* ONERecommendationCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONERecommendationCollectionViewController.m; sourceTree = "<group>"; };
-		7AB6AAC119794F56002A8992 /* JCRBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCRBlurView.h; sourceTree = "<group>"; };
-		7AB6AAC219794F56002A8992 /* JCRBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCRBlurView.m; sourceTree = "<group>"; };
 		7AB703B7197B92EB008DE376 /* ONEAnimationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONEAnimationHelper.h; sourceTree = "<group>"; };
 		7AB703B8197B92EB008DE376 /* ONEAnimationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONEAnimationHelper.m; sourceTree = "<group>"; };
 		7AB77FD9197D6DDE0004FFDF /* FLAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImage.h; sourceTree = "<group>"; };
@@ -400,13 +400,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7A2A6AD0198E067100EA0B81 /* FXBlurView */ = {
+			isa = PBXGroup;
+			children = (
+				7A2A6AD1198E067100EA0B81 /* FXBlurView.h */,
+				7A2A6AD2198E067100EA0B81 /* FXBlurView.m */,
+			);
+			path = FXBlurView;
+			sourceTree = "<group>";
+		};
 		7A8196DC1973D24E0032B38F /* view */ = {
 			isa = PBXGroup;
 			children = (
+				7A2A6AD0198E067100EA0B81 /* FXBlurView */,
 				7AB703BA197B92F4008DE376 /* animation */,
 				7AB77FD8197D6DDE0004FFDF /* FLAnimatedImage */,
-				7AB6AAC119794F56002A8992 /* JCRBlurView.h */,
-				7AB6AAC219794F56002A8992 /* JCRBlurView.m */,
 				7AF27FBF19727B4B00BBC0AC /* Main.storyboard */,
 			);
 			name = view;
@@ -606,7 +614,7 @@
 			name = city;
 			sourceTree = "<group>";
 		};
-		7AB01902197E7A7400BB0F4E /* Utils */ = {
+		7AB01902197E7A7400BB0F4E /* utils */ = {
 			isa = PBXGroup;
 			children = (
 				7AB018F7197E3EF800BB0F4E /* ONEStringUtils.h */,
@@ -616,7 +624,7 @@
 				7A937B43197678E40087D4F2 /* ONEDateUtils.h */,
 				7A937B44197678E40087D4F2 /* ONEDateUtils.m */,
 			);
-			name = Utils;
+			name = utils;
 			sourceTree = "<group>";
 		};
 		7AB3BABF197CC06B009457E4 /* share */ = {
@@ -762,7 +770,7 @@
 				7AFDDEC0197190C40031F293 /* ONEAppDelegate.h */,
 				7AFDDEC1197190C40031F293 /* ONEAppDelegate.m */,
 				7AFDDEB8197190C40031F293 /* Supporting Files */,
-				7AB01902197E7A7400BB0F4E /* Utils */,
+				7AB01902197E7A7400BB0F4E /* utils */,
 				7A8196DC1973D24E0032B38F /* view */,
 			);
 			path = one;
@@ -1024,9 +1032,9 @@
 				7AFDDEBE197190C40031F293 /* main.m in Sources */,
 				7AC5E888197FB48C006E181C /* ONESettingNavigationViewController.m in Sources */,
 				7A87F408198BDD4D0009BCC2 /* ONEConstants.m in Sources */,
+				7A2A6AD3198E067100EA0B81 /* FXBlurView.m in Sources */,
 				7A937B3F197622BD0087D4F2 /* ONESessionDelegate.m in Sources */,
 				7AF27FC319727B5B00BBC0AC /* ONERootViewController.m in Sources */,
-				7AB6AAC319794F56002A8992 /* JCRBlurView.m in Sources */,
 				7AF27FC71972873D00BBC0AC /* ONERecommendationBriefViewController.m in Sources */,
 				7AC7AE12197A0A7D00BA283A /* ONEAboutUsViewController.m in Sources */,
 				7AC7AE0E197A05A000BA283A /* ONESettingViewController.m in Sources */,

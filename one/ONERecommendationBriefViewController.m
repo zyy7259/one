@@ -16,6 +16,7 @@
 #import "ONEConstants.h"
 #import "FLAnimatedImage.h"
 #import "FLAnimatedImageView.h"
+#import "FXBlurView.h"
 
 @interface ONERecommendationBriefViewController ()
 
@@ -26,7 +27,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *typeImageView;
 @property (weak, nonatomic) IBOutlet UILabel *cityLabel;
 @property (weak, nonatomic) IBOutlet UILabel *likesLabel;
-@property (weak, nonatomic) IBOutlet UIView *blurView;
+@property (weak, nonatomic) IBOutlet FXBlurView *blurView;
 @property (weak, nonatomic) IBOutlet UIView *introView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *introLabel;
@@ -65,6 +66,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.blurView.blurRadius = 10;
     self.recommendationManager = [ONERecommendationManager sharedManager];
     [self showDate];
     [self loadRecommendation];
@@ -146,7 +148,7 @@
 {
     if (location != nil) {
         // 记录图片地址后加载图片
-        self.recommendation.blurredImageLocalLocation = location.path;
+        self.recommendation.imageLocalLocation = location.path;
         [self showRecommendationImage];
     } else {
         // 图片加载失败
@@ -157,7 +159,7 @@
 // 展示图片
 - (void)showRecommendationImage
 {
-    NSString *filePath = self.recommendation.blurredImageLocalLocation;
+    NSString *filePath = self.recommendation.imageLocalLocation;
     if (filePath != nil) {
         if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
             self.thingImageView.image = [UIImage imageWithContentsOfFile:filePath];
@@ -169,7 +171,7 @@
     } else {
         // 如果是从本地加载的recommendation，而且对应的图片没有下载成功，重新下载一次
         [ONELogger logTitle:[NSString stringWithFormat:@"re-download recommendation %ld%ld%ld blurred image", (long)self.recommendation.year, (long)self.recommendation.month, (long)self.recommendation.day] content:nil];
-        [self.recommendationManager downloadRecommendationBlurredImage:self.recommendation imageCompletionHandler:^(NSURL *location) {
+        [self.recommendationManager downloadRecommendationImage:self.recommendation imageCompletionHandler:^(NSURL *location) {
             [self showRecommendationImageWithLocation:location];
         }];
     }

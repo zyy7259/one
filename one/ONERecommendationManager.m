@@ -109,12 +109,11 @@ static ONERecommendationManager *sharedSingleton;
             recommendation.weekday = dateComponents.weekday;
             
             if (!debug) {
-                recommendation.blurredImageUrl = [self.urlBase stringByAppendingPathComponent:recommendation.blurredImageUrl];
                 recommendation.imageUrl = [self.urlBase stringByAppendingPathComponent:recommendation.imageUrl];
             }
             
             // 下载推荐内容的图片
-            [self downloadRecommendationBlurredImage:recommendation imageCompletionHandler:imageHandler];
+            [self downloadRecommendationImage:recommendation imageCompletionHandler:imageHandler];
             
             // 将推荐内容写入本地文件
             [self writeRecommendationToFile:recommendation];
@@ -130,16 +129,10 @@ static ONERecommendationManager *sharedSingleton;
     return recommendation;
 }
 
-// 下载带有灰度的图片
-- (void)downloadRecommendationBlurredImage:(ONERecommendation *)recommendation imageCompletionHandler:(RecommendationImageCompletionHandlerType)imageHandler
-{
-    [self downloadRecommendationImage:recommendation imageUrl:recommendation.blurredImageUrl namePostfix:@"blur" imageCompletionHandler:imageHandler];
-}
-
 // 下载图片
-- (void)downloadRecommendationImage:(ONERecommendation *)recommendation imageUrl:(NSString *)imageUrl namePostfix:(NSString *)namePostfix imageCompletionHandler:(RecommendationImageCompletionHandlerType)imageHandler
+- (void)downloadRecommendationImage:(ONERecommendation *)recommendation imageCompletionHandler:(RecommendationImageCompletionHandlerType)imageHandler
 {
-    [self.sessionDelegate startDownloadTaskWithUrl:imageUrl completionHandler:^(NSURL *location, NSError *error) {
+    [self.sessionDelegate startDownloadTaskWithUrl:recommendation.imageUrl completionHandler:^(NSURL *location, NSError *error) {
         // 如果消息是任务完成，直接返回，不做处理
         if (location == nil && error == nil) {
             return ;
@@ -147,9 +140,6 @@ static ONERecommendationManager *sharedSingleton;
         
         // 拼装fileName
         NSMutableString *fileName = [NSMutableString stringWithFormat:@"%ld%ld%ld", (long)recommendation.year, (long)recommendation.month, (long)recommendation.day];
-        if (![ONEStringUtils isEmptyString:namePostfix]) {
-            [fileName appendString:namePostfix];
-        }
         [fileName appendString:@".jpg"];
         
         // 如果有错误

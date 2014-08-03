@@ -18,8 +18,6 @@
 @property NSString *intro;
 @property NSString *briefDetail;
 @property NSString *detail;
-@property NSString *blurredImageUrl;
-@property NSString *blurredImageLocalLocation;
 @property NSString *imageUrl;
 @property NSString *imageLocalLocation;
 @property NSInteger likes;
