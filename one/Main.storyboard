@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="m6v-ju-fb2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="m6v-ju-fb2">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
         <!--Root View Controller-->
@@ -185,7 +186,7 @@
             </objects>
             <point key="canvasLocation" x="350" y="-1285"/>
         </scene>
-        <!--Recommendation Collection View Controller - 收藏-->
+        <!--收藏-->
         <scene sceneID="eIs-BZ-jZo">
             <objects>
                 <viewController id="W4Q-0i-7aD" customClass="ONERecommendationCollectionViewController" sceneMemberID="viewController">
@@ -253,7 +254,7 @@
             </objects>
             <point key="canvasLocation" x="1379" y="-1285"/>
         </scene>
-        <!--Setting View Controller - 设置-->
+        <!--设置-->
         <scene sceneID="3xq-gc-PXo">
             <objects>
                 <viewController id="Agz-ea-118" customClass="ONESettingViewController" sceneMemberID="viewController">
